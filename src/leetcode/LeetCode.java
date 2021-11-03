@@ -1498,23 +1498,26 @@ public class LeetCode {
         int[][] dp = new int[m][n];
         dp[0][0] = 1;
         for (int i = 1; i < m; i++) {
-            if (obstacleGrid[i][0] == 1)
+            if (obstacleGrid[i][0] == 1) {
                 dp[i][0] = 0;
-            else
+            } else {
                 dp[i][0] = dp[i - 1][0];
+            }
         }
         for (int j = 1; j < n; j++) {
-            if (obstacleGrid[0][j] == 1)
+            if (obstacleGrid[0][j] == 1) {
                 dp[0][j] = 0;
-            else
+            } else {
                 dp[0][j] = dp[0][j - 1];
+            }
         }
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {
-                if (obstacleGrid[i][j] == 1)
-                    dp[i][j] = 0;
-                else
+                if (obstacleGrid[i][j] != 1) {
                     dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                } else {
+                    dp[i][j] = 0;
+                }
             }
         }
         return dp[m - 1][n - 1];
@@ -1579,7 +1582,7 @@ public class LeetCode {
      * 注意：不允许使用任何内置指数函数和算符，例如 pow(x, 0.5) 或者 x ** 0.5 。
      */
     public int mySqrt(int x) {
-        if (x==0 || x==1)
+        if (x == 0 || x == 1)
             return x;
         int ans = -1;
         int left = 1, right = x - 1;
@@ -1630,12 +1633,128 @@ public class LeetCode {
         return head;
     }
 
+
+    /**
+     * 86. 分隔链表
+     * 给你一个链表的头节点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。
+     * 你应当 保留 两个分区中每个节点的初始相对位置。
+     */
+    public ListNode partition(ListNode head, int x) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode dummyHead = new ListNode(-1);
+        dummyHead.next = head;
+        ListNode p = dummyHead;
+        while (p.next != null && p.next.val < x) {
+            p = p.next;
+        }
+        if (p.next == null) {
+            return dummyHead.next;
+        }
+        ListNode q = p;
+        while (q.next != null) {
+            if (q.next.val >= x) {
+                q = q.next;
+            } else {
+                ListNode node = new ListNode(q.next.val);
+                node.next = p.next;
+                p.next = node;
+                p = p.next;
+                q.next = q.next.next;
+            }
+        }
+        return dummyHead.next;
+    }
+
+    public ListNode partition2(ListNode head, int x) {
+        ListNode small = new ListNode(0);
+        ListNode smallHead = small;
+        ListNode large = new ListNode(0);
+        ListNode largeHead = large;
+
+        while (head != null) {
+            if (head.val < x) {
+                small.next = head;
+                small = small.next;
+            } else {
+                large.next = head;
+                large = large.next;
+            }
+            head = head.next;
+        }
+        large.next = null;
+        small.next = largeHead.next;
+        return smallHead.next;
+    }
+
+
+    /**
+     * 88. 合并两个有序数组
+     * 给你两个按 非递减顺序 排列的整数数组nums1 和 nums2，另有两个整数 m 和 n ，分别表示 nums1 和 nums2 中的元素数目。
+     * <p>
+     * 请你 合并 nums2 到 nums1 中，使合并后的数组同样按 非递减顺序 排列。
+     * <p>
+     * 注意：最终，合并后数组不应由函数返回，而是存储在数组 nums1 中。
+     * 为了应对这种情况，nums1 的初始长度为 m + n，其中前 m 个元素表示应合并的元素，后 n 个元素为 0 ，应忽略。nums2 的长度为 n 。
+     */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int index = m + n - 1;
+        int i = m - 1, j = n - 1;
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] >= nums2[j]) {
+                nums1[index--] = nums1[i--];
+            } else {
+                nums1[index--] = nums2[j--];
+            }
+        }
+        while (i>=0) {
+            nums1[index--] = nums1[i--];
+        }
+        while (j>=0) {
+            nums1[index--] = nums2[j--];
+        }
+    }
+
+
+    /**
+     * 90. 子集 II
+     * 给你一个整数数组 nums ，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。
+     * 解集 不能 包含重复的子集。返回的解集中，子集可以按 任意顺序 排列。
+     */
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        boolean[] visited = new boolean[nums.length];
+        DFS90(nums, ans, list, 0, visited);
+        return ans;
+    }
+
+    private void DFS90(int[] nums, List<List<Integer>> ans, List<Integer> list, int index, boolean[] visited) {
+
+        if (!ans.contains(list)) {
+            ans.add(new ArrayList<>(list));
+        }
+        for (int i=index;i<nums.length;i++) {
+            if (!visited[i]) {
+                list.add(nums[i]);
+                visited[i] = true;
+                DFS90(nums, ans, list, i, visited);
+                list.remove(list.size()-1);
+                visited[i] = false;
+            }
+        }
+    }
+
+
     /**
      * 求二叉树的最大深度
+     *
      * @param root TreeNode类
      * @return int整型
      */
-    public int maxDepth (TreeNode root) {
+    public int maxDepth(TreeNode root) {
         // write code here
         if (root == null)
             return 0;
@@ -1645,7 +1764,7 @@ public class LeetCode {
         while (!queue.isEmpty()) {
             int size = queue.size();
             ++ans;
-            for (int i=0;i<size;i++) {
+            for (int i = 0; i < size; i++) {
                 TreeNode poll = queue.poll();
                 if (poll.left != null)
                     queue.offer(poll.left);
@@ -1657,10 +1776,10 @@ public class LeetCode {
         return ans;
     }
 
-    public int maxDepth2 (TreeNode root) {
-        if (root==null)
+    public int maxDepth2(TreeNode root) {
+        if (root == null)
             return 0;
-        return Math.max(maxDepth2(root.left), maxDepth2(root.right))+1;
+        return Math.max(maxDepth2(root.left), maxDepth2(root.right)) + 1;
     }
 
 
@@ -1691,6 +1810,59 @@ public class LeetCode {
         return prev;
     }
 
+    /**
+     * 剑指 Offer 28. 对称的二叉树
+     * 请实现一个函数，用来判断一棵二叉树是不是对称的。如果一棵二叉树和它的镜像一样，那么它是对称的。
+     * 例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
+     */
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null)
+            return true;
+        return JudgeIsSymmetric(root.left, root.right);
+    }
+
+    private boolean JudgeIsSymmetric(TreeNode left, TreeNode right) {
+        if (left == null && right == null)
+            return true;
+        if (left == null || right == null)
+            return false;
+        return left.val == right.val && JudgeIsSymmetric(left.left, right.right)
+                && JudgeIsSymmetric(left.right, right.left);
+    }
+
+    public boolean isSymmetric2(TreeNode root) {
+        if (root == null)
+            return true;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root.left);
+        queue.add(root.right);
+        while (!queue.isEmpty()) {
+            TreeNode q1 = queue.poll();
+            TreeNode q2 = queue.poll();
+            if (q1 == null && q2 == null)
+                continue;
+            if (q1 == null || q2 == null || q1.val != q2.val)
+                return false;
+            queue.offer(q1.left);
+            queue.offer(q2.right);
+            queue.offer(q1.right);
+            queue.offer(q2.left);
+        }
+        return true;
+    }
+
+    /**
+     * 237. 删除链表中的节点
+     *
+     * 请编写一个函数，用于 删除单链表中某个特定节点 。
+     * 在设计函数时需要注意，你无法访问链表的头节点 head ，只能直接访问 要被删除的节点 。
+     *
+     * 题目数据保证需要删除的节点 不是末尾节点 。
+     */
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
 
     /**
      * 1004. 最大连续1的个数 III
