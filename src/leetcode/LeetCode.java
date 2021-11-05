@@ -1435,9 +1435,9 @@ public class LeetCode {
         }
         // temp指向了最后一个结点
         k = k % length;
-        if (k == 0)
+        if (k == 0) {
             return head;
-        else {
+        } else {
             ListNode curr = head;
             for (int i = 1; i < length - k; i++) {
                 curr = curr.next;
@@ -1708,10 +1708,10 @@ public class LeetCode {
                 nums1[index--] = nums2[j--];
             }
         }
-        while (i>=0) {
+        while (i >= 0) {
             nums1[index--] = nums1[i--];
         }
-        while (j>=0) {
+        while (j >= 0) {
             nums1[index--] = nums2[j--];
         }
     }
@@ -1736,17 +1736,82 @@ public class LeetCode {
         if (!ans.contains(list)) {
             ans.add(new ArrayList<>(list));
         }
-        for (int i=index;i<nums.length;i++) {
+        for (int i = index; i < nums.length; i++) {
             if (!visited[i]) {
                 list.add(nums[i]);
                 visited[i] = true;
                 DFS90(nums, ans, list, i, visited);
-                list.remove(list.size()-1);
+                list.remove(list.size() - 1);
                 visited[i] = false;
             }
         }
     }
 
+    /**
+     * 91. 解码方法
+     * <p>
+     * 一条包含字母 A-Z 的消息通过以下映射进行了 编码 ：
+     * <p>
+     * 'A' -> 1
+     * 'B' -> 2
+     * ...
+     * 'Z' -> 26
+     * <p>
+     * 要 解码 已编码的消息，所有数字必须基于上述映射的方法，反向映射回字母（可能有多种方法）。例如，"11106" 可以映射为：
+     * <p>
+     * "AAJF" ，将消息分组为 (1 1 10 6)
+     * "KJF" ，将消息分组为 (11 10 6)
+     * 注意，消息不能分组为  (1 11 06) ，因为 "06" 不能映射为 "F" ，这是由于 "6" 和 "06" 在映射中并不等价。
+     * 给你一个只含数字的 非空 字符串 s ，请计算并返回 解码 方法的 总数 。
+     * <p>
+     * 题目数据保证答案肯定是一个 32 位 的整数。
+     */
+    public int numDecodings(String s) {
+        HashMap<Integer, Integer> memoization = new HashMap<>();
+        return getAns(s, 0, memoization);
+    }
+
+    private int getAns(String s, int start, HashMap<Integer, Integer> memoization) {
+        if (start == s.length()) {
+            return 1;
+        }
+        if (s.charAt(start) == '0') {
+            return 0;
+        }
+        //判断之前是否计算过
+        int m = memoization.getOrDefault(start, -1);
+        if (m != -1) {
+            return m;
+        }
+        int ans1 = getAns(s, start + 1, memoization);
+        int ans2 = 0;
+        if (start < s.length() - 1) {
+            int ten = (s.charAt(start) - '0') * 10;
+            int one = s.charAt(start + 1) - '0';
+            if (ten + one <= 26) {
+                ans2 = getAns(s, start + 2, memoization);
+            }
+        }
+        //将结果保存
+        memoization.put(start, ans1 + ans2);
+        return ans1 + ans2;
+    }
+
+    /*方法二：动态规划*/
+    public int numDecodings2(String s) {
+        int length = s.length();
+        int[] dp = new int[length + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= length; i++) {
+            if (s.charAt(i - 1) != '0') {
+                dp[i] += dp[i - 1];
+            }
+            if (i > 1 && s.charAt(i - 2) != '0' && ((s.charAt(i - 2) - '0') * 10 + (s.charAt(i - 1) - '0') <= 26)) {
+                dp[i] += dp[i - 2];
+            }
+        }
+        return dp[length];
+    }
 
     /**
      * 求二叉树的最大深度
@@ -1853,15 +1918,41 @@ public class LeetCode {
 
     /**
      * 237. 删除链表中的节点
-     *
+     * <p>
      * 请编写一个函数，用于 删除单链表中某个特定节点 。
      * 在设计函数时需要注意，你无法访问链表的头节点 head ，只能直接访问 要被删除的节点 。
-     *
+     * <p>
      * 题目数据保证需要删除的节点 不是末尾节点 。
      */
     public void deleteNode(ListNode node) {
         node.val = node.next.val;
         node.next = node.next.next;
+    }
+
+    /**
+     * 367. 有效的完全平方数
+     * <p>
+     * 给定一个 正整数 num ，编写一个函数，如果 num 是一个完全平方数，则返回 true ，否则返回 false 。
+     * 进阶：不要 使用任何内置的库函数，如  sqrt 。
+     */
+    public boolean isPerfectSquare(int num) {
+/*        内置函数
+        int x = (int) Math.sqrt(num);
+        return x * x == num;*/
+        // 二分查找
+        int left = 0, right = num;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            long square = mid * mid;
+            if (square > num) {
+                right = mid - 1;
+            } else if (square < num) {
+                left = mid + 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -1898,10 +1989,27 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 1218. 最长定差子序列
+     *
+     * 给你一个整数数组arr和一个整数difference，请你找出并返回 arr中最长等差子序列的长度，该子序列中相邻元素之间的差等于 difference 。
+     *子序列 是指在不改变其余元素顺序的情况下，通过删除一些元素或不删除任何元素而从 arr 派生出来的序列。
+     */
+    public static int longestSubsequence(int[] arr, int difference) {
+        int ans = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int element: arr) {
+            int curr = map.getOrDefault(element - difference, 0) + 1;
+            map.put(element, curr);
+            ans = Math.max(ans, map.get(element));
+        }
+        return ans;
+    }
+
 
     public static void main(String[] args) {
-        int[] nums = new int[]{0};
-        System.out.println(canJump(nums));
+        int[] arr = new int[]{1,5,7,8,5,3,4,2,1};
+        System.out.println(longestSubsequence(arr, -2));
     }
 
 }
