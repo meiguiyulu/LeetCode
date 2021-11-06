@@ -1930,6 +1930,43 @@ public class LeetCode {
     }
 
     /**
+     * 268. 丢失的数字
+     * 给定一个包含 [0, n] 中 n 个数的数组 nums ，找出 [0, n] 这个范围内没有出现在数组中的那个数。
+     */
+    public int missingNumber(int[] nums) {
+        Arrays.sort(nums);
+        int index = 0;
+        for (int element : nums) {
+            if (element != index) {
+                break;
+            }
+            ++index;
+        }
+        return index;
+    }
+    public int missingNumber2(int[] nums) {
+        // 位运算
+        int length = nums.length;
+        int ans = nums[0];
+        for (int i=1;i<length;i++) {
+            ans = ans ^ nums[i];
+        }
+        for (int i=0;i<=length;i++) {
+            ans = ans ^ i;
+        }
+        return ans;
+    }
+    public int missingNumber3(int[] nums) {
+        // 数学
+        int length = nums.length;
+        int total = length * (length + 1) / 2;
+        for (int i=0;i<length;i++) {
+            total = total - nums[i];
+        }
+        return total;
+    }
+
+    /**
      * 367. 有效的完全平方数
      * <p>
      * 给定一个 正整数 num ，编写一个函数，如果 num 是一个完全平方数，则返回 true ，否则返回 false 。
