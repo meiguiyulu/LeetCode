@@ -1956,6 +1956,33 @@ public class LeetCode {
     }
 
     /**
+     * 598. 范围求和 II
+     * 给定一个初始元素全部为 0，大小为 m*n 的矩阵 M 以及在 M 上的一系列更新操作。
+     * <p>
+     * 操作用二维数组表示，其中的每个操作用一个含有两个正整数a 和 b 的数组表示，含义是将所有符合0 <= i < a 以及 0 <= j < b 的元素M[i][j]的值都增加 1。
+     * <p>
+     * 在执行给定的一系列操作后，你需要返回矩阵中含有最大整数的元素个数。
+     */
+    public int maxCount(int m, int n, int[][] ops) {
+        int length = ops.length;
+        int maxRow = m;
+        int maxCol = n;
+        for (int i = 0; i < length; i++) {
+            int row = ops[i][0];
+            int col = ops[i][1];
+            maxRow = Math.min(maxRow, row);
+            maxCol = Math.min(maxCol, col);
+        }
+        if (maxRow == 0) {
+            maxRow = 1;
+        }
+        if (maxCol == 0) {
+            maxCol = 1;
+        }
+        return maxRow * maxCol;
+    }
+
+    /**
      * 1004. 最大连续1的个数 III
      * 给定一个由若干 0 和 1 组成的数组 A，我们最多可以将 K 个值从 0 变成 1 。
      * <p>
@@ -1991,14 +2018,14 @@ public class LeetCode {
 
     /**
      * 1218. 最长定差子序列
-     *
+     * <p>
      * 给你一个整数数组arr和一个整数difference，请你找出并返回 arr中最长等差子序列的长度，该子序列中相邻元素之间的差等于 difference 。
-     *子序列 是指在不改变其余元素顺序的情况下，通过删除一些元素或不删除任何元素而从 arr 派生出来的序列。
+     * 子序列 是指在不改变其余元素顺序的情况下，通过删除一些元素或不删除任何元素而从 arr 派生出来的序列。
      */
     public static int longestSubsequence(int[] arr, int difference) {
         int ans = 0;
         Map<Integer, Integer> map = new HashMap<>();
-        for (int element: arr) {
+        for (int element : arr) {
             int curr = map.getOrDefault(element - difference, 0) + 1;
             map.put(element, curr);
             ans = Math.max(ans, map.get(element));
@@ -2008,7 +2035,7 @@ public class LeetCode {
 
 
     public static void main(String[] args) {
-        int[] arr = new int[]{1,5,7,8,5,3,4,2,1};
+        int[] arr = new int[]{1, 5, 7, 8, 5, 3, 4, 2, 1};
         System.out.println(longestSubsequence(arr, -2));
     }
 
