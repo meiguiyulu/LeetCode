@@ -1944,26 +1944,70 @@ public class LeetCode {
         }
         return index;
     }
+
     public int missingNumber2(int[] nums) {
         // 位运算
         int length = nums.length;
         int ans = nums[0];
-        for (int i=1;i<length;i++) {
+        for (int i = 1; i < length; i++) {
             ans = ans ^ nums[i];
         }
-        for (int i=0;i<=length;i++) {
+        for (int i = 0; i <= length; i++) {
             ans = ans ^ i;
         }
         return ans;
     }
+
     public int missingNumber3(int[] nums) {
         // 数学
         int length = nums.length;
         int total = length * (length + 1) / 2;
-        for (int i=0;i<length;i++) {
+        for (int i = 0; i < length; i++) {
             total = total - nums[i];
         }
         return total;
+    }
+
+    /**
+     * 299. 猜数字游戏
+     * 你在和朋友一起玩 猜数字（Bulls and Cows）游戏，该游戏规则如下：
+     * 写出一个秘密数字，并请朋友猜这个数字是多少。朋友每猜测一次，你就会给他一个包含下述信息的提示：
+     * 猜测数字中有多少位属于数字和确切位置都猜对了（称为 "Bulls", 公牛），
+     * 有多少位属于数字猜对了但是位置不对（称为 "Cows", 奶牛）。也就是说，这次猜测中有多少位非公牛数字可以通过重新排列转换成公牛数字。
+     */
+    public static String getHint(String secret, String guess) {
+        int ans1 = 0, ans2 = 0;
+        int length = secret.length();
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (int i=0;i<length;i++) {
+            map.put(secret.charAt(i), map.getOrDefault(secret.charAt(i),0)+1);
+        }
+        for (int i = 0; i < length; i++) {
+            Character c = guess.charAt(i);
+            if (secret.charAt(i) == c) {
+                ++ans1;
+                int curr = map.get(c);
+                map.put(c, curr-1);
+            }
+        }
+        for (int i=0;i<length;i++) {
+            Character c = guess.charAt(i);
+            if (c != secret.charAt(i)) {
+                if (map.containsKey(c)) {
+                    int curr = map.get(c);
+                    if (curr > 0) {
+                        ++ans2;
+                    }
+                    map.put(c, curr-1);
+                }
+            }
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append(ans1);
+        builder.append("A");
+        builder.append(ans2);
+        builder.append("B");
+        return builder.toString();
     }
 
     /**
@@ -2072,8 +2116,7 @@ public class LeetCode {
 
 
     public static void main(String[] args) {
-        int[] arr = new int[]{1, 5, 7, 8, 5, 3, 4, 2, 1};
-        System.out.println(longestSubsequence(arr, -2));
+        System.out.println(getHint("1122", "1222"));
     }
 
 }
