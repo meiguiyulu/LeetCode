@@ -1956,6 +1956,22 @@ public class LeetCode {
     }
 
     /**
+     * 495. 提莫攻击
+     */
+    public int findPoisonedDuration(int[] timeSeries, int duration) {
+        int ans = 0;
+        for (int i = 0; i < timeSeries.length - 1; i++) {
+            if (timeSeries[i + 1] - timeSeries[i] >= duration) {
+                ans += duration;
+            } else {
+                ans += timeSeries[i + 1] - timeSeries[i];
+            }
+        }
+        ans += duration;
+        return ans;
+    }
+
+    /**
      * 598. 范围求和 II
      * 给定一个初始元素全部为 0，大小为 m*n 的矩阵 M 以及在 M 上的一系列更新操作。
      * <p>
