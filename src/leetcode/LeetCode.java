@@ -1979,18 +1979,18 @@ public class LeetCode {
         int ans1 = 0, ans2 = 0;
         int length = secret.length();
         HashMap<Character, Integer> map = new HashMap<>();
-        for (int i=0;i<length;i++) {
-            map.put(secret.charAt(i), map.getOrDefault(secret.charAt(i),0)+1);
+        for (int i = 0; i < length; i++) {
+            map.put(secret.charAt(i), map.getOrDefault(secret.charAt(i), 0) + 1);
         }
         for (int i = 0; i < length; i++) {
             Character c = guess.charAt(i);
             if (secret.charAt(i) == c) {
                 ++ans1;
                 int curr = map.get(c);
-                map.put(c, curr-1);
+                map.put(c, curr - 1);
             }
         }
-        for (int i=0;i<length;i++) {
+        for (int i = 0; i < length; i++) {
             Character c = guess.charAt(i);
             if (c != secret.charAt(i)) {
                 if (map.containsKey(c)) {
@@ -1998,7 +1998,7 @@ public class LeetCode {
                     if (curr > 0) {
                         ++ans2;
                     }
-                    map.put(c, curr-1);
+                    map.put(c, curr - 1);
                 }
             }
         }
@@ -2034,6 +2034,33 @@ public class LeetCode {
             }
         }
         return false;
+    }
+
+    /**
+     * 375. 猜数字大小 II
+     * <p>
+     * 我们正在玩一个猜数游戏，游戏规则如下：
+     * <p>
+     * 我从1到 n 之间选择一个数字。
+     * 你来猜我选了哪个数字。
+     * 如果你猜到正确的数字，就会 赢得游戏 。
+     * 如果你猜错了，那么我会告诉你，我选的数字比你的 更大或者更小 ，并且你需要继续猜数。
+     * 每当你猜了数字 x 并且猜错了的时候，你需要支付金额为 x 的现金。如果你花光了钱，就会 输掉游戏 。
+     * 给你一个特定的数字 n ，返回能够 确保你获胜 的最小现金数，不管我选择那个数字
+     */
+    public int getMoneyAmount(int n) {
+        int[][] dp = new int[n + 1][n + 1];
+        for (int i = n - 1; i >= 1; i--) {
+            for (int j = i + 1; j <= n; j++) {
+                int minCost = Integer.MAX_VALUE;
+                for (int k = i; k < j; k++) {
+                    int currCost = Math.max(dp[i][k - 1], dp[k + 1][j]) + k;
+                    minCost = Math.min(currCost, minCost);
+                }
+                dp[i][j] = minCost;
+            }
+        }
+        return dp[1][n];
     }
 
     /**
