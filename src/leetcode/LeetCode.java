@@ -2064,6 +2064,50 @@ public class LeetCode {
     }
 
     /**
+     * 520. 检测大写字母
+     * <p>
+     * 我们定义，在以下情况时，单词的大写用法是正确的：
+     * <p>
+     * 全部字母都是大写，比如 "USA" 。
+     * 单词中所有字母都不是大写，比如 "leetcode" 。
+     * 如果单词不只含有一个字母，只有首字母大写，比如"Google" 。
+     * 给你一个字符串 word 。如果大写用法正确，返回 true ；否则，返回 false 。
+     */
+    public boolean detectCapitalUse(String word) {
+        int length = word.length();
+        if (length == 1) {
+            return true;
+        }
+        char c = word.charAt(0);
+        if (c >= 'a' && c <= 'z') {
+            // 后面只能是小写
+            for (int i = 1; i < length; i++) {
+                if (word.charAt(i) >= 'A' && word.charAt(i) <= 'Z') {
+                    return false;
+                }
+            }
+        } else {
+            char c1 = word.charAt(1);
+            if (c1 >= 'a' && c1 <= 'z') {
+                // 后面只能是小写
+                for (int i = 2; i < length; i++) {
+                    if (word.charAt(i) >= 'A' && word.charAt(i) <= 'Z') {
+                        return false;
+                    }
+                }
+            } else {
+                // 后面只能是大写
+                for (int i = 2; i < length; i++) {
+                    if (word.charAt(i) >= 'a' && word.charAt(i) <= 'z') {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * 598. 范围求和 II
      * 给定一个初始元素全部为 0，大小为 m*n 的矩阵 M 以及在 M 上的一系列更新操作。
      * <p>
