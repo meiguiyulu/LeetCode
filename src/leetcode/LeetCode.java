@@ -2011,6 +2011,32 @@ public class LeetCode {
     }
 
     /**
+     * 319. 灯泡开关
+     * <p>
+     * 初始时有 n 个灯泡处于关闭状态。第一轮，你将会打开所有灯泡。接下来的第二轮，你将会每两个灯泡关闭一个。
+     * 第三轮，你每三个灯泡就切换一个灯泡的开关（即，打开变关闭，关闭变打开）。第 i 轮，你每 i 个灯泡就切换一个灯泡的开关。直到第 n 轮，你只需要切换最后一个灯泡的开关。
+     * <p>
+     * 找出并返回 n 轮后有多少个亮着的灯泡。
+     */
+    public int bulbSwitch(int n) {
+        int ans = 0;
+        boolean[] bulb = new boolean[n];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < n; j++) {
+                if ((j + 1) % i == 0) {
+                    bulb[j] = !bulb[j];
+                }
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (bulb[i]) {
+                ++ans;
+            }
+        }
+        return ans;
+    }
+
+    /**
      * 367. 有效的完全平方数
      * <p>
      * 给定一个 正整数 num ，编写一个函数，如果 num 是一个完全平方数，则返回 true ，否则返回 false 。
@@ -2105,6 +2131,37 @@ public class LeetCode {
             }
         }
         return true;
+    }
+
+    /**
+     * 575. 分糖果
+     * <p>
+     * Alice 有 n 枚糖，其中第 i 枚糖的类型为 candyType[i] 。Alice 注意到她的体重正在增长，所以前去拜访了一位医生。
+     * 医生建议 Alice 要少摄入糖分，只吃掉她所有糖的 n / 2 即可（n 是一个偶数）。Alice 非常喜欢这些糖，她想要在遵循医生建议的情况下，尽可能吃到最多不同种类的糖。
+     * <p>
+     * 给你一个长度为 n 的整数数组 candyType ，返回： Alice 在仅吃掉 n / 2 枚糖的情况下，可以吃到糖的最多种类数。
+     */
+    public int distributeCandies1(int[] candyType) {
+        int len = candyType.length;
+        Arrays.sort(candyType);
+        int sum = 1;
+        for (int i = 1; i < len; i++) {
+            if (candyType[i] != candyType[i - 1]) {
+                ++sum;
+            } else {
+                continue;
+            }
+        }
+        return Math.min(sum, len / 2);
+    }
+
+    public int distributeCandies2(int[] candyType) {
+        Set<Integer> set = new HashSet<>();
+        int length = candyType.length;
+        for (int candy: candyType) {
+            set.add(candy);
+        }
+        return Math.min(set.size(), length / 2);
     }
 
     /**
