@@ -2134,6 +2134,31 @@ public class LeetCode {
     }
 
     /**
+     * 563. 二叉树的坡度
+     *
+     * 给定一个二叉树，计算 整个树 的坡度 。
+     *
+     * 一个树的 节点的坡度 定义即为，该节点左子树的节点之和和右子树节点之和的 差的绝对值 。如果没有左子树的话，左子树的节点之和为 0 ；没有右子树的话也是一样。空结点的坡度是 0 。
+     *整个树 的坡度就是其所有节点的坡度之和。
+     */
+    private static int slope = 0;
+    public int findTilt(TreeNode root) {
+        DFS520(root);
+        return slope;
+    }
+
+    private int DFS520(TreeNode root) {
+
+        if (root == null) {
+            return 0;
+        }
+        int left = DFS520(root.left);
+        int right = DFS520(root.right);
+        slope += Math.abs(left - right);
+        return left + right + root.val;
+    }
+
+    /**
      * 575. 分糖果
      * <p>
      * Alice 有 n 枚糖，其中第 i 枚糖的类型为 candyType[i] 。Alice 注意到她的体重正在增长，所以前去拜访了一位医生。
