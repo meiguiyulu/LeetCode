@@ -2090,6 +2090,41 @@ public class LeetCode {
     }
 
     /**
+     * 397. 整数替换
+     * <p>
+     * 给定一个正整数 n ，你可以做如下操作：
+     * 如果 n 是偶数，则用 n / 2替换 n 。
+     * 如果 n 是奇数，则可以用 n + 1或n - 1替换 n 。
+     * n 变为 1 所需的最小替换次数是多少？
+     */
+    public static int integerReplacement(int n) {
+        if (n == 1) {
+            return 0;
+        }
+        if (n % 2 == 0) {
+            return 1 + integerReplacement(n / 2);
+        }
+        return 2 + Math.min(integerReplacement(n / 2), integerReplacement(n / 2 + 1));
+        /**
+         *     Map<Integer, Integer> memo = new HashMap<Integer, Integer>();
+         *
+         *     public int integerReplacement(int n) {
+         *         if (n == 1) {
+         *             return 0;
+         *         }
+         *         if (!memo.containsKey(n)) {
+         *             if (n % 2 == 0) {
+         *                 memo.put(n, 1 + integerReplacement(n / 2));
+         *             } else {
+         *                 memo.put(n, 2 + Math.min(integerReplacement(n / 2), integerReplacement(n / 2 + 1)));
+         *             }
+         *         }
+         *         return memo.get(n);
+         *     }
+         */
+    }
+
+    /**
      * 520. 检测大写字母
      * <p>
      * 我们定义，在以下情况时，单词的大写用法是正确的：
@@ -2135,13 +2170,14 @@ public class LeetCode {
 
     /**
      * 563. 二叉树的坡度
-     *
+     * <p>
      * 给定一个二叉树，计算 整个树 的坡度 。
-     *
+     * <p>
      * 一个树的 节点的坡度 定义即为，该节点左子树的节点之和和右子树节点之和的 差的绝对值 。如果没有左子树的话，左子树的节点之和为 0 ；没有右子树的话也是一样。空结点的坡度是 0 。
-     *整个树 的坡度就是其所有节点的坡度之和。
+     * 整个树 的坡度就是其所有节点的坡度之和。
      */
     private static int slope = 0;
+
     public int findTilt(TreeNode root) {
         DFS520(root);
         return slope;
@@ -2183,7 +2219,7 @@ public class LeetCode {
     public int distributeCandies2(int[] candyType) {
         Set<Integer> set = new HashSet<>();
         int length = candyType.length;
-        for (int candy: candyType) {
+        for (int candy : candyType) {
             set.add(candy);
         }
         return Math.min(set.size(), length / 2);
@@ -2270,6 +2306,7 @@ public class LeetCode {
 
     public static void main(String[] args) {
         System.out.println(getHint("1122", "1222"));
+        System.out.println(integerReplacement(1));
     }
 
 }
