@@ -2195,6 +2195,51 @@ public class LeetCode {
     }
 
     /**
+     * 594. 最长和谐子序列
+     * 和谐数组是指一个数组里元素的最大值和最小值之间的差别 正好是 1 。
+     * 现在，给你一个整数数组 nums ，请你在所有可能的子序列中找到最长的和谐子序列的长度。
+     * 数组的子序列是一个由数组派生出来的序列，它可以通过删除一些元素或不删除元素、且不改变其余元素的顺序而得到。
+     */
+    public static int findLHS(int[] nums) {
+        int ans = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+        }
+        int lastNum = nums[0];
+        int lastLength = 1;
+        int currNum, currLength;
+
+        for (int i = 1; i < nums.length; i++) {
+            currNum = nums[i];
+            currLength = map.get(currNum);
+            if (currNum - lastNum == 1) {
+                ans = Math.max(ans, lastLength + currLength);
+            }
+            lastNum = currNum;
+            lastLength = currLength;
+        }
+
+        return ans;
+    }
+
+    public static int findLHS2(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int ans = 0;
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+        }
+        for (int curr : map.keySet()) {
+            if (map.containsKey(curr + 1)) {
+                ans = Math.max(ans, map.get(curr) + map.get(curr + 1));
+            }
+        }
+        return ans;
+    }
+
+
+    /**
      * 575. 分糖果
      * <p>
      * Alice 有 n 枚糖，其中第 i 枚糖的类型为 candyType[i] 。Alice 注意到她的体重正在增长，所以前去拜访了一位医生。
@@ -2307,6 +2352,7 @@ public class LeetCode {
     public static void main(String[] args) {
         System.out.println(getHint("1122", "1222"));
         System.out.println(integerReplacement(1));
+        System.out.println(findLHS(new int[]{-3, -1, -1, -1, -3, -2}));
     }
 
 }
