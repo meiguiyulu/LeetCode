@@ -1930,6 +1930,113 @@ public class LeetCode {
     }
 
     /**
+     * 268. 丢失的数字
+     * 给定一个包含 [0, n] 中 n 个数的数组 nums ，找出 [0, n] 这个范围内没有出现在数组中的那个数。
+     */
+    public int missingNumber(int[] nums) {
+        Arrays.sort(nums);
+        int index = 0;
+        for (int element : nums) {
+            if (element != index) {
+                break;
+            }
+            ++index;
+        }
+        return index;
+    }
+
+    public int missingNumber2(int[] nums) {
+        // 位运算
+        int length = nums.length;
+        int ans = nums[0];
+        for (int i = 1; i < length; i++) {
+            ans = ans ^ nums[i];
+        }
+        for (int i = 0; i <= length; i++) {
+            ans = ans ^ i;
+        }
+        return ans;
+    }
+
+    public int missingNumber3(int[] nums) {
+        // 数学
+        int length = nums.length;
+        int total = length * (length + 1) / 2;
+        for (int i = 0; i < length; i++) {
+            total = total - nums[i];
+        }
+        return total;
+    }
+
+    /**
+     * 299. 猜数字游戏
+     * 你在和朋友一起玩 猜数字（Bulls and Cows）游戏，该游戏规则如下：
+     * 写出一个秘密数字，并请朋友猜这个数字是多少。朋友每猜测一次，你就会给他一个包含下述信息的提示：
+     * 猜测数字中有多少位属于数字和确切位置都猜对了（称为 "Bulls", 公牛），
+     * 有多少位属于数字猜对了但是位置不对（称为 "Cows", 奶牛）。也就是说，这次猜测中有多少位非公牛数字可以通过重新排列转换成公牛数字。
+     */
+    public static String getHint(String secret, String guess) {
+        int ans1 = 0, ans2 = 0;
+        int length = secret.length();
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < length; i++) {
+            map.put(secret.charAt(i), map.getOrDefault(secret.charAt(i), 0) + 1);
+        }
+        for (int i = 0; i < length; i++) {
+            Character c = guess.charAt(i);
+            if (secret.charAt(i) == c) {
+                ++ans1;
+                int curr = map.get(c);
+                map.put(c, curr - 1);
+            }
+        }
+        for (int i = 0; i < length; i++) {
+            Character c = guess.charAt(i);
+            if (c != secret.charAt(i)) {
+                if (map.containsKey(c)) {
+                    int curr = map.get(c);
+                    if (curr > 0) {
+                        ++ans2;
+                    }
+                    map.put(c, curr - 1);
+                }
+            }
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append(ans1);
+        builder.append("A");
+        builder.append(ans2);
+        builder.append("B");
+        return builder.toString();
+    }
+
+    /**
+     * 319. 灯泡开关
+     * <p>
+     * 初始时有 n 个灯泡处于关闭状态。第一轮，你将会打开所有灯泡。接下来的第二轮，你将会每两个灯泡关闭一个。
+     * 第三轮，你每三个灯泡就切换一个灯泡的开关（即，打开变关闭，关闭变打开）。第 i 轮，你每 i 个灯泡就切换一个灯泡的开关。直到第 n 轮，你只需要切换最后一个灯泡的开关。
+     * <p>
+     * 找出并返回 n 轮后有多少个亮着的灯泡。
+     */
+    public int bulbSwitch(int n) {
+        int ans = 0;
+        boolean[] bulb = new boolean[n];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < n; j++) {
+                if ((j + 1) % i == 0) {
+                    bulb[j] = !bulb[j];
+                }
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (bulb[i]) {
+                ++ans;
+            }
+        }
+        return ans;
+    }
+
+    /**
      * 367. 有效的完全平方数
      * <p>
      * 给定一个 正整数 num ，编写一个函数，如果 num 是一个完全平方数，则返回 true ，否则返回 false 。
@@ -1956,19 +2063,211 @@ public class LeetCode {
     }
 
     /**
-     * 495. 提莫攻击
+     * 375. 猜数字大小 II
+     * <p>
+     * 我们正在玩一个猜数游戏，游戏规则如下：
+     * <p>
+     * 我从1到 n 之间选择一个数字。
+     * 你来猜我选了哪个数字。
+     * 如果你猜到正确的数字，就会 赢得游戏 。
+     * 如果你猜错了，那么我会告诉你，我选的数字比你的 更大或者更小 ，并且你需要继续猜数。
+     * 每当你猜了数字 x 并且猜错了的时候，你需要支付金额为 x 的现金。如果你花光了钱，就会 输掉游戏 。
+     * 给你一个特定的数字 n ，返回能够 确保你获胜 的最小现金数，不管我选择那个数字
      */
-    public int findPoisonedDuration(int[] timeSeries, int duration) {
-        int ans = 0;
-        for (int i = 0; i < timeSeries.length - 1; i++) {
-            if (timeSeries[i + 1] - timeSeries[i] >= duration) {
-                ans += duration;
-            } else {
-                ans += timeSeries[i + 1] - timeSeries[i];
+    public int getMoneyAmount(int n) {
+        int[][] dp = new int[n + 1][n + 1];
+        for (int i = n - 1; i >= 1; i--) {
+            for (int j = i + 1; j <= n; j++) {
+                int minCost = Integer.MAX_VALUE;
+                for (int k = i; k < j; k++) {
+                    int currCost = Math.max(dp[i][k - 1], dp[k + 1][j]) + k;
+                    minCost = Math.min(currCost, minCost);
+                }
+                dp[i][j] = minCost;
             }
         }
-        ans += duration;
+        return dp[1][n];
+    }
+
+    /**
+     * 397. 整数替换
+     * <p>
+     * 给定一个正整数 n ，你可以做如下操作：
+     * 如果 n 是偶数，则用 n / 2替换 n 。
+     * 如果 n 是奇数，则可以用 n + 1或n - 1替换 n 。
+     * n 变为 1 所需的最小替换次数是多少？
+     */
+    public static int integerReplacement(int n) {
+        if (n == 1) {
+            return 0;
+        }
+        if (n % 2 == 0) {
+            return 1 + integerReplacement(n / 2);
+        }
+        return 2 + Math.min(integerReplacement(n / 2), integerReplacement(n / 2 + 1));
+        /**
+         *     Map<Integer, Integer> memo = new HashMap<Integer, Integer>();
+         *
+         *     public int integerReplacement(int n) {
+         *         if (n == 1) {
+         *             return 0;
+         *         }
+         *         if (!memo.containsKey(n)) {
+         *             if (n % 2 == 0) {
+         *                 memo.put(n, 1 + integerReplacement(n / 2));
+         *             } else {
+         *                 memo.put(n, 2 + Math.min(integerReplacement(n / 2), integerReplacement(n / 2 + 1)));
+         *             }
+         *         }
+         *         return memo.get(n);
+         *     }
+         */
+    }
+
+    /**
+     * 520. 检测大写字母
+     * <p>
+     * 我们定义，在以下情况时，单词的大写用法是正确的：
+     * <p>
+     * 全部字母都是大写，比如 "USA" 。
+     * 单词中所有字母都不是大写，比如 "leetcode" 。
+     * 如果单词不只含有一个字母，只有首字母大写，比如"Google" 。
+     * 给你一个字符串 word 。如果大写用法正确，返回 true ；否则，返回 false 。
+     */
+    public boolean detectCapitalUse(String word) {
+        int length = word.length();
+        if (length == 1) {
+            return true;
+        }
+        char c = word.charAt(0);
+        if (c >= 'a' && c <= 'z') {
+            // 后面只能是小写
+            for (int i = 1; i < length; i++) {
+                if (word.charAt(i) >= 'A' && word.charAt(i) <= 'Z') {
+                    return false;
+                }
+            }
+        } else {
+            char c1 = word.charAt(1);
+            if (c1 >= 'a' && c1 <= 'z') {
+                // 后面只能是小写
+                for (int i = 2; i < length; i++) {
+                    if (word.charAt(i) >= 'A' && word.charAt(i) <= 'Z') {
+                        return false;
+                    }
+                }
+            } else {
+                // 后面只能是大写
+                for (int i = 2; i < length; i++) {
+                    if (word.charAt(i) >= 'a' && word.charAt(i) <= 'z') {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 563. 二叉树的坡度
+     * <p>
+     * 给定一个二叉树，计算 整个树 的坡度 。
+     * <p>
+     * 一个树的 节点的坡度 定义即为，该节点左子树的节点之和和右子树节点之和的 差的绝对值 。如果没有左子树的话，左子树的节点之和为 0 ；没有右子树的话也是一样。空结点的坡度是 0 。
+     * 整个树 的坡度就是其所有节点的坡度之和。
+     */
+    private static int slope = 0;
+
+    public int findTilt(TreeNode root) {
+        DFS520(root);
+        return slope;
+    }
+
+    private int DFS520(TreeNode root) {
+
+        if (root == null) {
+            return 0;
+        }
+        int left = DFS520(root.left);
+        int right = DFS520(root.right);
+        slope += Math.abs(left - right);
+        return left + right + root.val;
+    }
+
+    /**
+     * 594. 最长和谐子序列
+     * 和谐数组是指一个数组里元素的最大值和最小值之间的差别 正好是 1 。
+     * 现在，给你一个整数数组 nums ，请你在所有可能的子序列中找到最长的和谐子序列的长度。
+     * 数组的子序列是一个由数组派生出来的序列，它可以通过删除一些元素或不删除元素、且不改变其余元素的顺序而得到。
+     */
+    public static int findLHS(int[] nums) {
+        int ans = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+        }
+        int lastNum = nums[0];
+        int lastLength = 1;
+        int currNum, currLength;
+
+        for (int i = 1; i < nums.length; i++) {
+            currNum = nums[i];
+            currLength = map.get(currNum);
+            if (currNum - lastNum == 1) {
+                ans = Math.max(ans, lastLength + currLength);
+            }
+            lastNum = currNum;
+            lastLength = currLength;
+        }
+
         return ans;
+    }
+
+    public static int findLHS2(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int ans = 0;
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+        }
+        for (int curr : map.keySet()) {
+            if (map.containsKey(curr + 1)) {
+                ans = Math.max(ans, map.get(curr) + map.get(curr + 1));
+            }
+        }
+        return ans;
+    }
+
+
+    /**
+     * 575. 分糖果
+     * <p>
+     * Alice 有 n 枚糖，其中第 i 枚糖的类型为 candyType[i] 。Alice 注意到她的体重正在增长，所以前去拜访了一位医生。
+     * 医生建议 Alice 要少摄入糖分，只吃掉她所有糖的 n / 2 即可（n 是一个偶数）。Alice 非常喜欢这些糖，她想要在遵循医生建议的情况下，尽可能吃到最多不同种类的糖。
+     * <p>
+     * 给你一个长度为 n 的整数数组 candyType ，返回： Alice 在仅吃掉 n / 2 枚糖的情况下，可以吃到糖的最多种类数。
+     */
+    public int distributeCandies1(int[] candyType) {
+        int len = candyType.length;
+        Arrays.sort(candyType);
+        int sum = 1;
+        for (int i = 1; i < len; i++) {
+            if (candyType[i] != candyType[i - 1]) {
+                ++sum;
+            } else {
+                continue;
+            }
+        }
+        return Math.min(sum, len / 2);
+    }
+
+    public int distributeCandies2(int[] candyType) {
+        Set<Integer> set = new HashSet<>();
+        int length = candyType.length;
+        for (int candy : candyType) {
+            set.add(candy);
+        }
+        return Math.min(set.size(), length / 2);
     }
 
     /**
@@ -2051,8 +2350,9 @@ public class LeetCode {
 
 
     public static void main(String[] args) {
-        int[] arr = new int[]{1, 5, 7, 8, 5, 3, 4, 2, 1};
-        System.out.println(longestSubsequence(arr, -2));
+        System.out.println(getHint("1122", "1222"));
+        System.out.println(integerReplacement(1));
+        System.out.println(findLHS(new int[]{-3, -1, -1, -1, -3, -2}));
     }
 
 }
