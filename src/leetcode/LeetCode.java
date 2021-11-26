@@ -2298,6 +2298,25 @@ public class LeetCode {
     }
 
     /**
+     * 700. 二叉搜索树中的搜索
+     * 给定二叉搜索树（BST）的根节点和一个值。 你需要在BST中找到节点值等于给定值的节点。 返回以该节点为根的子树。 如果节点不存在，则返回 NULL。
+     *
+     */
+    public TreeNode searchBST(TreeNode root, int val) {
+        if (root != null) {
+            if (root.val == val) {
+                return root;
+            } else if (root.val > val) {
+               return searchBST(root.left, val);
+            } else {
+                return searchBST(root.right, val);
+            }
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * 859. 亲密字符串
      * <p>
      * 给你两个字符串 s 和 goal ，只要我们可以通过交换 s 中的两个字母得到与 goal 相等的结果，就返回 true ；否则返回 false 。
