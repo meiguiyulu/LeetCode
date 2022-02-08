@@ -2298,6 +2298,64 @@ public class LeetCode {
     }
 
     /**
+     * 700. 二叉搜索树中的搜索
+     * 给定二叉搜索树（BST）的根节点和一个值。 你需要在BST中找到节点值等于给定值的节点。 返回以该节点为根的子树。 如果节点不存在，则返回 NULL。
+     *
+     */
+    public TreeNode searchBST(TreeNode root, int val) {
+        if (root != null) {
+            if (root.val == val) {
+                return root;
+            } else if (root.val > val) {
+               return searchBST(root.left, val);
+            } else {
+                return searchBST(root.right, val);
+            }
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 859. 亲密字符串
+     * <p>
+     * 给你两个字符串 s 和 goal ，只要我们可以通过交换 s 中的两个字母得到与 goal 相等的结果，就返回 true ；否则返回 false 。
+     * 交换字母的定义是：取两个下标 i 和 j （下标从 0 开始）且满足 i != j ，接着交换 s[i] 和 s[j] 处的字符。
+     * 例如，在 "abcd" 中交换下标 0 和下标 2 的元素可以生成 "cbad" 。
+     */
+    public static boolean buddyStrings(String s, String goal) {
+        if (s.length() != goal.length()) {
+            return false;
+        }
+        if (s.equals(goal)) {
+            int[] count = new int[26];
+            for (int i=0;i<s.length();i++) {
+                if (++count[s.charAt(i) - 'a'] > 1) {
+                    return true;
+                }
+            }
+        }
+        int first = -1, second = -1, num = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) != goal.charAt(i)) {
+                ++num;
+                if (num == 1) {
+                    first = i;
+                }
+                if (num == 2) {
+                    second = i;
+                }
+            }
+        }
+        if (num == 2 && s.charAt(first) == goal.charAt(second) && s.charAt(second) == goal.charAt(first)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
      * 1004. 最大连续1的个数 III
      * 给定一个由若干 0 和 1 组成的数组 A，我们最多可以将 K 个值从 0 变成 1 。
      * <p>
@@ -2353,6 +2411,7 @@ public class LeetCode {
         System.out.println(getHint("1122", "1222"));
         System.out.println(integerReplacement(1));
         System.out.println(findLHS(new int[]{-3, -1, -1, -1, -3, -2}));
+        System.out.println(buddyStrings("ab", "ba"));
     }
 
 }
