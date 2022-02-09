@@ -2300,14 +2300,13 @@ public class LeetCode {
     /**
      * 700. 二叉搜索树中的搜索
      * 给定二叉搜索树（BST）的根节点和一个值。 你需要在BST中找到节点值等于给定值的节点。 返回以该节点为根的子树。 如果节点不存在，则返回 NULL。
-     *
      */
     public TreeNode searchBST(TreeNode root, int val) {
         if (root != null) {
             if (root.val == val) {
                 return root;
             } else if (root.val > val) {
-               return searchBST(root.left, val);
+                return searchBST(root.left, val);
             } else {
                 return searchBST(root.right, val);
             }
@@ -2329,7 +2328,7 @@ public class LeetCode {
         }
         if (s.equals(goal)) {
             int[] count = new int[26];
-            for (int i=0;i<s.length();i++) {
+            for (int i = 0; i < s.length(); i++) {
                 if (++count[s.charAt(i) - 'a'] > 1) {
                     return true;
                 }
@@ -2402,6 +2401,37 @@ public class LeetCode {
             int curr = map.getOrDefault(element - difference, 0) + 1;
             map.put(element, curr);
             ans = Math.max(ans, map.get(element));
+        }
+        return ans;
+    }
+
+    /**
+     * 2006. 差的绝对值为 K 的数对数目
+     * 给你一个整数数组nums和一个整数k，请你返回数对(i, j)的数目，满足i < j且|nums[i] - nums[j]| == k。
+     * <p>
+     * |x|的值定义为：
+     * <p>
+     * 如果x >= 0，那么值为x。
+     * 如果x < 0，那么值为-x。
+     */
+    public int countKDifference(int[] nums, int k) {
+        int ans = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (Math.abs(nums[i] - nums[j]) == k) {
+                    ++ans;
+                }
+            }
+        }
+        return ans;
+    }
+
+    public int countKDifference2(int[] nums, int k) {
+        int ans = 0, length = nums.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < length; i++) {
+            ans += map.getOrDefault(nums[i] - k, 0) + map.getOrDefault(nums[i] + k, 0);
+            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
         }
         return ans;
     }
