@@ -2429,7 +2429,26 @@ public class LeetCode {
     }
 
     private int gcd(int a, int b) {
-       return b != 0 ? gcd(b, a % b) : a;
+        return b != 0 ? gcd(b, a % b) : a;
+    }
+
+    /**
+     * 1984. 学生分数的最小差值
+     * 给你一个 下标从 0 开始 的整数数组 nums ，其中 nums[i] 表示第 i 名学生的分数。另给你一个整数 k。
+     * 从数组中选出任意 k 名学生的分数，使这 k 个分数间 最高分 和 最低分 的 差值 达到 最小化 。
+     * 返回可能的 最小差值 。
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public static int minimumDifference(int[] nums, int k) {
+        int ans = Integer.MAX_VALUE;
+        Arrays.sort(nums);
+        for (int i = 0; i + k <= nums.length; i++) {
+            ans = Math.min(ans, nums[i + k -1] - nums[i]);
+        }
+        return ans;
     }
 
     /**
@@ -2469,6 +2488,7 @@ public class LeetCode {
         System.out.println(integerReplacement(1));
         System.out.println(findLHS(new int[]{-3, -1, -1, -1, -3, -2}));
         System.out.println(buddyStrings("ab", "ba"));
+        System.out.println(minimumDifference(new int[]{9, 4, 1, 7}, 2));
     }
 
 }
