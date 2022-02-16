@@ -62,6 +62,24 @@ public class ShuZu {
         }
     }
 
+    /**
+     * 11. 盛最多水的容器
+     * */
+    public int maxArea(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+        int ans = Integer.MIN_VALUE;
+        while (left < right) {
+            ans = Math.max(ans, (right - left) * Math.min(height[left], height[right]));
+            if (height[left] <= height[right]) {
+                ++left;
+            } else {
+                --right;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         int[] nums1 = new int[]{1, 3};
         int[] nums2 = new int[]{2};

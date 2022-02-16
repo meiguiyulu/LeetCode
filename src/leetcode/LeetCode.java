@@ -2389,6 +2389,39 @@ public class LeetCode {
     }
 
     /**
+     * 1189. “气球” 的最大数量
+     * 给你一个字符串text，你需要使用 text 中的字母来拼凑尽可能多的单词"balloon"（气球）。
+     * <p>
+     * 字符串text 中的每个字母最多只能被使用一次。请你返回最多可以拼凑出多少个单词"balloon"。
+     *
+     * @param text
+     * @return
+     */
+    public static int maxNumberOfBalloons(String text) {
+        int[] a = {1, 1, 2, 2, 1};
+        int[] b = new int[5];
+        int length = text.length();
+        for (int i = 0; i < length; ++i) {
+            if (text.charAt(i) == 'a') {
+                b[0]++;
+            } else if (text.charAt(i) == 'b') {
+                b[1]++;
+            } else if (text.charAt(i) == 'l') {
+                b[2]++;
+            } else if (text.charAt(i) == 'o') {
+                b[3]++;
+            } else if (text.charAt(i) == 'n') {
+                b[4]++;
+            }
+        }
+        int ans = Integer.MAX_VALUE;
+        for (int i = 0; i < 5; i++) {
+            ans = Math.min(ans, b[i] / a[i]);
+        }
+        return ans;
+    }
+
+    /**
      * 1218. 最长定差子序列
      * <p>
      * 给你一个整数数组arr和一个整数difference，请你找出并返回 arr中最长等差子序列的长度，该子序列中相邻元素之间的差等于 difference 。
@@ -2446,7 +2479,7 @@ public class LeetCode {
         int ans = Integer.MAX_VALUE;
         Arrays.sort(nums);
         for (int i = 0; i + k <= nums.length; i++) {
-            ans = Math.min(ans, nums[i + k -1] - nums[i]);
+            ans = Math.min(ans, nums[i + k - 1] - nums[i]);
         }
         return ans;
     }
@@ -2489,6 +2522,7 @@ public class LeetCode {
         System.out.println(findLHS(new int[]{-3, -1, -1, -1, -3, -2}));
         System.out.println(buddyStrings("ab", "ba"));
         System.out.println(minimumDifference(new int[]{9, 4, 1, 7}, 2));
+        System.out.println(maxNumberOfBalloons("nlaebolko"));
     }
 
 }
