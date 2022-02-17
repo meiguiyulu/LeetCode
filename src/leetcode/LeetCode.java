@@ -2298,6 +2298,41 @@ public class LeetCode {
     }
 
     /**
+     * 688. 骑士在棋盘上的概率
+     * <p>
+     * 在一个n x n的国际象棋棋盘上，一个骑士从单元格 (row, column)开始，并尝试进行 k 次移动。
+     * 行和列是 从 0 开始 的，所以左上单元格是 (0,0) ，右下单元格是 (n - 1, n - 1) 。
+     *
+     * @param n
+     * @param k
+     * @param row
+     * @param column
+     * @return
+     */
+    public double knightProbability(int n, int k, int row, int column) {
+
+        int[][] dirs = {{-2, -1}, {-2, 1}, {2, -1}, {2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}};
+        double dp[][][] = new double[k+1][n][n];
+        for (int step = 0; step <= k; ++step) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (step == 0) {
+                        dp[step][i][j] = 1;
+                    } else {
+                        for (int[] dir : dirs) {
+                            int ni = i + dir[0], nj = j + dir[1];
+                            if (ni >= 0 & ni < n && nj >= 0 & nj < 0) {
+                                dp[step][i][j] += dp[step - 1][ni][nj] / 8;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return dp[k][row][column];
+    }
+
+    /**
      * 700. 二叉搜索树中的搜索
      * 给定二叉搜索树（BST）的根节点和一个值。 你需要在BST中找到节点值等于给定值的节点。 返回以该节点为根的子树。 如果节点不存在，则返回 NULL。
      */

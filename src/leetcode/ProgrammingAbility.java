@@ -1,6 +1,8 @@
 package leetcode;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProgrammingAbility {
 
@@ -34,9 +36,9 @@ public class ProgrammingAbility {
     public static double average(int[] salary) {
         int length = salary.length;
         double total = salary[0];
-        int minIndex = 0, maxIndex=0;
+        int minIndex = 0, maxIndex = 0;
         int minValue = salary[0], maxValue = salary[0];
-        for (int i=1;i<length;++i) {
+        for (int i = 1; i < length; ++i) {
             total += salary[i];
             if (salary[i] < minValue) {
                 minIndex = i;
@@ -50,8 +52,36 @@ public class ProgrammingAbility {
         return (total - salary[minIndex] - salary[maxIndex]) / (length - 2);
     }
 
-    public static void main(String[] args) {
-        System.out.println(average(new int[]{4000,3000,1000,2000}));
+
+    /*191. 位1的个数*/
+    public int hammingWeight(int n) {
+        int ans = 0;
+        while (n != 0) {
+            n &= (n - 1);
+            ++ans;
+        }
+        return ans;
     }
+
+    /*1281. 整数的各位积和之差*/
+    public int subtractProductAndSum(int n) {
+        List<Integer> list = new ArrayList<>();
+        while (n > 0) {
+            list.add(n % 10);
+            n = n / 10;
+        }
+        int plus = 0;
+        int multiply = 1;
+        for (Integer integer: list) {
+            plus += integer;
+            multiply *= integer;
+        }
+        return multiply - plus;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(average(new int[]{4000, 3000, 1000, 2000}));
+    }
+
 
 }
