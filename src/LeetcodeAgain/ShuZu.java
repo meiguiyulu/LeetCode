@@ -1,7 +1,6 @@
 package LeetcodeAgain;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -64,7 +63,7 @@ public class ShuZu {
 
     /**
      * 11. 盛最多水的容器
-     * */
+     */
     public int maxArea(int[] height) {
         int left = 0;
         int right = height.length - 1;
@@ -75,6 +74,44 @@ public class ShuZu {
                 ++left;
             } else {
                 --right;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 15. 三数之和
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums);
+        int length = nums.length;
+        for (int first = 0; first < length; ++first) {
+            while (first > 0 && first < length-2 && nums[first] == nums[first - 1]) {
+                ++first;
+            }
+            int third = length - 1;
+            int target = -nums[first];
+            for (int second = first + 1; second < third; ++second) {
+                while (second > first + 1 && second < length-1 && nums[second] == nums[second - 1]) {
+                    ++second;
+                }
+                while (second < third && nums[second] + nums[third] > target) {
+                    --third;
+                }
+                if (second == third) {
+                    break;
+                }
+                if (nums[second] + nums[third] == target) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(nums[first]);
+                    list.add(nums[second]);
+                    list.add(nums[third]);
+                    ans.add(list);
+                }
             }
         }
         return ans;
