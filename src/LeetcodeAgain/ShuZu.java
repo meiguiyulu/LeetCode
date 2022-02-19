@@ -90,13 +90,13 @@ public class ShuZu {
         Arrays.sort(nums);
         int length = nums.length;
         for (int first = 0; first < length; ++first) {
-            while (first > 0 && first < length-2 && nums[first] == nums[first - 1]) {
+            while (first > 0 && first < length - 2 && nums[first] == nums[first - 1]) {
                 ++first;
             }
             int third = length - 1;
             int target = -nums[first];
             for (int second = first + 1; second < third; ++second) {
-                while (second > first + 1 && second < length-1 && nums[second] == nums[second - 1]) {
+                while (second > first + 1 && second < length - 1 && nums[second] == nums[second - 1]) {
                     ++second;
                 }
                 while (second < third && nums[second] + nums[third] > target) {
@@ -117,9 +117,64 @@ public class ShuZu {
         return ans;
     }
 
+
+    /**
+     * 最接近的三数之和
+     * 给你一个长度为 n 的整数数组nums和 一个目标值target。请你从 nums 中选出三个整数，使它们的和与target最接近。
+     * <p>
+     * 返回这三个数的和。
+     * <p>
+     * 假定每组输入只存在恰好一个解。
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int best = 10000000;
+        int length = nums.length;
+        for (int i = 0; i < length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int j = i + 1, k = length - 1;
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
+
+                if (sum == target) {
+                    best = sum;
+                    break;
+                }
+
+                if (Math.abs(sum - target) < Math.abs(best - target)) {
+                    best = sum;
+                }
+
+                if (sum > target) {
+                    int k0 = k - 1;
+                    while (k0 > j && nums[k0] == nums[k]) {
+                        --k0;
+                    }
+                    k = k0;
+                }
+                if (sum < target) {
+                    int j0 = j + 1;
+                    while (j0 < k && nums[j0] == nums[j]) {
+                        ++j0;
+                    }
+                    j = j0;
+                }
+            }
+        }
+        return best;
+    }
+
+
     public static void main(String[] args) {
         int[] nums1 = new int[]{1, 3};
         int[] nums2 = new int[]{2};
         System.out.println(findMedianSortedArrays(nums1, nums2));
+        System.out.println(threeSumClosest(new int[]{-3,-2,-5,3,-4}, -1));
     }
 }
