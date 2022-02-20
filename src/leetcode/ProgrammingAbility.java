@@ -1,8 +1,7 @@
 package leetcode;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 public class ProgrammingAbility {
@@ -204,6 +203,7 @@ public class ProgrammingAbility {
 
     /**
      * 1790. 仅执行一次字符串交换能否使两个字符串相等
+     *
      * @param s1
      * @param s2
      * @return
@@ -213,7 +213,7 @@ public class ProgrammingAbility {
         int[] b = new int[26];
         int length = s1.length();
         int num = 0;
-        for (int i=0;i<length;i++) {
+        for (int i = 0; i < length; i++) {
             char c1 = s1.charAt(i);
             char c2 = s2.charAt(i);
             a[c1 - 'a']++;
@@ -226,11 +226,11 @@ public class ProgrammingAbility {
         StringBuilder builder2 = new StringBuilder();
         for (int i = 0; i < 26; i++) {
             if (a[i] > 0) {
-                builder1.append((char) (i+'a'));
+                builder1.append((char) (i + 'a'));
                 builder1.append(a[i]);
             }
             if (b[i] > 0) {
-                builder2.append((char) (i+'a'));
+                builder2.append((char) (i + 'a'));
                 builder2.append(b[i]);
             }
         }
@@ -239,6 +239,98 @@ public class ProgrammingAbility {
         } else {
             return false;
         }
+    }
+
+    /**
+     * 589. N 叉树的前序遍历
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> preorder(Node root) {
+        List<Integer> ans = new ArrayList<>();
+        NTreeProOrder(ans, root);
+        return ans;
+    }
+
+    private void NTreeProOrder(List<Integer> ans, Node root) {
+        while (root != null) {
+            ans.add(root.val);
+            for (Node child : root.children) {
+                NTreeProOrder(ans, child);
+            }
+        }
+    }
+
+
+    /**
+     * 496. 下一个更大元素 I
+     *
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        int length = nums2.length;
+        int[] ans = new int[nums1.length];
+        for (int i = 0; i < nums1.length; i++) {
+            int currNums1 = nums1[i];
+            int j = 0;
+            while (nums2[j] != currNums1) {
+                j++;
+            }
+            int index = j + 1;
+            while (index < length && nums2[index] <= currNums1) {
+                ++index;
+            }
+            if (index < length) {
+                ans[i] = nums2[index];
+            } else {
+                ans[i] = -1;
+            }
+        }
+        return ans;
+    }
+
+    public int[] nextGreaterElement2(int[] nums1, int[] nums2) {
+        Map<Integer, Integer> map = new HashMap<>();
+        Stack<Integer> stack = new Stack<>();
+        int[] ans = new int[nums1.length];
+        for (int i = nums2.length - 1; i >= 0; --i) {
+            int num = nums2[i];
+            while (!stack.isEmpty() && num > stack.peek()) {
+                stack.pop();
+            }
+            map.put(num, stack.isEmpty() ? -1 : stack.peek());
+            stack.push(num);
+        }
+        for (int i = 0; i < nums1.length; i++) {
+            ans[i] = map.get(nums1[i]);
+        }
+        return ans;
+    }
+
+    /**
+     * 1232. 缀点成线
+     *
+     * @param coordinates
+     * @return
+     */
+    public boolean checkStraightLine(int[][] coordinates) {
+        int deltaX = coordinates[0][0], deltaY = coordinates[0][1];
+        int n = coordinates.length;
+        for (int i = 0; i < n; i++) {
+            coordinates[i][0] -= deltaX;
+            coordinates[i][1] -= deltaY;
+        }
+        int A = coordinates[1][1], B = -coordinates[1][0];
+        for (int i = 2; i < n; i++) {
+            int x = coordinates[i][0], y = coordinates[i][1];
+            if (A * x + B * y != 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) {

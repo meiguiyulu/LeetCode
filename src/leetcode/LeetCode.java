@@ -2351,6 +2351,24 @@ public class LeetCode {
     }
 
     /**
+     * 717. 1比特与2比特字符
+     * @param bits
+     * @return
+     */
+    public boolean isOneBitCharacter(int[] bits) {
+        int length = bits.length;
+        int index = 0;
+        while (index <= length - 2) {
+            if (bits[index] == 1) {
+                index += 2;
+            } else {
+                ++index;
+            }
+        }
+        return index == length - 1;
+    }
+
+    /**
      * 859. 亲密字符串
      * <p>
      * 给你两个字符串 s 和 goal ，只要我们可以通过交换 s 中的两个字母得到与 goal 相等的结果，就返回 true ；否则返回 false 。
