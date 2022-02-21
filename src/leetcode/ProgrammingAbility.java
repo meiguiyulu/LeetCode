@@ -333,11 +333,79 @@ public class ProgrammingAbility {
         return true;
     }
 
+    /**
+     * 1588. 所有奇数长度子数组的和
+     *
+     * @param arr
+     * @return
+     */
+    public int sumOddLengthSubarrays(int[] arr) {
+        int ans = 0;
+        int length = arr.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < length; ++i) {
+            int dis = 2;
+            ans += arr[i];
+            map.put(arr[i], arr[i]);
+            int j = i;
+            while (j + dis < length) {
+                int curr = map.get(arr[i]) + arr[++j] + arr[++j];
+                map.put(arr[i], curr);
+                ans += curr;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 283. 移动零
+     * <p>
+     * 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+     * <p>
+     * 请注意 ，必须在不复制数组的情况下原地对数组进行操作。
+     *
+     * @param nums
+     */
+    public void moveZeroes(int[] nums) {
+        int left = 0, right = 0;
+        int length = nums.length;
+        while (right < length) {
+            while (right < length && nums[right] == 0) {
+                ++right;
+            }
+            if (right < length) {
+                nums[left++] = nums[right++];
+            }
+        }
+        while (left < length) {
+            nums[left++] = 0;
+        }
+    }
+
+    /**
+     * 1672. 最富有客户的资产总量
+     *
+     * @param accounts
+     * @return
+     */
+    public int maximumWealth(int[][] accounts) {
+        int ans = 0;
+        for (int i = 0; i < accounts.length; i++) {
+            int curr = 0;
+            for (int j = 0; j < accounts[i].length; j++) {
+                curr += accounts[i][j];
+            }
+            ans = Math.max(ans, curr);
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         System.out.println(average(new int[]{4000, 3000, 1000, 2000}));
         System.out.println(largestPerimeter(new int[]{3, 2, 3, 4}));
         System.out.println(nearestValidPoint(3, 4, new int[][]{{1, 2}, {3, 1}, {2, 4}, {2, 3}, {4, 4}}));
         new ProgrammingAbility().areAlmostEqual("bank", "kanb");
+        System.out.println(new ProgrammingAbility().sumOddLengthSubarrays(new int[]{1, 4, 2, 5, 3}));
     }
 
 
