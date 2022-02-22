@@ -170,13 +170,140 @@ public class ShuZu {
         return best;
     }
 
+    /**
+     * 18. 四数之和
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        int length = nums.length;
+        for (int first = 0; first < length; ++first) {
+            if (first > 0 && nums[first] == nums[first - 1]) {
+                continue;
+            }
+            for (int second = first + 1; second < length; ++second) {
+                if (second > first + 1 && nums[second] == nums[second - 1]) {
+                    continue;
+                }
+                int four = length - 1;
+                int temp = target - nums[first] - nums[second];
+                for (int third = second + 1; third < length; ++third) {
+                    if (third > second + 1 && nums[third] == nums[third - 1]) {
+                        continue;
+                    }
 
+                    while (third < four && nums[third] + nums[four] > temp) {
+                        --four;
+                    }
+                    if (third == four) {
+                        break;
+                    }
+                    if (nums[first] + nums[second] + nums[third] + nums[four] == target) {
+                        List<Integer> list = new ArrayList<>();
+                        list.add(nums[first]);
+                        list.add(nums[second]);
+                        list.add(nums[third]);
+                        list.add(nums[four]);
+                        ans.add(list);
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 26. 删除有序数组中的重复项
+     *
+     * @param nums
+     * @return
+     */
+    public int removeDuplicates(int[] nums) {
+        int left = 0, right = 0;
+        while (right < nums.length) {
+            nums[left++] = nums[right++];
+            while (right < nums.length && nums[right] == nums[right - 1]) {
+                ++right;
+            }
+        }
+        return left + 1;
+    }
+
+    /**
+     * 27. 移除元素
+     *
+     * @param nums
+     * @param val
+     * @return
+     */
+    public int removeElement(int[] nums, int val) {
+        int length = nums.length;
+        int left = 0;
+        for (int right = 0; right < length; ++right) {
+            if (nums[right] != val) {
+                nums[left] = nums[right];
+                ++left;
+            }
+        }
+        return left;
+    }
+
+    public int removeElement2(int[] nums, int val) {
+        int length = nums.length;
+        int left = 0, right = length - 1;
+        while (left < right) {
+            if (nums[left] == val) {
+                nums[left] = nums[right];
+                --right;
+            } else {
+                ++left;
+            }
+        }
+        return left;
+    }
+
+    public void nextPermutation(int[] nums) {
+        int i = nums.length - 2;
+        while (i >= 0 && nums[i] > nums[i + 1]) {
+            --i;
+        }
+        if (i >= 0) {
+            int j = nums.length - 1;
+            while (j >=0 && nums[j] <= nums[i]) {
+                --j;
+            }
+            Swap(nums, i, j);
+        }
+        ReverseArr(nums, i+1);
+    }
+
+    private void ReverseArr(int[] nums, int i) {
+        int right = nums.length - 1;;
+        while (i <= right) {
+            Swap(nums, i, right);
+            ++i;
+            --right;
+        }
+    }
+
+    private void Swap(int[] nums, int i, int j) {
+        int temp = nums[j];
+        nums[j] = nums[i];
+        nums[i] = temp;
+    }
 
 
     public static void main(String[] args) {
         int[] nums1 = new int[]{1, 3};
         int[] nums2 = new int[]{2};
         System.out.println(findMedianSortedArrays(nums1, nums2));
-        System.out.println(threeSumClosest(new int[]{-3,-2,-5,3,-4}, -1));
+        System.out.println(threeSumClosest(new int[]{-3, -2, -5, 3, -4}, -1));
+        new ShuZu().fourSum(new int[]{2, 2, 2, 2, 2}, 8);
+        new ShuZu().removeDuplicates(new int[]{1, 1, 2});
+        new ShuZu().removeElement(new int[]{1}, 1);
     }
 }

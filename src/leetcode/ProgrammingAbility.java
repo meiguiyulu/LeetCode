@@ -400,6 +400,53 @@ public class ProgrammingAbility {
         return ans;
     }
 
+    /**
+     * 1572. 矩阵对角线元素的和
+     *
+     * @param mat
+     * @return
+     */
+    public int diagonalSum(int[][] mat) {
+        int length = mat.length;
+        int ans = 0;
+        for (int i = 0; i < length; ++i) {
+            ans = ans + mat[i][i] + mat[i][length - 1 - i];
+        }
+        if (length % 2 == 1) {
+            return ans - mat[(length - 1) / 2][(length - 1) / 2];
+        } else {
+            return ans;
+        }
+    }
+
+    /**
+     * 566. 重塑矩阵
+     *
+     * @param mat
+     * @param r
+     * @param c
+     * @return
+     */
+    public int[][] matrixReshape(int[][] mat, int r, int c) {
+        int height = mat.length, width = mat[0].length;
+        if (height * width == r * c) {
+            int[][] ans = new int[r][c];
+            int indexX = 0, indexY = 0;
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    ans[indexX][indexY++] = mat[i][j];
+                    if (indexY >= c) {
+                        indexY = 0;
+                        ++indexX;
+                    }
+                }
+            }
+            return ans;
+        } else {
+            return mat;
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println(average(new int[]{4000, 3000, 1000, 2000}));
         System.out.println(largestPerimeter(new int[]{3, 2, 3, 4}));
