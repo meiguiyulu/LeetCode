@@ -2312,7 +2312,7 @@ public class LeetCode {
     public double knightProbability(int n, int k, int row, int column) {
 
         int[][] dirs = {{-2, -1}, {-2, 1}, {2, -1}, {2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}};
-        double dp[][][] = new double[k+1][n][n];
+        double dp[][][] = new double[k + 1][n][n];
         for (int step = 0; step <= k; ++step) {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -2352,6 +2352,7 @@ public class LeetCode {
 
     /**
      * 717. 1比特与2比特字符
+     *
      * @param bits
      * @return
      */
@@ -2408,6 +2409,7 @@ public class LeetCode {
 
     /**
      * 969. 煎饼排序
+     *
      * @param arr
      * @return
      */
@@ -2554,18 +2556,18 @@ public class LeetCode {
 
     /**
      * 1791. 找出星型图的中心节点
-     *
+     * <p>
      * 有一个无向的 星型 图，由 n 个编号从 1 到 n 的节点组成。星型图有一个 中心 节点，并且恰有 n - 1 条边将中心节点与其他每个节点连接起来。
-     * */
+     */
     public int findCenter(int[][] edges) {
         int length = edges.length;
         int ans = 0;
         Map<Integer, Integer> map = new HashMap<>();
-        for (int[] edge: edges) {
+        for (int[] edge : edges) {
             map.put(edge[0], map.getOrDefault(edge[0], 0) + 1);
             map.put(edge[1], map.getOrDefault(edge[1], 0) + 1);
         }
-        for (Integer key: map.keySet()) {
+        for (Integer key : map.keySet()) {
             if (map.get(key) == length) {
                 ans = key;
             }
@@ -2623,6 +2625,38 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 917. 仅仅反转字母
+     * <p>
+     * 给你一个字符串 s ，根据下述规则反转字符串：
+     * <p>
+     * 所有非英文字母保留在原有位置。
+     * 所有英文字母（小写或大写）位置反转。
+     * 返回反转后的 s 。
+     *
+     * @param s
+     * @return
+     */
+    public String reverseOnlyLetters(String s) {
+        char[] chars = s.toCharArray();
+        int left = 0, right = chars.length - 1;
+        while (left < right) {
+            while (left < right && !Character.isLetter(s.charAt(left))) { // 判断左边是否扫描到字母
+                left++;
+            }
+            while (right > left && !Character.isLetter(s.charAt(right))) { // 判断右边是否扫描到字母
+                right--;
+            }
+            if (left < right) {
+                char temp = chars[left];
+                chars[left] = chars[right];
+                chars[right] = temp;
+                ++left;
+                --right;
+            }
+        }
+        return new String(chars);
+    }
 
     public static void main(String[] args) {
         System.out.println(getHint("1122", "1222"));
@@ -2631,8 +2665,8 @@ public class LeetCode {
         System.out.println(buddyStrings("ab", "ba"));
         System.out.println(minimumDifference(new int[]{9, 4, 1, 7}, 2));
         System.out.println(maxNumberOfBalloons("nlaebolko"));
+        System.out.println(new LeetCode().reverseOnlyLetters("a-bC-dEf-ghIj"));
     }
-
 }
 
 

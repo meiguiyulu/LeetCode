@@ -447,6 +447,84 @@ public class ProgrammingAbility {
         }
     }
 
+    /**
+     * 1768. 交替合并字符串
+     *
+     * @param word1
+     * @param word2
+     * @return
+     */
+    public String mergeAlternately(String word1, String word2) {
+        int len1 = word1.length(), len2 = word2.length();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < Math.max(len1, len2); ++i) {
+            if (i < len1) {
+                builder.append(word1.charAt(i));
+            }
+            if (i < len2) {
+                builder.append(word2.charAt(i));
+            }
+        }
+        return builder.toString();
+    }
+
+    /**
+     * 1678. 设计 Goal 解析器
+     *
+     * @param command
+     * @return
+     */
+    public String interpret(String command) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < command.length(); ++i) {
+            if (command.charAt(i) == 'G') {
+                builder.append("G");
+            } else if (command.charAt(i) == '(' && command.charAt(i + 1) == ')') {
+                builder.append("o");
+                ++i;
+            } else {
+                builder.append("al");
+                i = i + 3;
+            }
+        }
+        return builder.toString();
+    }
+
+    /**
+     * 389. 找不同
+     *
+     * @param s
+     * @param t
+     * @return
+     */
+    public char findTheDifference(String s, String t) {
+        int[] a = new int[26];
+        int[] b = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            a[s.charAt(i) - 'a']++;
+            b[t.charAt(i) - 'a']++;
+        }
+        b[t.charAt(t.length()-1) - 'a']++;
+        char ans = 0;
+        for (int i = 0; i < 26; i++) {
+            if (b[i] > a[i]) {
+                ans = (char) (i + 'a');
+            }
+        }
+        return ans;
+    }
+
+    public char findTheDifference2(String s, String t) {
+        char ans1 = 0, ans2 = 0;
+        for (char c:s.toCharArray()) {
+            ans1 += c;
+        }
+        for (char c:t.toCharArray()) {
+            ans2 += c;
+        }
+        return (char) (ans2 -ans1);
+    }
+
     public static void main(String[] args) {
         System.out.println(average(new int[]{4000, 3000, 1000, 2000}));
         System.out.println(largestPerimeter(new int[]{3, 2, 3, 4}));

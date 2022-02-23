@@ -268,7 +268,7 @@ public class ShuZu {
 
     public void nextPermutation(int[] nums) {
         int i = nums.length - 2;
-        while (i >= 0 && nums[i] > nums[i + 1]) {
+        while (i >= 0 && nums[i] >= nums[i + 1]) {
             --i;
         }
         if (i >= 0) {
@@ -283,7 +283,7 @@ public class ShuZu {
 
     private void ReverseArr(int[] nums, int i) {
         int right = nums.length - 1;;
-        while (i <= right) {
+        while (i < right) {
             Swap(nums, i, right);
             ++i;
             --right;
@@ -297,6 +297,46 @@ public class ShuZu {
     }
 
 
+    /**
+     * 33. 搜索旋转排序数组
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int search(int[] nums, int target) {
+        int length = nums.length;
+        if (length == 1) {
+            return nums[0] == target ? 0 : -1;
+        }
+        int left = 0, right = length - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            if (nums[0] <= nums[mid]) {
+                /*mid左侧是有序数组*/
+                if (nums[0] <= target && target < nums[mid]) {
+                    /*target在mid左侧*/
+                    right = mid - 1;
+                } else {
+                    /*target在mid右侧*/
+                    left = mid + 1;
+                }
+            } else {
+                /*mid右边侧是有序数组*/
+                if (nums[mid] < target && target <= nums[length-1]) {
+                    /*target在mid右侧*/
+                    left = mid + 1;
+                } else {
+                    /*target在mid左侧*/
+                    right = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         int[] nums1 = new int[]{1, 3};
         int[] nums2 = new int[]{2};
@@ -305,5 +345,6 @@ public class ShuZu {
         new ShuZu().fourSum(new int[]{2, 2, 2, 2, 2}, 8);
         new ShuZu().removeDuplicates(new int[]{1, 1, 2});
         new ShuZu().removeElement(new int[]{1}, 1);
+        new ShuZu().nextPermutation(new int[]{1, 1});
     }
 }
