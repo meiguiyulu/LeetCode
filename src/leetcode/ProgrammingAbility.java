@@ -504,7 +504,7 @@ public class ProgrammingAbility {
             a[s.charAt(i) - 'a']++;
             b[t.charAt(i) - 'a']++;
         }
-        b[t.charAt(t.length()-1) - 'a']++;
+        b[t.charAt(t.length() - 1) - 'a']++;
         char ans = 0;
         for (int i = 0; i < 26; i++) {
             if (b[i] > a[i]) {
@@ -516,13 +516,68 @@ public class ProgrammingAbility {
 
     public char findTheDifference2(String s, String t) {
         char ans1 = 0, ans2 = 0;
-        for (char c:s.toCharArray()) {
+        for (char c : s.toCharArray()) {
             ans1 += c;
         }
-        for (char c:t.toCharArray()) {
+        for (char c : t.toCharArray()) {
             ans2 += c;
         }
-        return (char) (ans2 -ans1);
+        return (char) (ans2 - ans1);
+    }
+
+    /**
+     * 709. 转换成小写字母
+     *
+     * @param s
+     * @return
+     */
+    public String toLowerCase(String s) {
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length; ++i) {
+            if (Character.isUpperCase(chars[i])) {
+                chars[i] = Character.toLowerCase(chars[i]);
+            }
+        }
+        return new String(chars);
+    }
+
+    /**
+     * 1309. 解码字母到整数映射
+     *
+     * @param s
+     * @return
+     */
+    public String freqAlphabets(String s) {
+        Map<String, String> map = new HashMap<>();
+        for (int i = 1; i <= 26; i++) {
+            if (i >= 10) {
+                map.put(i + "#", Character.toString(i - 1 + 'a'));
+            } else {
+                map.put(Integer.toString(i), Character.toString(i - 1 + 'a'));
+            }
+        }
+        StringBuilder builder = new StringBuilder();
+        int left = -1, right = 0, length = s.length();
+        while (right < length) {
+            while (right < length && s.charAt(right) != '#') {
+                ++right;
+            }
+            if (right < length) {
+                int index = right - 2;
+                for (int i = left + 1; i < index; ++i) {
+                    builder.append(map.get(Character.toString(s.charAt(i))));
+                }
+                String value = s.charAt(index) + Character.toString(s.charAt(index + 1)) + "#";
+                builder.append(map.get(value));
+            } else {
+                for (int i = left + 1; i < right; i++) {
+                    builder.append(map.get(String.valueOf(s.charAt(i))));
+                }
+            }
+            left = right;
+            ++right;
+        }
+        return builder.toString();
     }
 
     public static void main(String[] args) {
@@ -531,6 +586,7 @@ public class ProgrammingAbility {
         System.out.println(nearestValidPoint(3, 4, new int[][]{{1, 2}, {3, 1}, {2, 4}, {2, 3}, {4, 4}}));
         new ProgrammingAbility().areAlmostEqual("bank", "kanb");
         System.out.println(new ProgrammingAbility().sumOddLengthSubarrays(new int[]{1, 4, 2, 5, 3}));
+        System.out.println(new ProgrammingAbility().freqAlphabets("12345678910#11#12#13#14#15#16#17#18#19#20#21#22#23#24#25#26#"));
     }
 
 

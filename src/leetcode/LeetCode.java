@@ -2658,6 +2658,30 @@ public class LeetCode {
         return new String(chars);
     }
 
+    /**
+     * 1706. 球会落何处
+     *
+     * @param grid
+     * @return
+     */
+    public int[] findBall(int[][] grid) {
+        int length = grid[0].length;
+        int[] ans = new int[length];
+        for (int i = 0; i < length; i++) {
+            int col = i;
+            for (int[] row: grid) {
+                int dir = row[col];
+                col += dir;  // 移动球
+                if (col < 0 || col >= length || dir!=row[col]) {
+                    col = -1;
+                    break;
+                }
+            }
+            ans[i] = col;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         System.out.println(getHint("1122", "1222"));
         System.out.println(integerReplacement(1));

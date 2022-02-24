@@ -337,6 +337,53 @@ public class ShuZu {
         return -1;
     }
 
+    /**
+     * 34. 在排序数组中查找元素的第一个和最后一个位置
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int[] searchRange(int[] nums, int target) {
+        int[] ans = new int[2];
+        ans[0] = leftBoundary(nums, target);
+        ans[1] = rightBoundary(nums, target);
+        return ans;
+    }
+
+    private int rightBoundary(int[] nums, int target) {
+        int length = nums.length;
+        int left = 0, right = length;
+
+        while (left < right) { // 注意
+            int mid = (left + right) / 2;
+            if (nums[mid] == target) {
+                right = mid;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else if (nums[mid] > target) {
+                left = mid + 1; // 注意
+            }
+        }
+        return left - 1;
+    }
+
+    private int leftBoundary(int[] nums, int target) {
+        int length = nums.length;
+        int left = 0, right = length;
+
+        while (left < right) { // 注意
+            int mid = (left + right) / 2;
+            if (nums[mid] == target) {
+                right = mid;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else if (nums[mid] > target) {
+                right = mid; // 注意
+            }
+        }
+        return left;
+    }
+
     public static void main(String[] args) {
         int[] nums1 = new int[]{1, 3};
         int[] nums2 = new int[]{2};
