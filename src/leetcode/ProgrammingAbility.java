@@ -580,6 +580,184 @@ public class ProgrammingAbility {
         return builder.toString();
     }
 
+    /**
+     * 1290. 二进制链表转整数
+     *
+     * @param head
+     * @return
+     */
+    public int getDecimalValue(LeetCode.ListNode head) {
+        List<Integer> list = new ArrayList<>();
+        int ans = 0;
+        while (head != null) {
+            list.add(head.val);
+            head = head.next;
+        }
+        int size = list.size();
+        for (int i = 0; i < size; ++i) {
+            ans += list.get(i) * Math.pow(2, size - 1 - i);
+        }
+        return ans;
+    }
+
+    /**
+     * 876. 链表的中间结点
+     *
+     * @param head
+     * @return
+     */
+    public LeetCode.ListNode middleNode(LeetCode.ListNode head) {
+        int len = 0;
+        LeetCode.ListNode curr = head;
+        while (curr != null) {
+            ++len;
+            curr = curr.next;
+        }
+        for (int i = 0; i < len / 2; ++i) {
+            head = head.next;
+        }
+        return head;
+    }
+
+    public LeetCode.ListNode middleNode2(LeetCode.ListNode head) {
+        /*快慢指针*/
+        LeetCode.ListNode fast = head, slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    /**
+     * 104. 二叉树的最大深度
+     *
+     * @param root
+     * @return
+     */
+    public int maxDepth(LeetCode.TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int height = 0;
+        Deque<LeetCode.TreeNode> deque = new LinkedList<>();
+        deque.add(root);
+        while (!deque.isEmpty()) {
+            int size = deque.size();
+            for (int i = 0; i < size; ++i) {
+                LeetCode.TreeNode node = deque.poll();
+                if (node.left != null) {
+                    deque.add(node.left);
+                }
+                if (node.right != null) {
+                    deque.add(node.right);
+                }
+            }
+            height++;
+        }
+        return height;
+    }
+
+    public int maxDepth2(LeetCode.TreeNode root) {
+        /*迭代*/
+        if (root == null)
+            return 0;
+        return Math.max(maxDepth2(root.left), maxDepth2(root.right)) + 1;
+    }
+
+    /**
+     * 404. 左叶子之和
+     *
+     * @param root
+     * @return
+     */
+    public int sumOfLeftLeaves(LeetCode.TreeNode root) {
+        /*层次遍历*/
+        if (root == null) {
+            return 0;
+        }
+        int ans = 0;
+        Deque<LeetCode.TreeNode> deque = new LinkedList<>();
+        deque.add(root);
+        while (!deque.isEmpty()) {
+            for (int i = deque.size(); i > 0; --i) {
+                LeetCode.TreeNode node = deque.poll();
+                if (node.left != null) {
+                    if (node.left.left == null && node.left.right == null) {
+                        ans += node.left.val;
+                    } else {
+                        deque.offer(node.left);
+                    }
+                }
+                if (node.right != null) {
+                    deque.offer(node.right);
+                }
+            }
+        }
+        return ans;
+    }
+
+    public int sumOfLeftLeaves2(LeetCode.TreeNode root) {
+        /*深度优先*/
+        return root == null ? 0 : dfsForLeftLeave(root);
+    }
+
+    private int dfsForLeftLeave(LeetCode.TreeNode root) {
+        int ans = 0;
+        if (root.left != null) {
+            /*判断是不是叶子节点*/
+            if (root.left.left == null && root.left.right == null) {
+                ans += root.left.val;
+            } else {
+                ans += dfsForLeftLeave(root.left);
+            }
+        }
+        if (root.right != null) {
+            ans += dfsForLeftLeave(root.right);
+        }
+        return ans;
+    }
+
+    /**
+     * 242. 有效的字母异位词
+     *
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isAnagram(String s, String t) {
+        int[] a = new int[26];
+        int[] b = new int[26];
+        for (int i = 0; i < s.length(); ++i) {
+            ++a[s.charAt(i) - 'a'];
+        }
+        for (int i = 0; i < t.length(); ++i) {
+            ++b[t.charAt(i) - 'a'];
+        }
+        for (int i = 0; i < 26; i++) {
+            if (a[i] != b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 217. 存在重复元素
+     * @param nums
+     * @return
+     */
+    public boolean containsDuplicate(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num: nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+            if(map.get(num) > 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         System.out.println(average(new int[]{4000, 3000, 1000, 2000}));
         System.out.println(largestPerimeter(new int[]{3, 2, 3, 4}));

@@ -2669,10 +2669,10 @@ public class LeetCode {
         int[] ans = new int[length];
         for (int i = 0; i < length; i++) {
             int col = i;
-            for (int[] row: grid) {
+            for (int[] row : grid) {
                 int dir = row[col];
                 col += dir;  // 移动球
-                if (col < 0 || col >= length || dir!=row[col]) {
+                if (col < 0 || col >= length || dir != row[col]) {
                     col = -1;
                     break;
                 }
@@ -2682,14 +2682,50 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 537. 复数乘法
+     *
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public String complexNumberMultiply(String num1, String num2) {
+        String[] complex1 = num1.split("\\+|i");
+        String[] complex2 = num2.split("\\+|i");
+        int A = Integer.parseInt(complex1[0]);
+        int B = Integer.parseInt(complex1[1]);
+        int C = Integer.parseInt(complex2[0]);
+        int D = Integer.parseInt(complex2[1]);
+
+        return String.format("%d+%di", A * C - B * D, A * D + B * C);
+    }
+
+    /**
+     * 2016. 增量元素之间的最大差值
+     * @param nums
+     * @return
+     */
+    public int maximumDifference(int[] nums) {
+        int ans = -1, minValue = nums[0];
+        for (int i=1;i<nums.length;++i) {
+            if (nums[i] > minValue) {
+                ans = Math.max(ans, nums[i] - minValue);
+            } else {
+                minValue = nums[i];
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
-        System.out.println(getHint("1122", "1222"));
+/*        System.out.println(getHint("1122", "1222"));
         System.out.println(integerReplacement(1));
         System.out.println(findLHS(new int[]{-3, -1, -1, -1, -3, -2}));
         System.out.println(buddyStrings("ab", "ba"));
         System.out.println(minimumDifference(new int[]{9, 4, 1, 7}, 2));
         System.out.println(maxNumberOfBalloons("nlaebolko"));
-        System.out.println(new LeetCode().reverseOnlyLetters("a-bC-dEf-ghIj"));
+        System.out.println(new LeetCode().reverseOnlyLetters("a-bC-dEf-ghIj"));*/
+        System.out.println(new LeetCode().complexNumberMultiply("1+1i", "1+1i"));
     }
 }
 

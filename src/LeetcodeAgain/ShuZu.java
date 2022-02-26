@@ -273,16 +273,17 @@ public class ShuZu {
         }
         if (i >= 0) {
             int j = nums.length - 1;
-            while (j >=0 && nums[j] <= nums[i]) {
+            while (j >= 0 && nums[j] <= nums[i]) {
                 --j;
             }
             Swap(nums, i, j);
         }
-        ReverseArr(nums, i+1);
+        ReverseArr(nums, i + 1);
     }
 
     private void ReverseArr(int[] nums, int i) {
-        int right = nums.length - 1;;
+        int right = nums.length - 1;
+        ;
         while (i < right) {
             Swap(nums, i, right);
             ++i;
@@ -299,6 +300,7 @@ public class ShuZu {
 
     /**
      * 33. 搜索旋转排序数组
+     *
      * @param nums
      * @param target
      * @return
@@ -325,7 +327,7 @@ public class ShuZu {
                 }
             } else {
                 /*mid右边侧是有序数组*/
-                if (nums[mid] < target && target <= nums[length-1]) {
+                if (nums[mid] < target && target <= nums[length - 1]) {
                     /*target在mid右侧*/
                     left = mid + 1;
                 } else {
@@ -339,6 +341,7 @@ public class ShuZu {
 
     /**
      * 34. 在排序数组中查找元素的第一个和最后一个位置
+     *
      * @param nums
      * @param target
      * @return
@@ -384,14 +387,58 @@ public class ShuZu {
         return left;
     }
 
+    public int searchInsert(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] > target) {
+                right = mid - 1;
+            } else {
+                /*nums[mid] > target*/
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    /**
+     * 36. 有效的数独
+     *
+     * @param board
+     * @return
+     */
+    public boolean isValidSudoku(char[][] board) {
+        int[][] rows = new int[9][9];
+        int[][] columns = new int[9][9];
+        int[][][] subSudoku = new int[3][3][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                char c = board[i][j];
+                if (c != '.') {
+                    int index = c - '1';
+                    rows[i][index]++;
+                    columns[j][index]++;
+                    subSudoku[i / 3][j / 3][index]++;
+                    if (rows[i][index] > 1 || columns[j][index] > 1 || subSudoku[i / 3][j / 3][index] > 1) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        int[] nums1 = new int[]{1, 3};
+/*        int[] nums1 = new int[]{1, 3};
         int[] nums2 = new int[]{2};
         System.out.println(findMedianSortedArrays(nums1, nums2));
         System.out.println(threeSumClosest(new int[]{-3, -2, -5, 3, -4}, -1));
         new ShuZu().fourSum(new int[]{2, 2, 2, 2, 2}, 8);
         new ShuZu().removeDuplicates(new int[]{1, 1, 2});
         new ShuZu().removeElement(new int[]{1}, 1);
-        new ShuZu().nextPermutation(new int[]{1, 1});
+        new ShuZu().nextPermutation(new int[]{1, 1});*/
+        System.out.println(new ShuZu().searchInsert(new int[]{1, 3, 5, 6}, 7));
     }
 }
