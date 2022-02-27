@@ -2717,6 +2717,31 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 553. 最优除法
+     * @param nums
+     * @return
+     */
+    public String optimalDivision(int[] nums) {
+        int length = nums.length;
+        if (length == 1) {
+            return String.valueOf(nums[0]);
+        }
+        if (length == 2) {
+            return nums[0] + "/" + nums[1];
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append(nums[0]);
+        builder.append("/(");
+        for (int i=1;i<length-1;i++) {
+            builder.append(nums[i]);
+            builder.append("/");
+        }
+        builder.append(nums[length-1]);
+        builder.append(")");
+        return builder.toString();
+    }
+
     public static void main(String[] args) {
 /*        System.out.println(getHint("1122", "1222"));
         System.out.println(integerReplacement(1));
