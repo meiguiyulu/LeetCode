@@ -430,6 +430,115 @@ public class ShuZu {
         return true;
     }
 
+    /**
+     * 39. 组合总和
+     *
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        dfsForCombinationSum(candidates, target, ans, 0, list);
+        return ans;
+    }
+
+    private void dfsForCombinationSum(int[] candidates, int target, List<List<Integer>> ans, int index, List<Integer> list) {
+        if (index == candidates.length) {
+            return;
+        }
+        if (target == 0) {
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = 0; i < candidates.length; i++) {
+            if (target > 0) {
+                list.add(candidates[i]);
+                dfsForCombinationSum(candidates, target - candidates[i], ans, i, list);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+
+    /**
+     * 40. 组合总和 II
+     *
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        dfsForCombinationSum2(candidates, target, 0, ans, list);
+        return ans;
+    }
+
+    private void dfsForCombinationSum2(int[] candidates, int target, int index, List<List<Integer>> ans, List<Integer> list) {
+        if (index == candidates.length) {
+            return;
+        }
+        if (target == 0) {
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = index; i < candidates.length; ++i) {
+            if (i > index && candidates[i] == candidates[i - 1])
+                continue;
+            if (target > 0) {
+                list.add(candidates[i]);
+                dfsForCombinationSum2(candidates, target - candidates[i], i + 1, ans, list);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+
+    /**
+     * 42. 接雨水
+     *
+     * @param height
+     * @return
+     */
+    public int trap(int[] height) {
+        int ans = 0;
+        int leftMax = 0, rightMax = 0;
+        int left = 0, right = height.length - 1;
+        while (left < right) {
+            leftMax = Math.max(leftMax, left);
+            rightMax = Math.max(rightMax, right);
+            if (height[left] < height[right]) {
+                ans += leftMax - height[left];
+                ++left;
+            } else {
+                ans += rightMax - height[right];
+                --right;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 45. 跳跃游戏 II
+     *
+     * @param nums
+     * @return
+     */
+    public int jump(int[] nums) {
+        int nextIndex =0, maxPosition = 0;
+        int length = nums.length;
+        int step = 0;
+        for (int i=0;i<length-1;i++) {
+            maxPosition = Math.max(maxPosition, i + nums[i]);
+            if (i == nextIndex) {
+                nextIndex = maxPosition;
+                ++step;
+            }
+        }
+        return step;
+    }
+
     public static void main(String[] args) {
 /*        int[] nums1 = new int[]{1, 3};
         int[] nums2 = new int[]{2};
@@ -440,5 +549,7 @@ public class ShuZu {
         new ShuZu().removeElement(new int[]{1}, 1);
         new ShuZu().nextPermutation(new int[]{1, 1});*/
         System.out.println(new ShuZu().searchInsert(new int[]{1, 3, 5, 6}, 7));
+        System.out.println(new ShuZu().combinationSum2(new int[]{10, 1, 2, 7, 6, 1, 5}, 8));
+        System.out.println(new ShuZu().jump(new int[]{2, 3, 1, 1, 4}));
     }
 }
