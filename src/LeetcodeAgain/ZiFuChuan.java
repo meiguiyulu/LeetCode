@@ -1,7 +1,6 @@
 package LeetcodeAgain;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ZiFuChuan {
 
@@ -26,8 +25,53 @@ public class ZiFuChuan {
         return ans;
     }
 
+    /**
+     * 6. Z 字形变换
+     *
+     * @param s
+     * @param numRows
+     * @return
+     */
+    public String convert(String s, int numRows) {
+        int length = s.length();
+        int num = 2 * (numRows - 1);
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < length; j++) {
+                if (j % num == i || j % num == num - i) {
+                    builder.append(s.charAt(j));
+                }
+            }
+        }
+        return builder.toString();
+    }
+
+    public String convert2(String s, int numRows) {
+        if (numRows < 2) {
+            return s;
+        }
+        List<StringBuilder> rows = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            rows.add(new StringBuilder());
+        }
+        int i = 0, flag = -1;
+        for (char c : s.toCharArray()) {
+            rows.get(i).append(c);
+            if (i == 0 || i == numRows - 1) {
+                flag = -flag;
+            }
+            i += flag;
+        }
+        StringBuilder ans = new StringBuilder();
+        for (StringBuilder row : rows) {
+            ans.append(row.toString());
+        }
+        return ans.toString();
+    }
+
     public static void main(String[] args) {
-        new ZiFuChuan().lengthOfLongestSubstring("abba");
+//        new ZiFuChuan().lengthOfLongestSubstring("abba");
+        new ZiFuChuan().convert("ABCD", 2);
     }
 
 }

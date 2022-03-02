@@ -526,10 +526,10 @@ public class ShuZu {
      * @return
      */
     public int jump(int[] nums) {
-        int nextIndex =0, maxPosition = 0;
+        int nextIndex = 0, maxPosition = 0;
         int length = nums.length;
         int step = 0;
-        for (int i=0;i<length-1;i++) {
+        for (int i = 0; i < length - 1; i++) {
             maxPosition = Math.max(maxPosition, i + nums[i]);
             if (i == nextIndex) {
                 nextIndex = maxPosition;
@@ -539,17 +539,192 @@ public class ShuZu {
         return step;
     }
 
+    /**
+     * 46. 全排列
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        dfsForPermute(ans, list, nums);
+        return ans;
+    }
+
+    private void dfsForPermute(List<List<Integer>> ans,
+                               List<Integer> list, int[] nums) {
+        /*用res.add(new linkedList(path))而不是res.add(path)。
+        因为path指向的对象在不断地增加和删除元素，最后会变成空。
+        得到的结果会变成[[][][][][]]所以要用new linkedList(path)拷贝一个对象加入res*/
+        if (list.size() == nums.length) {
+            ans.add(new ArrayList<>(list));
+        }
+        for (int i = 0; i < nums.length; ++i) {
+            if (!list.contains(nums[i])) {
+                list.add(nums[i]);
+                dfsForPermute(ans, list, nums);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+
+    /**
+     * 47. 全排列 II
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        boolean[] visited = new boolean[nums.length];
+        dfsForPermute2(ans, list, nums, visited);
+        return ans;
+    }
+
+    private void dfsForPermute2(List<List<Integer>> ans,
+                                List<Integer> list, int[] nums, boolean[] visited) {
+        /*用res.add(new linkedList(path))而不是res.add(path)。
+        因为path指向的对象在不断地增加和删除元素，最后会变成空。
+        得到的结果会变成[[][][][][]]所以要用new linkedList(path)拷贝一个对象加入res*/
+        if (list.size() == nums.length && !ans.contains(list)) {
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = 0; i < nums.length; ++i) {
+            if (!visited[i]) {
+                list.add(nums[i]);
+                visited[i] = true;
+                dfsForPermute2(ans, list, nums, visited);
+                list.remove(list.size() - 1);
+                visited[i] = false;
+            }
+        }
+    }
+
+    /**
+     * 48. 旋转图像
+     *
+     * @param matrix
+     */
+    public void rotate(int[][] matrix) {
+        int length = matrix.length;
+        for (int i = 0; i < length - 1; ++i) {
+            for (int j = 0; j < length - 1 - i; ++j) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[length - 1 - j][length - 1 - i];
+                matrix[length - 1 - j][length - 1 - i] = temp;
+            }
+        }
+        for (int i = 0; i < length / 2; ++i) {
+            for (int j = 0; j < length; ++j) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[length - 1 - i][j];
+                matrix[length - 1 - i][j] = temp;
+            }
+        }
+    }
+
+    /**
+     * 53. 最大子数组和
+     *
+     * @param nums
+     * @return
+     */
+    public int maxSubArray(int[] nums) {
+        int length = nums.length;
+        int ans = nums[0], pre = 0;
+        for (int num : nums) {
+            pre = Math.max(num, pre + num);
+            ans = Math.max(ans, pre);
+        }
+        return ans;
+    }
+
+    /**
+     * 54. 螺旋矩阵
+     *
+     * @param matrix
+     * @return
+     */
+    public List<Integer> spiralOrder(int[][] matrix) {
+        int rows = matrix.length, columns = matrix[0].length;
+        List<Integer> list = new ArrayList<>();
+        int x = 0, y = 0, index = 0;
+        int top = 0, bottom = rows - 1, left = 0, right = columns - 1;
+        while (index < rows * columns) {
+            /*向右*/
+            while (index < rows * columns && y <= right) {
+                list.add(matrix[x][y]);
+                ++index;
+                ++y;
+            }
+            --y;
+            ++x;
+            ++top;
+            /*向下*/
+            while (index < rows * columns && x <= bottom) {
+                list.add(matrix[x][y]);
+                ++index;
+                ++x;
+            }
+            --x;
+            --y;
+            --right;
+            /*向左*/
+            while (index < rows * columns && y >= left) {
+                list.add(matrix[x][y]);
+                ++index;
+                --y;
+            }
+            ++y;
+            --x;
+            --bottom;
+            while (index < rows * columns && x >= top) {
+                list.add(matrix[x][y]);
+                ++index;
+                --x;
+            }
+            ++x;
+            ++y;
+            ++left;
+        }
+        return list;
+    }
+
+    /**
+     * 55. 跳跃游戏
+     *
+     * @param nums
+     * @return
+     */
+    public boolean canJump(int[] nums) {
+        int maxPosition = 0, nextPosition = 0;
+        int length = nums.length;
+        for (int i = 0; i < length; i++) {
+            if (i > maxPosition) {
+                return false;
+            }
+            nextPosition = i + nums[i];
+            if (nextPosition >= length - 1) {
+                return true;
+            }
+            maxPosition = Math.max(maxPosition, nextPosition);
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-/*        int[] nums1 = new int[]{1, 3};
-        int[] nums2 = new int[]{2};
-        System.out.println(findMedianSortedArrays(nums1, nums2));
-        System.out.println(threeSumClosest(new int[]{-3, -2, -5, 3, -4}, -1));
-        new ShuZu().fourSum(new int[]{2, 2, 2, 2, 2}, 8);
-        new ShuZu().removeDuplicates(new int[]{1, 1, 2});
-        new ShuZu().removeElement(new int[]{1}, 1);
-        new ShuZu().nextPermutation(new int[]{1, 1});*/
-        System.out.println(new ShuZu().searchInsert(new int[]{1, 3, 5, 6}, 7));
-        System.out.println(new ShuZu().combinationSum2(new int[]{10, 1, 2, 7, 6, 1, 5}, 8));
-        System.out.println(new ShuZu().jump(new int[]{2, 3, 1, 1, 4}));
+//        new ShuZu().permuteUnique(new int[]{1, 1, 2});
+//        new ShuZu().maxSubArray(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4});
+        int[][] martix = new int[3][3];
+        int index = 1;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                martix[i][j] = index++;
+            }
+        }
+        System.out.println(new ShuZu().spiralOrder(martix));
     }
 }
