@@ -715,6 +715,66 @@ public class ShuZu {
         return true;
     }
 
+    /**
+     * 56. 合并区间
+     *
+     * @param intervals
+     * @return
+     */
+    public int[][] merge(int[][] intervals) {
+        if (intervals.length == 1) {
+            return intervals;
+        }
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
+        List<int[]> ans = new ArrayList<>();
+        for (int i = 0; i < intervals.length; i++) {
+            int left = intervals[i][0], right = intervals[i][1];
+            if (ans.size() == 0 || ans.get(ans.size() - 1)[1] < left) {
+                ans.add(new int[]{left, right});
+            } else {
+                ans.get(ans.size() - 1)[1] = Math.max(ans.get(ans.size() - 1)[1], right);
+            }
+        }
+        return ans.toArray(new int[ans.size()][]);
+    }
+
+    /**
+     * 57. 插入区间
+     *
+     * @param intervals
+     * @param newInterval
+     * @return
+     */
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> ans = new ArrayList<>();
+        int length = intervals.length;
+        int index = 0;
+
+        /*不重合*/
+        while (index < length && intervals[index][1] < newInterval[0]) {
+            ans.add(new int[]{intervals[index][0], intervals[index][1]});
+            ++index;
+        }
+        /*重合*/
+        while (index < length && intervals[index][0] <= newInterval[1]) {
+            newInterval[0] = Math.min(newInterval[0], intervals[index][0]);
+            newInterval[1] = Math.max(newInterval[1], intervals[index][1]);
+            ++index;
+        }
+        ans.add(newInterval);
+        /*不重合*/
+        while (index < length && intervals[index][0] >= newInterval[1]) {
+            ans.add(new int[]{intervals[index][0], intervals[index][1]});
+            ++index;
+        }
+        return ans.toArray(new int[ans.size()][]);
+    }
+
     public static void main(String[] args) {
 //        new ShuZu().permuteUnique(new int[]{1, 1, 2});
 //        new ShuZu().maxSubArray(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4});

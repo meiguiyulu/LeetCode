@@ -157,4 +157,79 @@ public class DataStruct {
         return ans;
     }
 
+    /**
+     * 566. 重塑矩阵
+     *
+     * @param mat
+     * @param r
+     * @param c
+     * @return
+     */
+    public int[][] matrixReshape(int[][] mat, int r, int c) {
+        int rows = mat.length, columns = mat[0].length;
+        if (rows * columns == r * c) {
+            int[][] ans = new int[r][c];
+            int x = 0, y = 0;
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    ans[x][y] = mat[i][j];
+                    ++y;
+                    if (y >= c) {
+                        ++x;
+                        y = 0;
+                    }
+                }
+            }
+            return ans;
+        } else {
+            return mat;
+        }
+    }
+
+    /**
+     * 118. 杨辉三角
+     *
+     * @param numRows
+     * @return
+     */
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> ans = new ArrayList<>();
+        /*for (int i = 1; i <= numRows; i++) {
+            List<Integer> list = new ArrayList<>();
+            if (i == 1) {
+                list.add(1);
+                ans.add(list);
+            } else if (i == 2) {
+                list.add(1);
+                list.add(1);
+                ans.add(list);
+            } else {
+                list.add(1);
+                List<Integer> list1 = ans.get(ans.size() - 1);
+                for (int j = 1; j < i - 1; j++) {
+                    list.add(list1.get(j-1)+list1.get(j));
+                }
+                list.add(1);
+                ans.add(list);
+            }
+        }*/
+        for (int i = 0; i < numRows; i++) {
+            List<Integer> list = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) {
+                    list.add(1);
+                } else {
+                    List<Integer> integerList = ans.get(ans.size() - 1);
+                    list.add(integerList.get(j - 1) + integerList.get(j));
+                }
+            }
+            ans.add(list);
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new DataStruct().generate(5));
+    }
+
 }

@@ -2702,12 +2702,13 @@ public class LeetCode {
 
     /**
      * 2016. 增量元素之间的最大差值
+     *
      * @param nums
      * @return
      */
     public int maximumDifference(int[] nums) {
         int ans = -1, minValue = nums[0];
-        for (int i=1;i<nums.length;++i) {
+        for (int i = 1; i < nums.length; ++i) {
             if (nums[i] > minValue) {
                 ans = Math.max(ans, nums[i] - minValue);
             } else {
@@ -2719,6 +2720,7 @@ public class LeetCode {
 
     /**
      * 553. 最优除法
+     *
      * @param nums
      * @return
      */
@@ -2733,13 +2735,32 @@ public class LeetCode {
         StringBuilder builder = new StringBuilder();
         builder.append(nums[0]);
         builder.append("/(");
-        for (int i=1;i<length-1;i++) {
+        for (int i = 1; i < length - 1; i++) {
             builder.append(nums[i]);
             builder.append("/");
         }
-        builder.append(nums[length-1]);
+        builder.append(nums[length - 1]);
         builder.append(")");
         return builder.toString();
+    }
+
+    /**
+     * 258. 各位相加
+     *
+     * @param num
+     * @return
+     */
+    public int addDigits(int num) {
+        while (num >= 10) {
+            int curr = num;
+            int ans = 0;
+            while (curr > 0) {
+                ans += curr % 10;
+                curr /= 10;
+            }
+            num = ans;
+        }
+        return num;
     }
 
     public static void main(String[] args) {
