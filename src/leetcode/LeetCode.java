@@ -2763,6 +2763,26 @@ public class LeetCode {
         return num;
     }
 
+    /**
+     * 2104. 子数组范围和
+     *
+     * @param nums
+     * @return
+     */
+    public long subArrayRanges(int[] nums) {
+        int length = nums.length;
+        long ans = 0;
+        for (int i = 0; i < length; i++) {
+            int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+            for (int j = i; j < length; j++) {
+                max = Math.max(nums[j], max);
+                min = Math.min(nums[j], min);
+                ans += max - min;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
 /*        System.out.println(getHint("1122", "1222"));
         System.out.println(integerReplacement(1));

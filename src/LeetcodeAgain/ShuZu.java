@@ -775,16 +775,97 @@ public class ShuZu {
         return ans.toArray(new int[ans.size()][]);
     }
 
-    public static void main(String[] args) {
-//        new ShuZu().permuteUnique(new int[]{1, 1, 2});
-//        new ShuZu().maxSubArray(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4});
-        int[][] martix = new int[3][3];
+    /**
+     * 59. 螺旋矩阵 II
+     *
+     * @param n
+     * @return
+     */
+    public int[][] generateMatrix(int n) {
+        int[][] ans = new int[n][n];
         int index = 1;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                martix[i][j] = index++;
+        int x = 0, y = 0;
+        int top = 0, bottom = n - 1, left = 0, right = n - 1;
+        while (index <= n * n) {
+            /*向右边*/
+            while (index <= n * n && y <= right) {
+                ans[x][y] = index;
+                index++;
+                y++;
+            }
+            ++x;
+            --y;
+            ++top;
+            /*向下面*/
+            while (index <= n * n && x <= bottom) {
+                ans[x][y] = index;
+                ++index;
+                ++x;
+            }
+            --x;
+            --y;
+            --right;
+            /*向左*/
+            while (index <= n * n && y >= left) {
+                ans[x][y] = index;
+                index++;
+                --y;
+            }
+            ++y;
+            --x;
+            bottom--;
+            /*向上*/
+            while (index <= n * n && x >= top) {
+                ans[x][y] = index;
+                index++;
+                x--;
+            }
+            ++x;
+            y++;
+            left++;
+        }
+        return ans;
+    }
+
+    /**
+     * 63. 不同路径 II
+     *
+     * @param obstacleGrid
+     * @return
+     */
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int rows = obstacleGrid.length, columns = obstacleGrid[0].length;
+        if (obstacleGrid[0][0] == 1) {
+            return 0;
+        }
+        int[][] dp = new int[rows][columns];
+        dp[0][0] = 1;
+        for (int i = 1; i < rows; i++) {
+            if (obstacleGrid[i][0] != 1) {
+                dp[i][0] = dp[i-1][0];
+            } else {
+                dp[i][0] = 0;
             }
         }
-        System.out.println(new ShuZu().spiralOrder(martix));
+        for (int j = 1; j < columns; j++) {
+            if (obstacleGrid[0][j] != 1) {
+                dp[0][j] = dp[0][j-1];
+            } else {
+                dp[0][j] = 0;
+            }
+        }
+        for (int i = 1; i < rows; i++) {
+            for (int j = 1; j < columns; j++) {
+                if (obstacleGrid[i][j] != 1) {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                } else {
+                    dp[i][j] = 0;
+                }
+            }
+        }
+        return dp[rows - 1][columns - 1];
+    }
+
+    public static void main(String[] args) {
     }
 }

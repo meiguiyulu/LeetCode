@@ -228,6 +228,65 @@ public class DataStruct {
         return ans;
     }
 
+    /**
+     * 36. 有效的数独
+     *
+     * @param board
+     * @return
+     */
+    public boolean isValidSudoku(char[][] board) {
+        int[][] rows = new int[9][9];
+        int[][] columns = new int[9][9];
+        int[][][] subSudoku = new int[3][3][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.') {
+                    int index = board[i][j] - '1';
+                    rows[i][index]++;
+                    columns[j][index]++;
+                    subSudoku[i / 3][j / 3][index]++;
+                    if (rows[i][index] > 1 || columns[j][index] > 1 || subSudoku[i / 3][j / 3][index] > 1) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 73. 矩阵置零
+     *
+     * @param matrix
+     */
+    public void setZeroes(int[][] matrix) {
+        int rows = matrix.length, columns = matrix[0].length;
+        List<Integer> rowsList = new ArrayList<>();
+        List<Integer> columnsList = new ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (matrix[i][j] == 0) {
+                    if (!rowsList.contains(i)) {
+                        rowsList.add(i);
+                    }
+                    if (!columnsList.contains(j)) {
+                        columnsList.add(j);
+                    }
+                }
+            }
+        }
+        for (int ros : rowsList) {
+            for (int i = 0; i < columns; i++) {
+                matrix[ros][i] = 0;
+            }
+        }
+        for (int column : columnsList) {
+            for (int i = 0; i < rows; i++) {
+                matrix[i][column] = 0;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println(new DataStruct().generate(5));
     }
