@@ -842,14 +842,14 @@ public class ShuZu {
         dp[0][0] = 1;
         for (int i = 1; i < rows; i++) {
             if (obstacleGrid[i][0] != 1) {
-                dp[i][0] = dp[i-1][0];
+                dp[i][0] = dp[i - 1][0];
             } else {
                 dp[i][0] = 0;
             }
         }
         for (int j = 1; j < columns; j++) {
             if (obstacleGrid[0][j] != 1) {
-                dp[0][j] = dp[0][j-1];
+                dp[0][j] = dp[0][j - 1];
             } else {
                 dp[0][j] = 0;
             }
@@ -864,6 +864,57 @@ public class ShuZu {
             }
         }
         return dp[rows - 1][columns - 1];
+    }
+
+    /**
+     * 64. 最小路径和
+     *
+     * @param grid
+     * @return
+     */
+    public int minPathSum(int[][] grid) {
+        int rows = grid.length, columns = grid[0].length;
+        int[][] dp = new int[rows][columns];
+        dp[0][0] = grid[0][0];
+        for (int i = 1; i < rows; i++) {
+            dp[i][0] = dp[i - 1][0] + grid[i][0];
+        }
+        for (int j = 1; j < columns; j++) {
+            dp[0][j] = dp[0][j - 1] + grid[0][j];
+        }
+        for (int i = 1; i < rows; i++) {
+            for (int j = 1; j < columns; j++) {
+                dp[i][j] = grid[i][j] + Math.min(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+        return dp[rows - 1][columns - 1];
+    }
+
+    /**
+     * 66. 加一
+     *
+     * @param digits
+     * @return
+     */
+    public int[] plusOne(int[] digits) {
+        List<Integer> list = new ArrayList<>();
+        int remainder = 1;
+        int carry = 1;
+        for (int i = digits.length - 1; i >= 0; i--) {
+            int curr = carry + digits[i];
+            remainder = curr % 10;
+            carry = curr / 10;
+            list.add(remainder);
+        }
+        if (carry > 0) {
+            list.add(carry);
+        }
+        int size = list.size();
+        int[] ans = new int[size];
+        for (int i = 0; i < size; i++) {
+            ans[i] = list.get(size - 1 - i);
+        }
+        return ans;
     }
 
     public static void main(String[] args) {

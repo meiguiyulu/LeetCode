@@ -287,6 +287,33 @@ public class DataStruct {
         }
     }
 
+    /**
+     * 387. 字符串中的第一个唯一字符
+     *
+     * @param s
+     * @return
+     */
+    public int firstUniqChar(String s) {
+        Map<Character, Integer> map = new LinkedHashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)) {
+                /*不是唯一字符*/
+                map.put(c, -1);
+            } else {
+                map.put(c, i);
+            }
+        }
+        int ans = -1;
+        for (Character c : map.keySet()) {
+            if (map.get(c) >= 0) {
+                ans = map.get(c);
+                break;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         System.out.println(new DataStruct().generate(5));
     }

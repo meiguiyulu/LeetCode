@@ -2783,6 +2783,61 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 2104. 子数组范围和
+     *
+     * @param nums
+     * @return
+     */
+    public long subArrayRanges2(int[] nums) {
+        int length = nums.length;
+        int[] minLeft = new int[length];
+        int[] minRight = new int[length];
+        int[] maxLeft = new int[length];
+        int[] maxRight = new int[length];
+
+        Deque<Integer> minDeque = new LinkedList<>();
+        Deque<Integer> maxDeque = new LinkedList<>();
+
+        for (int i = 0; i < length; i++) {
+            while (!minDeque.isEmpty() && nums[minDeque.peek()] > nums[i]) {
+                minDeque.pop();
+            }
+            minLeft[i] = minDeque.isEmpty() ? -1 : minDeque.peek();
+            minDeque.push(i);
+
+            while (!maxDeque.isEmpty() && nums[maxDeque.peek()] <= nums[i]) {
+                maxDeque.pop();
+            }
+            maxLeft[i] = maxDeque.isEmpty() ? -1 : maxDeque.peek();
+            maxDeque.push(i);
+        }
+
+        minDeque.clear();
+        maxDeque.clear();
+
+        for (int i = length - 1; i >= 0; i--) {
+            while (!minDeque.isEmpty() && nums[minDeque.peek()] >= nums[i]) {
+                minDeque.pop();
+            }
+            minRight[i] = minDeque.isEmpty() ? length : minDeque.peek();
+            minDeque.push(i);
+
+            while (!maxDeque.isEmpty() && nums[maxDeque.peek()] < nums[i]) {
+                maxDeque.pop();
+            }
+            maxRight[i] = maxDeque.isEmpty() ? length : maxDeque.peek();
+            maxDeque.push(i);
+        }
+
+        long sumMax = 0, sumMin = 0;
+        for (int i = 0; i < length; i++) {
+            sumMax += (long) (maxRight[i] - i) * (i - maxLeft[i]) * nums[i];
+            sumMin += (long) (minRight[i] - i) * (i - minLeft[i]) * nums[i];
+        }
+        return sumMax - sumMin;
+    }
+
     public static void main(String[] args) {
 /*        System.out.println(getHint("1122", "1222"));
         System.out.println(integerReplacement(1));
