@@ -2838,6 +2838,34 @@ public class LeetCode {
         return sumMax - sumMin;
     }
 
+    /**
+     * 2100. 适合打劫银行的日子
+     *
+     * @param security
+     * @param time
+     * @return
+     */
+    public List<Integer> goodDaysToRobBank(int[] security, int time) {
+        int length = security.length;
+        int[] left = new int[length];
+        int[] right = new int[length];
+        for (int i = 1; i < length; i++) {
+            if (security[i] <= security[i - 1]) {
+                left[i] = left[i - 1] + 1;
+            }
+            if (security[length - 1 - i] <= security[length - i]) {
+                right[length - 1 - i] = right[length - i] + 1;
+            }
+        }
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            if (left[i] >= time && right[i] >= time) {
+                ans.add(i);
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
 /*        System.out.println(getHint("1122", "1222"));
         System.out.println(integerReplacement(1));

@@ -66,7 +66,7 @@
     <inspection_tool class="AlibabaVarargsParameter" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <Languages>
-        <language minSize="60" name="Java" />
+        <language minSize="67" name="Java" />
       </Languages>
     </inspection_tool>
     <inspection_tool class="JavaDoc" enabled="true" level="WARNING" enabled_by_default="true">

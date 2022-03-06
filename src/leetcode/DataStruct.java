@@ -1,6 +1,22 @@
 package leetcode;
 
+import javax.swing.*;
 import java.util.*;
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+
+    ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+}
 
 public class DataStruct {
 
@@ -312,6 +328,131 @@ public class DataStruct {
             }
         }
         return ans;
+    }
+
+    /**
+     * 383. 赎金信
+     *
+     * @param ransomNote
+     * @param magazine
+     * @return
+     */
+    public boolean canConstruct(String ransomNote, String magazine) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < magazine.length(); i++) {
+            char c = magazine.charAt(i);
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+        for (int i = 0; i < ransomNote.length(); i++) {
+            char c = ransomNote.charAt(i);
+            int integer = map.getOrDefault(c, 0);
+            if (integer > 0) {
+                map.put(c, integer - 1);
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 242. 有效的字母异位词
+     *
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+        int[] a = new int[26];
+        int[] b = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            a[s.charAt(i) - 'a']++;
+            b[t.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < 26; i++) {
+            if (a[i] != b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 环形链表
+     *
+     * @param head
+     * @return
+     */
+    public boolean hasCycle(ListNode head) {
+        if (head == null) {
+            return false;
+        }
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 21. 合并两个有序链表
+     *
+     * @param list1
+     * @param list2
+     * @return
+     */
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode newList = new ListNode(-1);
+        ListNode curr = newList;
+        while (list1 != null && list2 != null) {
+            if (list1.val < list2.val) {
+                curr.next = list1;
+                list1 = list1.next;
+            } else {
+                curr.next = list2;
+                list2 = list2.next;
+            }
+            curr = curr.next;
+        }
+        while (list1 != null) {
+            curr.next = list1;
+            list1 = list1.next;
+            curr = curr.next;
+        }
+        while (list2 != null) {
+            curr.next = list2;
+            list2 = list2.next;
+            curr = curr.next;
+        }
+        return newList.next;
+    }
+
+    /**
+     * 203. 移除链表元素
+     *
+     * @param head
+     * @param val
+     * @return
+     */
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode dummyHead = new ListNode(-1);
+        dummyHead.next = head;
+        ListNode curr = dummyHead;
+        while (curr.next != null) {
+            if (curr.next.val == val) {
+                curr.next = curr.next.next;
+            } else {
+                curr = curr.next;
+            }
+        }
+        return dummyHead.next;
     }
 
     public static void main(String[] args) {
