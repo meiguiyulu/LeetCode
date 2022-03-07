@@ -455,6 +455,56 @@ public class DataStruct {
         return dummyHead.next;
     }
 
+    /**
+     * 206. 反转链表
+     *
+     * @param head
+     * @return
+     */
+    public ListNode reverseList(ListNode head) {
+        ListNode curr = head, prev = null;
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+
+    public ListNode reverseList2(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode newHead = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return newHead;
+    }
+
+    /**
+     * 83. 删除排序链表中的重复元素
+     *
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode dummyHead = new ListNode(-1);
+        dummyHead.next = head;
+        ListNode curr = head, fast = head;
+        while (fast != null) {
+            while (fast != null && fast.val == curr.val) {
+                fast = fast.next;
+            }
+            curr.next = fast;
+            curr = curr.next;
+        }
+        if (curr != null) {
+            curr.next = null;
+        }
+        return dummyHead.next;
+    }
+
     public static void main(String[] args) {
         System.out.println(new DataStruct().generate(5));
     }

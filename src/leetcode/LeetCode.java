@@ -2866,6 +2866,31 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 504. 七进制数
+     *
+     * @param num
+     * @return
+     */
+    public String convertToBase7(int num) {
+        int curr = num < 0 ? -num : num;
+        List<Integer> list = new ArrayList<>();
+        while (curr >= 7) {
+            list.add(curr % 7);
+            curr = curr / 7;
+        }
+        list.add(curr);
+        StringBuilder builder = new StringBuilder();
+        if (num < 0) {
+            builder.append("-");
+        }
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            builder.append(list.get(size - 1 - i));
+        }
+        return builder.toString();
+    }
+
     public static void main(String[] args) {
 /*        System.out.println(getHint("1122", "1222"));
         System.out.println(integerReplacement(1));
