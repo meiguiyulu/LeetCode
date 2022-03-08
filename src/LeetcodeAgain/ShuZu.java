@@ -944,9 +944,9 @@ public class ShuZu {
             }
         }
 
-        for (int i=1;i<rows;i++) {
-            for (int j=1;j<columns;j++) {
-                if (matrix[i][0] == 0 || matrix[0][j]==0) {
+        for (int i = 1; i < rows; i++) {
+            for (int j = 1; j < columns; j++) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
                     matrix[i][j] = 0;
                 }
             }
@@ -965,6 +965,64 @@ public class ShuZu {
         }
     }
 
+    /**
+     * 74. 搜索二维矩阵
+     *
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int rows = matrix.length, columns = matrix[0].length;
+        for (int i = 0; i < rows; i++) {
+            if (target <= matrix[i][columns - 1]) {
+                int left = 0, right = columns - 1;
+                while (left <= right) {
+                    int mid = left + (right - left) / 2;
+                    if (matrix[i][mid] == target) {
+                        return true;
+                    } else if (matrix[i][mid] < target) {
+                        left = mid + 1;
+                    } else {
+                        right = mid - 1;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 75. 颜色分类
+     *
+     * @param nums
+     */
+    public void sortColors(int[] nums) {
+        int num0 = 0, num1 = 0, num2 = 0;
+        int length = nums.length;
+        for (int i = 0; i < length; i++) {
+            if (nums[i] == 0) {
+                num0++;
+            } else if (nums[i] == 1) {
+                num1++;
+            } else if (nums[i] == 2) {
+                num2++;
+            }
+        }
+        for (int i = 0; i < length; i++) {
+            if (i < num0) {
+                nums[i] = 0;
+            } else if (i < num0 + num1) {
+                nums[i] = 1;
+            } else {
+                nums[i] = 2;
+            }
+        }
+    }
+
     public static void main(String[] args) {
+        int[][] martix = new int[1][1];
+        martix[0][0] = 1;
+        System.out.println(new ShuZu().searchMatrix(martix, 1));
     }
 }

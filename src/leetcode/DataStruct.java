@@ -505,6 +505,39 @@ public class DataStruct {
         return dummyHead.next;
     }
 
+    /**
+     * 20. 有效的括号
+     * @param s
+     * @return
+     */
+    public boolean isValid(String s) {
+        int length = s.length();
+        Stack<Character> stack = new Stack<>();
+        for (int i=0;i<length;i++) {
+            char c = s.charAt(i);
+            if (c == '(' || c == '[' || c == '{') {
+                stack.push(c);
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                if (c==')' && stack.pop()!='(') {
+                    return false;
+                }
+                if (c==']' && stack.pop()!='[') {
+                    return false;
+                }
+                if (c=='}' && stack.pop()!='{') {
+                    return false;
+                }
+            }
+        }
+        if (!stack.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         System.out.println(new DataStruct().generate(5));
     }
