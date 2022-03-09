@@ -18,6 +18,25 @@ class ListNode {
     }
 }
 
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode() {
+    }
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
 public class DataStruct {
 
     /**
@@ -507,13 +526,14 @@ public class DataStruct {
 
     /**
      * 20. 有效的括号
+     *
      * @param s
      * @return
      */
     public boolean isValid(String s) {
         int length = s.length();
         Stack<Character> stack = new Stack<>();
-        for (int i=0;i<length;i++) {
+        for (int i = 0; i < length; i++) {
             char c = s.charAt(i);
             if (c == '(' || c == '[' || c == '{') {
                 stack.push(c);
@@ -521,13 +541,13 @@ public class DataStruct {
                 if (stack.isEmpty()) {
                     return false;
                 }
-                if (c==')' && stack.pop()!='(') {
+                if (c == ')' && stack.pop() != '(') {
                     return false;
                 }
-                if (c==']' && stack.pop()!='[') {
+                if (c == ']' && stack.pop() != '[') {
                     return false;
                 }
-                if (c=='}' && stack.pop()!='{') {
+                if (c == '}' && stack.pop() != '{') {
                     return false;
                 }
             }
@@ -536,6 +556,97 @@ public class DataStruct {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @param root
+     * @return
+     */
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        preOrder(root, ans);
+        return ans;
+    }
+
+    private void preOrder(TreeNode root, List<Integer> ans) {
+        if (root != null) {
+            ans.add(root.val);
+            preOrder(root.left, ans);
+            preOrder(root.right, ans);
+        }
+    }
+
+    /**
+     * 利用栈先进后出的思想：遍历节点、入栈、遍历左节点、入栈、叶子结点、出战、右节点、入栈
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> preorderTraversal2(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        if (root == null) {
+            return ans;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = root;
+        while (!stack.isEmpty() || node != null) {
+            while (node != null) {
+                ans.add(node.val);
+                stack.add(node);
+                node = node.left;
+            }
+            node = stack.pop();
+            node = node.right;
+        }
+        return ans;
+    }
+
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        inOrder(root, ans);
+        return ans;
+    }
+
+    private void inOrder(TreeNode root, List<Integer> ans) {
+        if (root != null) {
+            inOrder(root.left, ans);
+            ans.add(root.val);
+            inOrder(root.right, ans);
+        }
+    }
+
+    public List<Integer> inorderTraversal2(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        while (root != null && !stack.isEmpty()) {
+            while (root != null) {
+                stack.add(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            ans.add(root.val);
+            root = root.right;
+        }
+        return ans;
+    }
+
+    /**
+     * 145. 二叉树的后序遍历
+     * @param root
+     * @return
+     */
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        postOrder(root, ans);
+        return ans;
+    }
+
+    private void postOrder(TreeNode root, List<Integer> ans) {
+        if (root != null) {
+            postOrder(root.left, ans);
+            postOrder(root.right, ans);
+            ans.add(root.val);
+        }
     }
 
     public static void main(String[] args) {

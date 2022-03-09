@@ -1020,9 +1020,34 @@ public class ShuZu {
         }
     }
 
+    /**
+     * 77. 组合
+     *
+     * @param n
+     * @param k
+     * @return
+     */
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        dfsForCombine(ans, list, n, k, 1);
+        return ans;
+    }
+
+    private void dfsForCombine(List<List<Integer>> ans, List<Integer> list, int n, int k, int curr) {
+        if (list.size() == k) {
+            ans.add(new ArrayList<>(list));
+        }
+        for (int i = curr; i <= n; i++) {
+            if (!list.contains(i)) {
+                list.add(i);
+                dfsForCombine(ans, list, n, k, i + 1);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        int[][] martix = new int[1][1];
-        martix[0][0] = 1;
-        System.out.println(new ShuZu().searchMatrix(martix, 1));
+        System.out.println(new ShuZu().combine(4, 2));
     }
 }
