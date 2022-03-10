@@ -1047,7 +1047,34 @@ public class ShuZu {
         }
     }
 
+    /**
+     * 78. 子集
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        dfsForSubsets(ans, list, 0, nums);
+        return ans;
+    }
+
+    private void dfsForSubsets(List<List<Integer>> ans, List<Integer> list, int curr, int[] nums) {
+        ans.add(new ArrayList<>(list));
+        for (int i = curr; i < nums.length; i++) {
+            if (!list.contains(nums[i])) {
+                list.add(nums[i]);
+//                System.out.println(list);
+                dfsForSubsets(ans, list, i, nums);
+                list.remove(list.size()-1);
+//                System.out.println(list);
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println(new ShuZu().combine(4, 2));
+//        System.out.println(new ShuZu().combine(4, 2));
+        System.out.println(new ShuZu().subsets(new int[]{1, 2, 3}));
     }
 }

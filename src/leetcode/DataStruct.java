@@ -1,5 +1,7 @@
 package leetcode;
 
+import com.sun.source.tree.Tree;
+
 import javax.swing.*;
 import java.util.*;
 
@@ -601,6 +603,31 @@ public class DataStruct {
         return ans;
     }
 
+    public List<Integer> preorderTraversal3(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        TreeNode p1 = root, p2 = null;
+        while (p1 != null) {
+            p2 = p1.left;
+            if (p2 != null) {
+                while (p2.right != null && p2.right != p1) {
+                    p2 = p2.right;
+                }
+                if (p2.right == null) {
+                    ans.add(p1.val);
+                    p2.right = p1;
+                    p1 = p1.left;
+                    continue;
+                } else {
+                    p2.right = null;
+                }
+            } else {
+                ans.add(p1.val);
+            }
+            p1 = p1.right;
+        }
+        return ans;
+    }
+
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> ans = new ArrayList<>();
         inOrder(root, ans);
@@ -632,6 +659,7 @@ public class DataStruct {
 
     /**
      * 145. 二叉树的后序遍历
+     *
      * @param root
      * @return
      */
@@ -647,6 +675,88 @@ public class DataStruct {
             postOrder(root.right, ans);
             ans.add(root.val);
         }
+    }
+
+
+    /**
+     * 102. 二叉树的层序遍历
+     *
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder(LeetCode.TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Queue<LeetCode.TreeNode> deque = new LinkedList<>();
+        if (root == null) {
+            return ans;
+        }
+        deque.add(root);
+        while (!deque.isEmpty()) {
+            List<Integer> list = new ArrayList<>();
+            int size = deque.size();
+            for (int i = 0; i < size; i++) {
+                LeetCode.TreeNode poll = deque.poll();
+                list.add(poll.val);
+                if (poll.left != null) {
+                    deque.add(poll.left);
+                }
+                if (poll.right != null) {
+                    deque.add(poll.right);
+                }
+            }
+            ans.add(list);
+        }
+        return ans;
+    }
+
+    /**
+     * 101. 对称二叉树
+     *
+     * @param root
+     * @return
+     */
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return symmetric(root.left, root.right);
+    }
+
+    private boolean symmetric(TreeNode left, TreeNode right) {
+        if (left == null && right == null) {
+            return true;
+        } else if (left != null && right != null) {
+            return (left.val == right.val) && symmetric(left.left, right.right)
+                    && symmetric(left.right, right.left);
+        } else return false;
+    }
+
+    public boolean isSymmetric2(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        if (root == null) {
+            return true;
+        }
+        queue.add(root);
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            TreeNode left = queue.poll();
+            TreeNode right = queue.poll();
+            if (left == null && right == null) {
+                continue;
+            } else if (left != null && right != null) {
+                if (left.val != right.val) {
+                    return false;
+                } else {
+                    queue.add(left.left);
+                    queue.add(right.right);
+                    queue.add(left.right);
+                    queue.add(right.left);
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) {
