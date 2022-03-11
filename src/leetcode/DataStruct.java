@@ -759,6 +759,73 @@ public class DataStruct {
         return true;
     }
 
+    /**
+     * 226. 翻转二叉树
+     *
+     * @param root
+     * @return
+     */
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode left = invertTree(root.left);
+        TreeNode right = invertTree(root.right);
+        root.left = right;
+        root.right = left;
+        return root;
+    }
+
+    public TreeNode invertTree2(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            TreeNode left = node.left;
+            node.left = node.right;
+            node.right = left;
+            if (node.left != null) {
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+            }
+        }
+        return root;
+    }
+
+    /**
+     * 112. 路径总和
+     *
+     * @param root
+     * @param targetSum
+     * @return
+     */
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+        return dfsForHasPathSum(root, targetSum, 0);
+    }
+
+    private boolean dfsForHasPathSum(TreeNode root, int targetSum, int curr) {
+        if (root == null) {
+            return false;
+        }
+        curr += root.val;
+        if (root.left == null && root.right == null) {
+            if (curr == targetSum) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return dfsForHasPathSum(root.left, targetSum, curr) || dfsForHasPathSum(root.right, targetSum, curr);
+    }
+
     public static void main(String[] args) {
         System.out.println(new DataStruct().generate(5));
     }

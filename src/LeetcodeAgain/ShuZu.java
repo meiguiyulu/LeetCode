@@ -1067,14 +1067,79 @@ public class ShuZu {
                 list.add(nums[i]);
 //                System.out.println(list);
                 dfsForSubsets(ans, list, i, nums);
-                list.remove(list.size()-1);
+                list.remove(list.size() - 1);
 //                System.out.println(list);
             }
         }
     }
 
+    /**
+     * 79. 单词搜索
+     *
+     * @param board
+     * @param word
+     * @return
+     */
+    public boolean exist(char[][] board, String word) {
+        int rows = board.length, columns = board[0].length;
+        boolean[][] visited = new boolean[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (board[i][j] == word.charAt(0)) {
+                    if (dfsForExist(board, i, j, word, 0, visited)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean dfsForExist(char[][] board, int x, int y, String word, int index, boolean[][] visited) {
+        if (index == word.length()) {
+            return true;
+        }
+        if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) {
+            return false;
+        }
+        if (visited[x][y] && board[x][y] != word.charAt(index)) {
+            return false;
+        }
+        visited[x][y] = true;
+        boolean flag =
+                   dfsForExist(board, x + 1, y, word, index + 1, visited)
+                || dfsForExist(board, x - 1, y, word, index + 1, visited)
+                || dfsForExist(board, x, y + 1, word, index + 1, visited)
+                || dfsForExist(board, x, y - 1, word, index + 1, visited);
+        visited[x][y] = false;
+        return flag;
+    }
+
+    /**
+     * 80. 删除有序数组中的重复项 II
+     * @param nums
+     * @return
+     */
+    public int removeDuplicates2(int[] nums) {
+        int slow = 0, fast = 1;
+        int length = nums.length;
+        int count = 1;
+        for (;fast<length;fast++) {
+            if (nums[fast]==nums[fast-1]){
+                count++;
+            } else {
+                count=1;
+            }
+            if (count <=2){
+                nums[++slow] = nums[fast];
+            }
+        }
+        return slow;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(new ShuZu().combine(4, 2));
-        System.out.println(new ShuZu().subsets(new int[]{1, 2, 3}));
+//        System.out.println(new ShuZu().subsets(new int[]{1, 2, 3}));
+        System.out.println(new ShuZu().removeDuplicates2(new int[]{1,1,1,2,2,3}));
     }
 }
