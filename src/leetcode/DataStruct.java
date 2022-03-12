@@ -826,6 +826,73 @@ public class DataStruct {
         return dfsForHasPathSum(root.left, targetSum, curr) || dfsForHasPathSum(root.right, targetSum, curr);
     }
 
+    /**
+     * 700. 二叉搜索树中的搜索
+     *
+     * @param root
+     * @param val
+     * @return
+     */
+    public TreeNode searchBST(TreeNode root, int val) {
+        if (root == null) {
+            return null;
+        } else {
+            if (root.val == val) {
+                return root;
+            } else if (root.val < val) {
+                return searchBST(root.right, val);
+            } else {
+                return searchBST(root.left, val);
+            }
+        }
+    }
+
+    /**
+     * 701. 二叉搜索树中的插入操作
+     *
+     * @param root
+     * @param val
+     * @return
+     */
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if (root == null) {
+            return new TreeNode(val);
+        }
+        insertTree(root, val);
+        return root;
+    }
+
+    private void insertTree(TreeNode root, int val) {
+        if (root.left == null && root.right == null) {
+            TreeNode node = new TreeNode(val);
+            if (val > root.val) {
+                root.right = node;
+            }
+            if (val < root.val) {
+                root.left = node;
+            }
+        } else if (root.right == null) {
+            if (val > root.val) {
+                root.right = new TreeNode(val);
+            } else {
+                insertTree(root.left, val);
+            }
+        } else if (root.left == null) {
+            if (val < root.val) {
+                root.left = new TreeNode(val);
+            } else {
+                insertTree(root.right, val);
+            }
+        } else {
+            if (val > root.val) {
+                insertTree(root.right, val);
+            }
+            if (val < root.val) {
+                insertTree(root.left, val);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println(new DataStruct().generate(5));
     }

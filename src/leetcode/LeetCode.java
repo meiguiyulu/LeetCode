@@ -2893,6 +2893,27 @@ public class LeetCode {
         return builder.toString();
     }
 
+    /**
+     * 590. N 叉树的后序遍历
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> postorder(Node root) {
+        List<Integer> ans = new ArrayList<>();
+        postOrderxxxx(ans, root);
+        return ans;
+    }
+
+    private void postOrderxxxx(List<Integer> ans, Node root) {
+        if (root != null) {
+            for (Node child : root.children) {
+                postOrderxxxx(ans, child);
+            }
+            ans.add(root.val);
+        }
+    }
+
     public static void main(String[] args) {
 /*        System.out.println(getHint("1122", "1222"));
         System.out.println(integerReplacement(1));
