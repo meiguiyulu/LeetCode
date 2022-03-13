@@ -1,8 +1,5 @@
 package leetcode;
 
-import com.sun.source.tree.Tree;
-
-import javax.swing.*;
 import java.util.*;
 
 class ListNode {
@@ -891,6 +888,70 @@ public class DataStruct {
                 insertTree(root.left, val);
             }
         }
+    }
+
+    /**
+     * 98. 验证二叉搜索树
+     *
+     * @param root
+     * @return
+     */
+    public boolean isValidBST(TreeNode root) {
+        return reverseValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    private boolean reverseValidBST(TreeNode root, long minValue, long maxValue) {
+        if (root == null) {
+            return true;
+        }
+        if (root.val <= minValue || root.val >= maxValue) {
+            return false;
+        }
+        return reverseValidBST(root.left, minValue, root.val) && reverseValidBST(root.right, root.val, maxValue);
+    }
+
+    public boolean isValidBST2(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        Stack<TreeNode> queue = new Stack<>();
+        long lastNumber = Long.MIN_VALUE;
+        while (!queue.isEmpty() || root!=null) {
+            while (root!=null) {
+                queue.add(root);
+                root = root.left;
+            }
+            root = queue.pop();
+            if (root.val <= lastNumber) {
+                return false;
+            }
+            lastNumber = root.val;
+            root = root.right;
+        }
+        return true;
+    }
+
+    /**
+     * 653. 两数之和 IV - 输入 BST
+     * @param root
+     * @param k
+     * @return
+     */
+    public boolean findTarget(TreeNode root, int k) {
+        List<Integer> list = new ArrayList<>();
+        inOrder(root, list);
+        int left = 0, right = list.size() - 1;
+        while (left < right) {
+            int curr = list.get(left) + list.get(right);
+            if (curr == k) {
+                return true;
+            } else if (curr > k){
+                --right;
+            } else {
+                ++left;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {

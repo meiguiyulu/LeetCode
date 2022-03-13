@@ -2914,6 +2914,21 @@ public class LeetCode {
         }
     }
 
+    /**
+     * 235. 二叉搜索树的最近公共祖先
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public leetcode.TreeNode lowestCommonAncestor(leetcode.TreeNode root, leetcode.TreeNode p, leetcode.TreeNode q) {
+        if (root.val < p.val && root.val < q.val)
+            return lowestCommonAncestor(root.right, p, q);
+        if (root.val > p.val && root.val > q.val)
+            return lowestCommonAncestor(root.left, p, q);
+        return root;
+    }
+
     public static void main(String[] args) {
 /*        System.out.println(getHint("1122", "1222"));
         System.out.println(integerReplacement(1));
