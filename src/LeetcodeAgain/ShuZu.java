@@ -1107,16 +1107,17 @@ public class ShuZu {
         }
         visited[x][y] = true;
         boolean flag =
-                   dfsForExist(board, x + 1, y, word, index + 1, visited)
-                || dfsForExist(board, x - 1, y, word, index + 1, visited)
-                || dfsForExist(board, x, y + 1, word, index + 1, visited)
-                || dfsForExist(board, x, y - 1, word, index + 1, visited);
+                dfsForExist(board, x + 1, y, word, index + 1, visited)
+                        || dfsForExist(board, x - 1, y, word, index + 1, visited)
+                        || dfsForExist(board, x, y + 1, word, index + 1, visited)
+                        || dfsForExist(board, x, y - 1, word, index + 1, visited);
         visited[x][y] = false;
         return flag;
     }
 
     /**
      * 80. 删除有序数组中的重复项 II
+     *
      * @param nums
      * @return
      */
@@ -1124,22 +1125,90 @@ public class ShuZu {
         int slow = 0, fast = 1;
         int length = nums.length;
         int count = 1;
-        for (;fast<length;fast++) {
-            if (nums[fast]==nums[fast-1]){
+        for (; fast < length; fast++) {
+            if (nums[fast] == nums[fast - 1]) {
                 count++;
             } else {
-                count=1;
+                count = 1;
             }
-            if (count <=2){
+            if (count <= 2) {
                 nums[++slow] = nums[fast];
             }
         }
         return slow;
     }
 
+    /**
+     * 81. 搜索旋转排序数组 II
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public boolean searchII(int[] nums, int target) {
+        int length = nums.length;
+        int left = 0, right = length - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] == target) {
+                return true;
+            } else {
+                if (nums[mid] == nums[left] && nums[mid] == nums[right]) {
+                    ++left;
+                    --right;
+                } else if (nums[left] <= nums[mid]) {
+                    if (nums[left] <= target && target < nums[mid]) {
+                        right = mid - 1;
+                    } else {
+                        left = mid + 1;
+                    }
+                } else {
+                    if (nums[mid] < target && target <= nums[right]) {
+                        left = mid + 1;
+                    } else {
+                        right = mid - 1;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * 90. 子集 II
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        boolean[] visited = new boolean[nums.length];
+        dfsForSubsetsWithDup(ans, list, nums, visited, 0);
+        return ans;
+    }
+
+    private void dfsForSubsetsWithDup(List<List<Integer>> ans, List<Integer> list, int[] nums, boolean[] visited, int curr) {
+        if (curr >= nums.length) {
+            return;
+        }
+        if (!ans.contains(list)) {
+            ans.add(new ArrayList<>(list));
+        }
+        for (int i = curr; i < nums.length; i++) {
+            if (!visited[i]) {
+                visited[i] = true;
+                list.add(nums[i]);
+                dfsForSubsetsWithDup(ans, list, nums, visited, i);
+                list.remove(list.size() - 1);
+                visited[i] = false;
+            }
+        }
+    }
+
     public static void main(String[] args) {
-//        System.out.println(new ShuZu().combine(4, 2));
-//        System.out.println(new ShuZu().subsets(new int[]{1, 2, 3}));
-        System.out.println(new ShuZu().removeDuplicates2(new int[]{1,1,1,2,2,3}));
+        System.out.println(new ShuZu().subsetsWithDup(new int[]{1, 2, 2}));
     }
 }

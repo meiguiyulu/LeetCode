@@ -1,7 +1,5 @@
 package leetcode;
 
-import com.sun.source.tree.Tree;
-
 import java.util.*;
 
 /**
@@ -2916,6 +2914,7 @@ public class LeetCode {
 
     /**
      * 235. 二叉搜索树的最近公共祖先
+     *
      * @param root
      * @param p
      * @param q
@@ -2927,6 +2926,63 @@ public class LeetCode {
         if (root.val > p.val && root.val > q.val)
             return lowestCommonAncestor(root.left, p, q);
         return root;
+    }
+
+
+    /**
+     * 599. 两个列表的最小索引总和
+     *
+     * @param list1
+     * @param list2
+     * @return
+     */
+    public String[] findRestaurant(String[] list1, String[] list2) {
+        Map<Integer, List<String>> map = new HashMap<>();
+        int minIndexSum = Integer.MAX_VALUE;
+        int length1 = list1.length;
+        int length2 = list2.length;
+        for (int i = 0; i < length1; i++) {
+            String s = list1[i];
+            for (int j = 0; j < length2; j++) {
+                if (s.equals(list2[j])) {
+                    int currIndexSum = i + j;
+                    List<String> list = map.getOrDefault(currIndexSum, new ArrayList<String>());
+                    list.add(s);
+                    map.put(currIndexSum, list);
+                    minIndexSum = Math.min(minIndexSum, currIndexSum);
+                }
+            }
+        }
+        if (map.containsKey(minIndexSum)) {
+            List<String> strings = map.get(minIndexSum);
+            return strings.toArray(new String[]{});
+        } else {
+            return new String[]{};
+        }
+    }
+
+    public String[] findRestaurant2(String[] list1, String[] list2) {
+        Map<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < list1.length; i++) {
+            map.put(list1[i], i);
+        }
+
+        List<String> ans = new ArrayList<>();
+        int minIndexSum = Integer.MAX_VALUE;
+        for (int i = 0; i < list2.length; i++) {
+            if (map.containsKey(list2[i])) {
+                Integer integer = map.get(list2[i]);
+                int curr = integer + i;
+                if (curr < minIndexSum) {
+                    ans.clear();
+                    ans.add(list2[i]);
+                    minIndexSum = curr;
+                } else if (curr == minIndexSum) {
+                    ans.add(list2[i]);
+                }
+            }
+        }
+        return ans.toArray(new String[ans.size()]);
     }
 
     public static void main(String[] args) {
