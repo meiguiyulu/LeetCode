@@ -1,5 +1,7 @@
 package leetcode;
 
+import LeetcodeAgain.ShuZu;
+
 import java.util.*;
 
 /**
@@ -2985,15 +2987,67 @@ public class LeetCode {
         return ans.toArray(new String[ans.size()]);
     }
 
+    /**
+     * 720. 词典中最长的单词
+     *
+     * @param words
+     * @return
+     */
+    public String longestWord(String[] words) {
+        Arrays.sort(words, (a, b) -> {
+            if (a.length() != b.length()) {
+                return a.length() - b.length();
+            } else {
+                return b.compareTo(a);
+            }
+        });
+        StringBuilder builder = new StringBuilder("");
+        Set<String> set = new HashSet<>();
+        set.add("");
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+            if (set.contains(word.substring(0, word.length() - 1))) {
+                set.add(word);
+                builder.delete(0, builder.length());
+                builder.append(word);
+            }
+        }
+        return builder.toString();
+    }
+
+    /**
+     * 105. 从前序与中序遍历序列构造二叉树
+     *
+     * @param preorder
+     * @param inorder
+     * @return
+     */
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return buildTreeReverse(preorder, 0, preorder.length, inorder, 0, inorder.length);
+    }
+
+    private TreeNode buildTreeReverse(int[] preorder, int preStart, int preEnd,
+                                      int[] inorder, int inStart, int inEnd) {
+        if (preStart == preEnd) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[preStart]);
+        int index = 0;
+        for (int i = inStart; i < inEnd; i++) {
+            if (inorder[i] == preorder[preStart]) {
+                index = i;
+                break;
+            }
+        }
+        int leftNum = index - inStart;
+        root.left = buildTreeReverse(preorder, preStart + 1, preStart + leftNum + 1, inorder, inStart, index);
+        root.right = buildTreeReverse(preorder, preStart + leftNum + 1, preEnd, inorder, index + 1, inEnd);
+        return root;
+    }
+
     public static void main(String[] args) {
-/*        System.out.println(getHint("1122", "1222"));
-        System.out.println(integerReplacement(1));
-        System.out.println(findLHS(new int[]{-3, -1, -1, -1, -3, -2}));
-        System.out.println(buddyStrings("ab", "ba"));
-        System.out.println(minimumDifference(new int[]{9, 4, 1, 7}, 2));
-        System.out.println(maxNumberOfBalloons("nlaebolko"));
-        System.out.println(new LeetCode().reverseOnlyLetters("a-bC-dEf-ghIj"));*/
-        System.out.println(new LeetCode().complexNumberMultiply("1+1i", "1+1i"));
+//        System.out.println(new LeetCode().longestWord(new String[]{"w", "wo", "wor", "worl", "world"}));
+        System.out.println(2);
     }
 }
 
