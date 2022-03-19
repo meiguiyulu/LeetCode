@@ -3045,6 +3045,103 @@ public class LeetCode {
         return root;
     }
 
+    /**
+     * 106. 从中序与后序遍历序列构造二叉树
+     *
+     * @param inorder
+     * @param postorder
+     * @return
+     */
+    public TreeNode buildTree2(int[] inorder, int[] postorder) {
+        return buildTreeInAndPost(inorder, 0, inorder.length - 1,
+                postorder, 0, postorder.length - 1);
+    }
+
+    private TreeNode buildTreeInAndPost(int[] inorder, int inStart, int inEnd,
+                                        int[] postorder, int postStart, int postEnd) {
+        if (inStart > inEnd || postStart > postEnd) {
+            return null;
+        }
+        TreeNode root = new TreeNode(postorder[postEnd]);
+        int index = 0;
+        for (int i = 0; i <= inEnd; i++) {
+            if (inorder[i] == postorder[postEnd]) {
+                index = i;
+                break;
+            }
+        }
+        root.left = buildTreeInAndPost(inorder, 0, index - 1, postorder, postStart, postStart + index - inStart - 1);
+        root.right = buildTreeInAndPost(inorder, index + 1, inEnd, postorder, postStart + index - inStart, postEnd);
+        return root;
+    }
+
+    /**
+     * 606. 根据二叉树创建字符串
+     *
+     * @param root
+     * @return
+     */
+    public String tree2str(TreeNode root) {
+        StringBuilder builder = new StringBuilder();
+        preOrderTree2Str(root, builder);
+        return builder.toString().substring(1, builder.length() - 1);
+    }
+
+    private void preOrderTree2Str(TreeNode root, StringBuilder builder) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right != null) {
+            builder.append("(");
+            builder.append(root.val);
+            builder.append("()");
+            preOrderTree2Str(root.right, builder);
+            builder.append(")");
+        } else {
+            builder.append("(");
+            builder.append(root.val);
+            preOrderTree2Str(root.left, builder);
+            preOrderTree2Str(root.right, builder);
+            builder.append(")");
+        }
+    }
+
+    public String tree2str2(TreeNode root) {
+        /*遍历*/
+        StringBuilder builder = new StringBuilder();
+        Stack<TreeNode> stack = new Stack<>();
+        stack.add(root);
+        Set<TreeNode> set = new HashSet<>();
+        while (!stack.isEmpty()) {
+            TreeNode peek = stack.peek();
+            if (set.contains(peek)) {
+                // 已经被遍历过
+                if (peek != root) {
+                    builder.append(")");
+                }
+                stack.pop();
+            } else {
+                set.add(peek);
+                if (peek != root) {
+                    builder.append("(");
+                }
+                builder.append(peek.val);
+                if (peek.left == null && peek.right != null) {
+                    builder.append("()");
+                }
+                // 先进右孩子 是因为需要根据堆先进后出的性质保证先序遍历
+                if (peek.right != null) {
+                    stack.add(peek.right);
+                }
+                if (peek.left != null) {
+                    stack.add(peek.left);
+                }
+            }
+        }
+        return builder.toString();
+    }
+
+
     public static void main(String[] args) {
 //        System.out.println(new LeetCode().longestWord(new String[]{"w", "wo", "wor", "worl", "world"}));
         System.out.println(2);
