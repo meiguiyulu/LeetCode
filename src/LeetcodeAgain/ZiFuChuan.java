@@ -1,6 +1,7 @@
 package LeetcodeAgain;
 
 import java.util.*;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class ZiFuChuan {
 
@@ -69,9 +70,62 @@ public class ZiFuChuan {
         return ans.toString();
     }
 
+    /**
+     * 12. 整数转罗马数字
+     *
+     * @param num
+     * @return
+     */
+    public String intToRoman(int num) {
+        int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] symbols = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        StringBuilder builder = new StringBuilder();
+        while (num > 0) {
+            int index = 0;
+            while (index < values.length && values[index] > num) {
+                ++index;
+            }
+            num -= values[index];
+            builder.append(symbols[index]);
+        }
+        return builder.toString();
+    }
+
+    /**
+     * 13. 罗马数字转整数
+     *
+     * @param s
+     * @return
+     */
+    public int romanToInt(String s) {
+        int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] symbols = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        Map<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < values.length; i++) {
+            map.put(symbols[i], values[i]);
+        }
+        int ans = 0;
+        int length = s.length();
+        for (int i = 0; i < length; i++) {
+            if (i + 1 < length) {
+                StringBuilder builder = new StringBuilder();
+                builder.append(s.charAt(i));
+                builder.append(s.charAt(i + 1));
+                if (map.containsKey(builder.toString())) {
+                    ans += map.get(builder.toString());
+                    i++;
+                } else {
+                    ans += map.get(String.valueOf(s.charAt(i)));
+                }
+            } else {
+                ans += map.get(String.valueOf(s.charAt(i)));
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
-//        new ZiFuChuan().lengthOfLongestSubstring("abba");
-        new ZiFuChuan().convert("ABCD", 2);
+        System.out.println(new ZiFuChuan().romanToInt("MCMXCIV"));
     }
 
 }
