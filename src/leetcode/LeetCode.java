@@ -3141,10 +3141,36 @@ public class LeetCode {
         return builder.toString();
     }
 
+    /**
+     * 2038. 如果相邻两个颜色均相同则删除当前颜色
+     *
+     * @param colors
+     * @return
+     */
+    public boolean winnerOfGame(String colors) {
+        int[] ans = new int[]{0, 0};
+        char curr = 'c';
+        int num = 0;
+        for (int i = 0; i < colors.length(); i++) {
+            char c = colors.charAt(i);
+            if (c != curr) {
+                curr = c;
+                num = 1;
+            } else {
+                ++num;
+                if (num >= 3) {
+                    ans[c - 'A']++;
+                }
+            }
+        }
+        return ans[0] > ans[1];
+    }
+
 
     public static void main(String[] args) {
 //        System.out.println(new LeetCode().longestWord(new String[]{"w", "wo", "wor", "worl", "world"}));
-        System.out.println(2);
+//        System.out.println(2);
+        System.out.println(new LeetCode().winnerOfGame("AAAABBBB"));
     }
 }
 
