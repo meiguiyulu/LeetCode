@@ -155,15 +155,75 @@ public class ZiFuChuan {
             return;
         }
         String s1 = map.get(digits.charAt(index));
-        for (int i=0;i<s1.length();i++){
+        for (int i = 0; i < s1.length(); i++) {
             builder.append(s1.charAt(i));
-            dfsForLetter(digits, map, ans, builder, index+1);
-            builder.deleteCharAt(builder.length()-1);
+            dfsForLetter(digits, map, ans, builder, index + 1);
+            builder.deleteCharAt(builder.length() - 1);
         }
     }
 
+    /**
+     * 22. 括号生成
+     *
+     * @param n
+     * @return
+     */
+    public List<String> generateParenthesis2(int n) {
+        List<String> ans = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
+        dfsForGenerateParenthesis(ans, builder, 0, 0, n);
+        return ans;
+    }
+
+    private void dfsForGenerateParenthesis(List<String> ans, StringBuilder builder, int left, int right, int n) {
+        if (left == n && right == n) {
+            ans.add(builder.toString());
+            return;
+        }
+        if (left < n) {
+            builder.append("(");
+            ++left;
+            dfsForGenerateParenthesis(ans, builder, left, right, n);
+            --left;
+            builder.deleteCharAt(builder.length() - 1);
+        }
+        if (right < left) {
+            builder.append(")");
+            ++right;
+            dfsForGenerateParenthesis(ans, builder, left, right, n);
+            --right;
+            builder.deleteCharAt(builder.length() - 1);
+        }
+    }
+
+    /**
+     * 28. 实现 strStr()
+     *
+     * @param haystack
+     * @param needle
+     * @return
+     */
+    public int strStr(String haystack, String needle) {
+        int length = needle.length();
+        if (length == 0) {
+            return 0;
+        }
+        int ans = -1;
+        for (int i = 0; i < haystack.length(); i++) {
+            if (haystack.charAt(i) == needle.charAt(0)) {
+                if (i + length - 1 < haystack.length()
+                        && haystack.substring(i, i + length).equals(needle)) {
+                    ans = i;
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
-        System.out.println(new ZiFuChuan().letterCombinations("23"));
+//        System.out.println(new ZiFuChuan().letterCombinations("23"));
+        System.out.println(new ZiFuChuan().generateParenthesis2(3));
     }
 
 }

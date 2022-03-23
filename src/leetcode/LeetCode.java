@@ -1,6 +1,7 @@
 package leetcode;
 
 import LeetcodeAgain.ShuZu;
+import LeetcodeAgain.ZiFuChuan;
 
 import java.util.*;
 
@@ -3166,11 +3167,8 @@ public class LeetCode {
         return ans[0] > ans[1];
     }
 
-
     public static void main(String[] args) {
-//        System.out.println(new LeetCode().longestWord(new String[]{"w", "wo", "wor", "worl", "world"}));
-//        System.out.println(2);
-        System.out.println(new LeetCode().winnerOfGame("AAAABBBB"));
+//        new ZiFuChuan().
     }
 }
 
