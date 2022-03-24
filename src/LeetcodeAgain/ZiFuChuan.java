@@ -221,9 +221,41 @@ public class ZiFuChuan {
         return ans;
     }
 
+    /**
+     * 38. 外观数列
+     * @param n
+     * @return
+     */
+    public String countAndSay(int n) {
+        if (n == 1) {
+            return "1";
+        }
+        String str = countAndSay(n - 1);
+        char curr = 'c';
+        int num = 0;
+        StringBuilder builder = new StringBuilder();
+        for (int i=0;i<str.length();i++){
+            if (str.charAt(i) != curr) {
+                if (num != 0) {
+                    builder.append(num);
+                    builder.append(curr);
+                }
+                curr = str.charAt(i);
+                num = 1;
+            } else {
+                num++;
+            }
+        }
+        builder.append(num);
+        builder.append(curr);
+        return builder.toString();
+    }
+
     public static void main(String[] args) {
-//        System.out.println(new ZiFuChuan().letterCombinations("23"));
-        System.out.println(new ZiFuChuan().generateParenthesis2(3));
+        ZiFuChuan chuan = new ZiFuChuan();
+        for (int i=1;i<=5;i++){
+            System.out.println(chuan.countAndSay(i));
+        }
     }
 
 }

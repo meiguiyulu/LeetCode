@@ -3167,6 +3167,31 @@ public class LeetCode {
         return ans[0] > ans[1];
     }
 
+    /**
+     * 661. 图片平滑器
+     *
+     * @param img
+     * @return
+     */
+    public int[][] imageSmoother(int[][] img) {
+        int m = img.length, n = img[0].length;
+        int[][] ans = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int num = 0;
+                int plus = 0;
+                for (int row = Math.max(0, i - 1); row <= Math.min(i + 1, m - 1); row++) {
+                    for (int col = Math.max(0, j - 1); col <= Math.min(n - 1, j + 1); col++) {
+                        plus += img[row][col];
+                        num++;
+                    }
+                }
+                ans[i][j] = plus / num;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
 //        new ZiFuChuan().
     }
