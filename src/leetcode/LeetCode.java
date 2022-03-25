@@ -3192,8 +3192,40 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 172. 阶乘后的零
+     *
+     * @param n
+     * @return
+     */
+    public int trailingZeroes(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        int mul = multiply(n);
+        int ans = 0;
+        while (mul > 0) {
+            if (mul % 10 != 0){
+                break;
+            } else {
+                ans++;
+            }
+            mul /= 10;
+        }
+        return ans;
+    }
+
+    private int multiply(int n) {
+        if (n == 1) {
+            return 1;
+        } else {
+            return n * multiply(n - 1);
+        }
+    }
+
     public static void main(String[] args) {
-//        new ZiFuChuan().
+        System.out.println(new LeetCode().trailingZeroes(7));
+        System.out.println(new LeetCode().multiply(13));
     }
 }
 

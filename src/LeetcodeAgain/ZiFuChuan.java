@@ -223,6 +223,7 @@ public class ZiFuChuan {
 
     /**
      * 38. 外观数列
+     *
      * @param n
      * @return
      */
@@ -234,7 +235,7 @@ public class ZiFuChuan {
         char curr = 'c';
         int num = 0;
         StringBuilder builder = new StringBuilder();
-        for (int i=0;i<str.length();i++){
+        for (int i = 0; i < str.length(); i++) {
             if (str.charAt(i) != curr) {
                 if (num != 0) {
                     builder.append(num);
@@ -251,9 +252,42 @@ public class ZiFuChuan {
         return builder.toString();
     }
 
+    /**
+     * 43. 字符串相乘
+     *
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public String multiply(String num1, String num2) {
+        if ("0".equals(num1) || "0".equals(num2)) {
+            return "0";
+        }
+        int length1 = num1.length(), length2 = num2.length();
+        int[] arr = new int[length1 + length2];
+        for (int i = length1 - 1; i >= 0; i--) {
+            int i1 = num1.charAt(i) - '0';
+            for (int j = length2 - 1; j >= 0; j--) {
+                int i2 = num2.charAt(j) - '0';
+                arr[i + j + 1] += i1 * i2;
+            }
+        }
+        for (int i = arr.length - 1; i >= 1; i--) {
+            arr[i - 1] += arr[i] / 10;
+            arr[i] = arr[i] % 10;
+        }
+        int index = arr[0] == 0 ? 1 : 0;
+        StringBuilder builder = new StringBuilder();
+        while (index < length1 + length2) {
+            builder.append(arr[index]);
+            ++index;
+        }
+        return builder.toString();
+    }
+
     public static void main(String[] args) {
         ZiFuChuan chuan = new ZiFuChuan();
-        for (int i=1;i<=5;i++){
+        for (int i = 1; i <= 5; i++) {
             System.out.println(chuan.countAndSay(i));
         }
     }
