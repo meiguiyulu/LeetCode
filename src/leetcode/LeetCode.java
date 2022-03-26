@@ -3205,7 +3205,7 @@ public class LeetCode {
         int mul = multiply(n);
         int ans = 0;
         while (mul > 0) {
-            if (mul % 10 != 0){
+            if (mul % 10 != 0) {
                 break;
             } else {
                 ans++;
@@ -3223,9 +3223,40 @@ public class LeetCode {
         }
     }
 
+    /**
+     * 682. 棒球比赛
+     *
+     * @param ops
+     * @return
+     */
+    public int calPoints(String[] ops) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < ops.length; i++) {
+            String op = ops[i];
+            if ("C".equals(op)) {
+                list.remove(list.size() - 1);
+            } else if ("D".equals(op)) {
+                list.add(2 * list.get(list.size() - 1));
+            } else if ("+".equals(op)) {
+                Integer integer1 = list.get(list.size() - 1);
+                Integer integer2 = list.get(list.size() - 2);
+                list.add(integer1 + integer2);
+            } else {
+                list.add(Integer.valueOf(op));
+            }
+        }
+
+        int ans = 0;
+        for (Integer integer : list) {
+            ans += integer;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         System.out.println(new LeetCode().trailingZeroes(7));
         System.out.println(new LeetCode().multiply(13));
+        System.out.println(new LeetCode().calPoints(new String[]{"5","-2","4","C","D","9","+","+"}));
     }
 }
 
