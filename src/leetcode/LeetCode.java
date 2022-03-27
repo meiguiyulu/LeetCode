@@ -3253,10 +3253,36 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 2028. 找出缺失的观测数据
+     *
+     * @param rolls
+     * @param mean
+     * @param n
+     * @return
+     */
+    public int[] missingRolls(int[] rolls, int mean, int n) {
+        int m = rolls.length;
+        int sum = mean * (n + m);
+        for (int roll : rolls) {
+            sum -= roll;
+        }
+
+        if (sum < n || sum > 6 * n) {
+            return new int[0];
+        }
+        int[] ans = new int[n];
+        int chu = sum / n, yu = sum % n;
+        for (int i = 0; i < n; i++) {
+            ans[i] = chu + (i < yu ? 1 : 0);
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         System.out.println(new LeetCode().trailingZeroes(7));
         System.out.println(new LeetCode().multiply(13));
-        System.out.println(new LeetCode().calPoints(new String[]{"5","-2","4","C","D","9","+","+"}));
+        System.out.println(new LeetCode().calPoints(new String[]{"5", "-2", "4", "C", "D", "9", "+", "+"}));
     }
 }
 

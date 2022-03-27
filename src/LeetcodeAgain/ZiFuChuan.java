@@ -285,6 +285,42 @@ public class ZiFuChuan {
         return builder.toString();
     }
 
+    /**
+     * 49. 字母异位词分组
+     *
+     * @param strs
+     * @return
+     */
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        for (int i = 0; i < strs.length; i++) {
+            char[] chars = strs[i].toCharArray();
+            Arrays.sort(chars);
+            String string = new String(chars);
+            List<String> list = map.getOrDefault(string, new ArrayList<String>());
+            list.add(strs[i]);
+            map.put(string, list);
+        }
+        return new ArrayList<>(map.values());
+    }
+
+    /**
+     * 58. 最后一个单词的长度
+     *
+     * @param s
+     * @return
+     */
+    public int lengthOfLastWord(String s) {
+        String trim = s.trim();
+        int ans = 0;
+        int index = trim.length() - 1;
+        while (index >= 0 && trim.charAt(index) != ' ') {
+            ++ans;
+            --index;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         ZiFuChuan chuan = new ZiFuChuan();
         for (int i = 1; i <= 5; i++) {
