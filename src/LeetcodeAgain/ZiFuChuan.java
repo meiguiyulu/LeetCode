@@ -321,11 +321,48 @@ public class ZiFuChuan {
         return ans;
     }
 
+    /**
+     * 67. 二进制求和
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    public String addBinary(String a, String b) {
+        int lengthA = a.length() - 1, lengthB = b.length() - 1;
+        StringBuilder builder = new StringBuilder();
+        int yu = 0;
+        while (lengthA >= 0 || lengthB >= 0) {
+            if (lengthA >= 0 && lengthB >= 0) {
+                int curr = (a.charAt(lengthA) - '0') + (b.charAt(lengthB) - '0') + yu;
+                yu = curr / 2;
+                curr %= 2;
+                builder.append(curr);
+                lengthA--;
+                lengthB--;
+            } else if (lengthA >= 0) {
+                int curr = (a.charAt(lengthA) - '0') + yu;
+                yu = curr / 2;
+                curr %= 2;
+                builder.append(curr);
+                lengthA--;
+            } else if (lengthB >= 0) {
+                int curr = (b.charAt(lengthB) - '0') + yu;
+                yu = curr / 2;
+                curr %= 2;
+                builder.append(curr);
+                lengthB--;
+            }
+        }
+        if (yu == 1) {
+            builder.append(yu);
+        }
+        return builder.reverse().toString();
+    }
+
     public static void main(String[] args) {
         ZiFuChuan chuan = new ZiFuChuan();
-        for (int i = 1; i <= 5; i++) {
-            System.out.println(chuan.countAndSay(i));
-        }
+        System.out.println(chuan.addBinary("1010", "1011"));
     }
 
 }

@@ -3279,6 +3279,26 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 693. 交替位二进制数
+     *
+     * @param n
+     * @return
+     */
+    public boolean hasAlternatingBits(int n) {
+        String s = Integer.toBinaryString(n);
+        char c = s.charAt(0);
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == c) {
+                return false;
+            } else {
+                c = s.charAt(i);
+            }
+        }
+        return true;
+    }
+
+
     public static void main(String[] args) {
         System.out.println(new LeetCode().trailingZeroes(7));
         System.out.println(new LeetCode().multiply(13));
