@@ -360,9 +360,41 @@ public class ZiFuChuan {
         return builder.reverse().toString();
     }
 
+    /**
+     * 71. 简化路径
+     *
+     * @param path
+     * @return
+     */
+    public String simplifyPath(String path) {
+        String[] split = path.split("/");
+        Deque<String> stack = new LinkedList<>();
+        for (int i = 0; i < split.length; i++) {
+            String s = split[i];
+            if (s.equals("..")) {
+                if (!stack.isEmpty()) {
+                    stack.pollLast();
+                }
+            } else if (s.length() > 0 && !".".equals(s)) {
+                stack.offerLast(s);
+            }
+        }
+        StringBuilder builder = new StringBuilder();
+        if (stack.isEmpty()) {
+            builder.append("/");
+        } else {
+            while (!stack.isEmpty()) {
+                builder.append("/");
+                builder.append(stack.pollFirst());
+            }
+        }
+        return builder.toString();
+    }
+
     public static void main(String[] args) {
         ZiFuChuan chuan = new ZiFuChuan();
-        System.out.println(chuan.addBinary("1010", "1011"));
+//        System.out.println(chuan.addBinary("1010", "1011"));
+        System.out.println(chuan.simplifyPath("/../"));
     }
 
 }

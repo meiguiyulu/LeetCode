@@ -3299,6 +3299,32 @@ public class LeetCode {
     }
 
 
+    /**
+     * 2024. 考试的最大困扰度
+     *
+     * @param answerKey
+     * @param k
+     * @return
+     */
+    public int maxConsecutiveAnswers(String answerKey, int k) {
+        return Math.max(LongestAnswer(answerKey, k, 'T'), LongestAnswer(answerKey, k, 'F'));
+    }
+
+    private int LongestAnswer(String answerKey, int k, char c) {
+        int num = 0;
+        int ans = 0;
+        for (int left = 0, right = 0; right < answerKey.length(); right++) {
+            num += answerKey.charAt(right) != c ? 1 : 0;
+            while (num > k) {
+                num -= answerKey.charAt(left) != c ? 1 : 0;
+                left++;
+            }
+            ans = Math.max(ans, right - left + 1);
+        }
+        return ans;
+    }
+
+
     public static void main(String[] args) {
         System.out.println(new LeetCode().trailingZeroes(7));
         System.out.println(new LeetCode().multiply(13));
