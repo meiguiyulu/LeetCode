@@ -391,10 +391,85 @@ public class ZiFuChuan {
         return builder.toString();
     }
 
+    /**
+     * 91. 解码方法
+     *
+     * @param s
+     * @return
+     */
+    public int numDecodings(String s) {
+        int length = s.length();
+        int[] dp = new int[length + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= length; i++) {
+            if (s.charAt(i - 1) != '0') {
+                dp[i] += dp[i - 1];
+            }
+            if (i > 1 && s.charAt(i - 2) != '0' && (s.charAt(i - 2) - '0') * 10 + (s.charAt(i - 1) - '0') <= 26) {
+                dp[i] += dp[i - 2];
+            }
+        }
+        return dp[length];
+    }
+
+    /**
+     * 93. 复原 IP 地址
+     *
+     * @param s
+     * @return
+     */
+    public List<String> restoreIpAddresses(String s) {
+        List<String> ans = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
+        splitIpAdderess(s, 0, builder, ans, 0);
+        return ans;
+    }
+
+    private void splitIpAdderess(String s, int start, StringBuilder builder, List<String> ans, int count) {
+
+        if (s.length() - start > 3 * (4 - count)) {
+            return;
+        }
+
+        if (start == s.length()) {
+            if (count == 4) {
+                ans.add(builder.substring(0, builder.length() - 1).toString());
+            }
+            return;
+        }
+        if (count >= 4 || start > s.length()) {
+            return;
+        }
+        StringBuilder temp = new StringBuilder(builder);
+
+        builder.append(s.charAt(start) + ".");
+        splitIpAdderess(s, start + 1, builder, ans, count + 1);
+
+        if (s.charAt(start) == '0') {
+            return;
+        }
+
+        if (start + 1 < s.length()) {
+            builder = new StringBuilder(temp);
+            builder.append(s.substring(start, start + 2) + ".");
+            splitIpAdderess(s, start + 2, builder, ans, count + 1);
+        }
+        if (start + 2 < s.length()) {
+            builder = new StringBuilder(temp);
+            String substring = s.substring(start, start + 3);
+            if (Integer.valueOf(substring) <= 255 && Integer.valueOf(substring) >= 0) {
+                builder.append(substring + ".");
+                splitIpAdderess(s, start + 3, builder, ans, count + 1);
+            }
+        }
+
+    }
+
     public static void main(String[] args) {
         ZiFuChuan chuan = new ZiFuChuan();
 //        System.out.println(chuan.addBinary("1010", "1011"));
-        System.out.println(chuan.simplifyPath("/../"));
+//        System.out.println(chuan.simplifyPath("/../"));
+        System.out.println(chuan.restoreIpAddresses("25525511135"));
     }
 
 }

@@ -3324,6 +3324,38 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 728. 自除数
+     *
+     * @param left
+     * @param right
+     * @return
+     */
+    public List<Integer> selfDividingNumbers(int left, int right) {
+        List<Integer> ans = new ArrayList<>();
+        for (int i = left; i <= right; i++) {
+            if (isSelfDivide(i)) {
+                ans.add(i);
+            }
+        }
+        return ans;
+    }
+
+    private boolean isSelfDivide(int num) {
+        List<Integer> list = new ArrayList<>();
+        int temp = num;
+        while (temp > 0) {
+            list.add(temp % 10);
+            temp /= 10;
+        }
+        for (int i : list) {
+            if (i == 0 || num % i != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public static void main(String[] args) {
         System.out.println(new LeetCode().trailingZeroes(7));
