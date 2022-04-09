@@ -47,6 +47,24 @@ public class LeetCode {
         }
     }
 
+    // Definition for a Node.
+    class Node {
+        public int val;
+        public List<Node> children;
+
+        public Node() {
+        }
+
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, List<Node> _children) {
+            val = _val;
+            children = _children;
+        }
+    }
+
     /**
      * 两数之和
      * 给定一个整数数组 nums 和一个整数目标值 target，
@@ -3358,6 +3376,7 @@ public class LeetCode {
 
     /**
      * 954. 二倍数对数组
+     *
      * @param arr
      * @return
      */
@@ -3385,8 +3404,86 @@ public class LeetCode {
         return true;
     }
 
+    /**
+     * 796. 旋转字符串
+     *
+     * @param s
+     * @param goal
+     * @return
+     */
+    public boolean rotateString(String s, String goal) {
+        if (s.length() != goal.length()) {
+            return false;
+        }
+        int length = s.length();
+        for (int i = 1; i <= length; i++) {
+            if (s.equals(goal)) {
+                return true;
+            }
+            s = s.substring(1) + s.substring(0, 1);
+        }
+        return false;
+    }
+
+    /**
+     * 429. N 叉树的层序遍历
+     *
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder(Node root) {
+        if (root == null) {
+            return null;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        List<List<Integer>> ans = new ArrayList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                Node poll = queue.poll();
+                list.add(poll.val);
+                for (Node child : poll.children) {
+                    queue.offer(child);
+                }
+                ans.add(list);
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 780. 到达终点
+     *
+     * @param sx
+     * @param sy
+     * @param tx
+     * @param ty
+     * @return
+     */
+    public boolean reachingPoints(int sx, int sy, int tx, int ty) {
+        while (tx > sx && ty > sy && tx != ty) {
+            if (tx > ty) {
+                tx %= ty;
+            } else {
+                ty %= tx;
+            }
+        }
+        if (sx == tx && sy == ty) {
+            return true;
+        } else if (sx == tx) {
+            return (ty > sy) && (ty - sy) % tx == 0;
+        } else if (ty == sy) {
+            return (tx > sx) && (tx - sx) % ty == 0;
+        } else {
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println(new LeetCode().canReorderDoubled(new int[]{4,-2,2,-4}));
+        LeetCode code = new LeetCode();
+        System.out.println(code.reachingPoints(1, 1, 3, 5));
     }
 }
 
