@@ -3481,6 +3481,30 @@ public class LeetCode {
         }
     }
 
+    /**
+     * 804. 唯一摩尔斯密码词
+     *
+     * @param words
+     * @return
+     */
+    public int uniqueMorseRepresentations(String[] words) {
+        String[] mouse = new String[]{".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---",
+                "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."};
+        Set<String> set = new HashSet<>();
+        for (String word : words) {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < word.length(); i++) {
+                char c = word.charAt(i);
+                builder.append(mouse[c - 'a']);
+            }
+            String string = builder.toString();
+            if (!set.contains(string)) {
+                set.add(string);
+            }
+        }
+        return set.size();
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
         System.out.println(code.reachingPoints(1, 1, 3, 5));

@@ -239,6 +239,7 @@ public class DynamicProgramming {
 
     /**
      * 63. 不同路径2
+     *
      * @param obstacleGrid
      * @return
      */
@@ -251,14 +252,14 @@ public class DynamicProgramming {
         dp[0][0] = 1;
         for (int i = 1; i < rows; i++) {
             if (obstacleGrid[i][0] != 1) {
-                dp[i][0] = dp[i-1][0];
+                dp[i][0] = dp[i - 1][0];
             } else {
                 dp[i][0] = 0;
             }
         }
         for (int j = 1; j < columns; j++) {
             if (obstacleGrid[0][j] != 1) {
-                dp[0][j] = dp[0][j-1];
+                dp[0][j] = dp[0][j - 1];
             } else {
                 dp[0][j] = 0;
             }
@@ -273,6 +274,55 @@ public class DynamicProgramming {
             }
         }
         return dp[rows - 1][columns - 1];
+    }
+
+    /**
+     * 64. 最小路径和
+     *
+     * @param grid
+     * @return
+     */
+    public int minPathSum(int[][] grid) {
+        int rows = grid.length, cols = grid[0].length;
+        int[][] dp = new int[rows][cols];
+        dp[0][0] = grid[0][0];
+        for (int i = 1; i < rows; i++) {
+            dp[i][0] = grid[i][0] + dp[i - 1][0];
+        }
+        for (int j = 1; j < cols; j++) {
+            dp[0][j] = grid[0][j] + dp[0][j - 1];
+        }
+        for (int i = 1; i < rows; i++) {
+            for (int j = 1; j < cols; j++) {
+                dp[i][j] = grid[i][j] + Math.min(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+        return dp[rows - 1][cols - 1];
+    }
+
+    /**
+     * 70. 爬楼梯
+     *
+     * @param n
+     * @return
+     */
+    public int climbStairs(int n) {
+        /**
+         * 动态规划
+         *         int[] dp = new int[n + 1];
+         *         dp[0] = 1;
+         *         dp[1] = 1;
+         *         for (int i = 2; i <= n; i++) {
+         *             dp[i] = dp[i - 1] + dp[i - 2];
+         *         }
+         *         return dp[n];
+         */
+
+        /*下方代码超时*/
+        if (n == 0 || n == 1) {
+            return 1;
+        }
+        return climbStairs(n - 1) + climbStairs(n - 2);
     }
 
     public static void main(String[] args) {
