@@ -325,6 +325,36 @@ public class DynamicProgramming {
         return climbStairs(n - 1) + climbStairs(n - 2);
     }
 
+    /**
+     * 72. 编辑距离
+     *
+     * @param word1
+     * @param word2
+     * @return
+     */
+    public int minDistance(String word1, String word2) {
+        /*动态规划*/
+        int length1 = word1.length(), length2 = word2.length();
+        int[][] dp = new int[length1 + 1][length2 + 1];
+        for (int i = 0; i <= length1; i++) {
+            dp[i][0] = i;
+        }
+        for (int j = 0; j <= length2; j++) {
+            dp[0][j] = j;
+        }
+        for (int i = 1; i <= length1; i++) {
+            for (int j = 1; j <= length2; j++) {
+                int temp = Math.min(dp[i - 1][j], dp[i][j - 1]);
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[i][j] = Math.min(temp + 1, dp[i - 1][j - 1]);
+                } else {
+                    dp[i][j] = Math.min(temp, dp[i - 1][j - 1]) + 1;
+                }
+            }
+        }
+        return dp[length1][length2];
+    }
+
     public static void main(String[] args) {
         DynamicProgramming programming = new DynamicProgramming();
 //        System.out.println(programming.jump(new int[]{2, 3, 0, 1, 4}));
