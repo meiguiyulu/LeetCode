@@ -3505,9 +3505,31 @@ public class LeetCode {
         return set.size();
     }
 
+    /**
+     * 806. 写字符串需要的行数
+     *
+     * @param widths
+     * @param s
+     * @return
+     */
+    public int[] numberOfLines(int[] widths, String s) {
+        int rows = 1, column = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            column += widths[c - 'a'];
+            if (column > 100) {
+                column = widths[c - 'a'];
+                ++rows;
+            }
+        }
+        return new int[]{rows, column};
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-        System.out.println(code.reachingPoints(1, 1, 3, 5));
+//        System.out.println(code.reachingPoints(1, 1, 3, 5));
+        System.out.println(code.numberOfLines(new int[]{10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
+                "abcdefghijklmnopqrstuvwxyz")[1]);
     }
 }
 

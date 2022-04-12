@@ -355,6 +355,27 @@ public class DynamicProgramming {
         return dp[length1][length2];
     }
 
+    /**
+     * 91. 解码方法
+     *
+     * @param s
+     * @return
+     */
+    public int numDecodings(String s) {
+        int length = s.length();
+        int[] dp = new int[length + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= length; i++) {
+            if (s.charAt(i - 1) != '0') {
+                dp[i] += dp[i - 1];
+            }
+            if (i > 1 && s.charAt(i - 2) != '0' && (s.charAt(i - 2) - '0') * 10 + (s.charAt(i - 1) - '0') <= 26) {
+                dp[i] += dp[i - 2];
+            }
+        }
+        return dp[length];
+    }
+
     public static void main(String[] args) {
         DynamicProgramming programming = new DynamicProgramming();
 //        System.out.println(programming.jump(new int[]{2, 3, 0, 1, 4}));
