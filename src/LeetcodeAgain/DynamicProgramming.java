@@ -1,8 +1,29 @@
 package LeetcodeAgain;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode() {
+    }
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
 
 public class DynamicProgramming {
 
@@ -376,9 +397,141 @@ public class DynamicProgramming {
         return dp[length];
     }
 
+    /**
+     * 96. 不同的二叉搜索树
+     *
+     * @param n
+     * @return
+     */
+    public int numTrees(int n) {
+        int[] G = new int[n + 1];
+        G[0] = 1;
+        G[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            for (int j = 1; j <= i; j++) {
+                G[i] += G[j - 1] * G[i - j];
+            }
+        }
+        return G[n];
+    }
+
+    /**
+     * 95. 不同的二叉搜索树 II
+     *
+     * @param n
+     * @return
+     */
+    public List<TreeNode> generateTrees(int n) {
+        if (n == 0) {
+            return new ArrayList<TreeNode>();
+        }
+        return generateTrees(1, n);
+    }
+
+    public List<TreeNode> generateTrees(int start, int end) {
+        List<TreeNode> trees = new ArrayList<>();
+        if (start > end) {
+            trees.add(null);
+            return trees;
+        }
+        for (int i = start; i <= end; i++) {
+            // 左子树
+            List<TreeNode> leftTrees = generateTrees(start, i - 1);
+            // 右子树
+            List<TreeNode> rightTrees = generateTrees(i + 1, end);
+
+            for (TreeNode left : leftTrees) {
+                for (TreeNode right : rightTrees) {
+                    TreeNode treeNode = new TreeNode(i);
+                    treeNode.left = left;
+                    treeNode.right = right;
+                    trees.add(treeNode);
+                }
+            }
+
+        }
+        return trees;
+    }
+
+    /**
+     * 97. 交错字符串
+     *
+     * @param s1
+     * @param s2
+     * @param s3
+     * @return
+     */
+    public boolean isInterleave(String s1, String s2, String s3) {
+        int length1 = s1.length(), length2 = s2.length(), length3 = s3.length();
+        if (length1 + length2 != length3) {
+            return false;
+        }
+        boolean[][] dp = new boolean[length1 + 1][length2 + 1];
+        dp[0][0] = true;
+        for (int i = 0; i <= length1; i++) {
+            // s1的第i个元素
+            for (int j = 0; j <= length2; j++) {
+                // s2的第j个元素
+                int curr = i + j;
+                if (i > 0) {
+                    dp[i][j] = dp[i][j] || (dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(curr - 1));
+                }
+                if (j > 0) {
+                    dp[i][j] = dp[i][j] || (dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(curr - 1));
+                }
+            }
+        }
+        return dp[length1][length2];
+    }
+
+    /**
+     * 118. 杨辉三角
+     *
+     * @param numRows
+     * @return
+     */
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> ans = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            List<Integer> list = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) {
+                    list.add(1);
+                } else {
+                    list.add(ans.get(i - 1).get(j - 1) + ans.get(i - 1).get(j));
+                }
+            }
+            ans.add(list);
+        }
+        return ans;
+    }
+
+    /**
+     * 119. 杨辉三角 II
+     * @param rowIndex
+     * @return
+     */
+    public List<Integer> getRow(int rowIndex) {
+        List<List<Integer>> ans = new ArrayList<>();
+        for (int i = 0; i <= rowIndex; i++) {
+            List<Integer> list = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) {
+                    list.add(1);
+                } else {
+                    list.add(ans.get(i - 1).get(j - 1) + ans.get(i - 1).get(j));
+                }
+            }
+            ans.add(list);
+        }
+        return ans.get(rowIndex);
+    }
+
     public static void main(String[] args) {
         DynamicProgramming programming = new DynamicProgramming();
-//        System.out.println(programming.jump(new int[]{2, 3, 0, 1, 4}));
-        System.out.println(programming.generateParenthesis(3));
+        System.out.println(programming.isInterleave("", "abc", "abc"));
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(programming.generate(i));
+        }
     }
 }
