@@ -3525,11 +3525,53 @@ public class LeetCode {
         return new int[]{rows, column};
     }
 
+    /**
+     * 819. 最常见的单词
+     *
+     * @param paragraph
+     * @param banned
+     * @return
+     */
+    public String mostCommonWord(String paragraph, String[] banned) {
+        List<String> list = Arrays.asList(banned);
+        paragraph = paragraph.toLowerCase();
+        Map<String, Integer> map = new HashMap<>();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < paragraph.length(); i++) {
+            char c = paragraph.charAt(i);
+            if (c >= 'a' && c <= 'z') {
+                builder.append(c);
+            } else {
+                String string = builder.toString();
+                if (string.length() > 0 && !list.contains(string)) {
+                    map.put(string, map.getOrDefault(string, 0) + 1);
+                }
+                builder.delete(0, builder.length());
+            }
+        }
+        String string = builder.toString();
+        if (string.length() > 0 && !list.contains(string)) {
+            map.put(string, map.getOrDefault(string, 0) + 1);
+        }
+
+        String ans = "";
+        int num = 0;
+        for (String s : map.keySet()) {
+            Integer integer = map.get(s);
+            if (integer > num) {
+                ans = s;
+                num = integer;
+            }
+        }
+
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-//        System.out.println(code.reachingPoints(1, 1, 3, 5));
-        System.out.println(code.numberOfLines(new int[]{10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
-                "abcdefghijklmnopqrstuvwxyz")[1]);
+        String paragraph = "Bob hit a ball, the hit BALL flew far after it was hit.";
+        String[] banned = new String[]{"hit"};
+        System.out.println(code.mostCommonWord(paragraph, banned));
     }
 }
 

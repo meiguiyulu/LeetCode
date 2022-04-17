@@ -2,6 +2,7 @@ package LeetcodeAgain;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
@@ -508,6 +509,7 @@ public class DynamicProgramming {
 
     /**
      * 119. 杨辉三角 II
+     *
      * @param rowIndex
      * @return
      */
@@ -527,11 +529,48 @@ public class DynamicProgramming {
         return ans.get(rowIndex);
     }
 
+    /**
+     * 120. 三角形最小路径和
+     *
+     * @param triangle
+     * @return
+     */
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int size = triangle.size();
+        int[][] dp = new int[size][size];
+        dp[0][0] = triangle.get(0).get(0);
+        for (int i = 1; i < size; i++) {
+            List<Integer> list = triangle.get(i);
+            for (int j = 0; j <= i; j++) {
+                if (j == 0) {
+                    dp[i][j] = dp[i - 1][j] + list.get(j);
+                } else if (j == i) {
+                    dp[i][j] = dp[i - 1][j - 1] + list.get(j);
+                } else  {
+                    dp[i][j] = Math.min(dp[i - 1][j], dp[i - 1][j - 1]) + list.get(j);
+                }
+            }
+        }
+        int ans = Integer.MAX_VALUE;
+        for (int i = 0; i < size; i++) {
+            ans = Math.min(ans, dp[size - 1][i]);
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         DynamicProgramming programming = new DynamicProgramming();
-        System.out.println(programming.isInterleave("", "abc", "abc"));
+/*        System.out.println(programming.isInterleave("", "abc", "abc"));
         for (int i = 1; i <= 5; i++) {
             System.out.println(programming.generate(i));
-        }
+        }*/
+        List<Integer> list1 = Arrays.asList(new Integer[]{-1});
+        List<Integer> list2 = Arrays.asList(new Integer[]{2, 3});
+        List<Integer> list3 = Arrays.asList(new Integer[]{1, -1, -3});
+        List<List<Integer>> list = new ArrayList<>();
+        list.add(list1);
+        list.add(list2);
+        list.add(list3);
+        System.out.println(programming.minimumTotal(list));
     }
 }
