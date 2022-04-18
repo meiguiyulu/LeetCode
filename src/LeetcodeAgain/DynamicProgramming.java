@@ -546,7 +546,7 @@ public class DynamicProgramming {
                     dp[i][j] = dp[i - 1][j] + list.get(j);
                 } else if (j == i) {
                     dp[i][j] = dp[i - 1][j - 1] + list.get(j);
-                } else  {
+                } else {
                     dp[i][j] = Math.min(dp[i - 1][j], dp[i - 1][j - 1]) + list.get(j);
                 }
             }
@@ -554,6 +554,53 @@ public class DynamicProgramming {
         int ans = Integer.MAX_VALUE;
         for (int i = 0; i < size; i++) {
             ans = Math.min(ans, dp[size - 1][i]);
+        }
+        return ans;
+    }
+
+    /**
+     * 121. 买卖股票的最佳时机
+     *
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int[] prices) {
+        int ans = 0, minValue = prices[0];
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] < minValue) {
+                minValue = prices[i];
+            } else {
+                ans = Math.max(ans, prices[i] - minValue);
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 122. 买卖股票的最佳时机 II
+     *
+     * @param prices
+     * @return
+     */
+    public int maxProfitII(int[] prices) {
+        /**
+         * 动态规划
+         *         int[][] dp = new int[prices.length][2];
+         *         dp[0][0] = 0;
+         *         dp[0][1] = -prices[0];
+         *         for (int i = 1; i < prices.length; i++) {
+         *             dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+         *             dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
+         *         }
+         *         return dp[prices.length][0];
+         */
+
+        /* 贪心 */
+        int ans = 0;
+        for (int i = 0; i < prices.length - 1; i++) {
+            if (prices[i + 1] > prices[i]) {
+                ans += prices[i + 1] - prices[i];
+            }
         }
         return ans;
     }

@@ -3567,11 +3567,32 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 386. 字典序排数
+     *
+     * @param n
+     * @return
+     */
+    public List<Integer> lexicalOrder(int n) {
+        List<Integer> ans = new ArrayList<>();
+        int number = 1;
+        for (int i = 1; i <= n; i++) {
+            ans.add(number);
+            if (number * 10 <= n) {
+                number *= 10;
+            } else {
+                while (number % 10 == 9 || number + 1 > n) {
+                    number /= 10;
+                }
+                ++number;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-        String paragraph = "Bob hit a ball, the hit BALL flew far after it was hit.";
-        String[] banned = new String[]{"hit"};
-        System.out.println(code.mostCommonWord(paragraph, banned));
+        System.out.println(code.lexicalOrder(120));
     }
 }
 
