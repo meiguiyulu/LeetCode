@@ -3590,9 +3590,47 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 821. 字符的最短距离
+     *
+     * @param s
+     * @param c
+     * @return
+     */
+    public int[] shortestToChar(String s, char c) {
+        int length = s.length();
+        int[] ans = new int[length];
+        for (int i = 0; i < length; i++) {
+            if (s.charAt(i) == c) {
+                ans[i] = 0;
+            } else {
+                int left = i, right = i;
+                while (left >= 0) {
+                    if (s.charAt(left) == c) {
+                        break;
+                    }
+                    --left;
+                }
+                int ans1 = left >= 0 ? Math.abs(left - i) : Integer.MAX_VALUE;
+                while (right < length) {
+                    if (s.charAt(right) == c) {
+                        break;
+                    }
+                    ++right;
+                }
+                int ans2 = right < length ? Math.abs(right - i) : Integer.MAX_VALUE;
+                ans[i] = Math.min(ans1, ans2);
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
         System.out.println(code.lexicalOrder(120));
+        for (int i : code.shortestToChar("loveleetcode", 'e')) {
+            System.out.println(i);
+        }
     }
 }
 
