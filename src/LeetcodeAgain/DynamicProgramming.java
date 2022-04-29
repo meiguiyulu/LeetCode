@@ -626,6 +626,108 @@ public class DynamicProgramming {
         return sell2;
     }
 
+    /**
+     * 124. 二叉树中的最大路径和
+     *
+     * @param root
+     * @return
+     */
+    int maxSum = Integer.MIN_VALUE;
+
+    public int maxPathSum(TreeNode root) {
+        maxGain(root);
+        return maxSum;
+    }
+
+    private Integer maxGain(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftGain = Math.max(maxGain(root.left), 0);
+        int rightGain = Math.max(maxGain(root.right), 0);
+
+        int currPath = root.val + leftGain + rightGain;
+
+        maxSum = Math.max(maxSum, currPath);
+
+        return root.val + Math.max(leftGain, rightGain);
+    }
+
+    /**
+     * 131. 分割回文串
+     *
+     * @param s
+     * @return
+     */
+    public List<List<String>> partition(String s) {
+        List<List<String>> ans = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        int length = s.length();
+        boolean[][] dp = new boolean[length][length];
+        for (int i = 0; i < length; i++) {
+            Arrays.fill(dp[i], true);
+        }
+
+        for (int i = length - 1; i >= 0; i--) {
+            for (int j = i + 1; j < length; j++) {
+                dp[i][j] = (s.charAt(i) == s.charAt(j)) && dp[i + 1][j - 1];
+            }
+        }
+
+        dfsForPartition(dp, s, ans, list, 0);
+        return ans;
+
+    }
+
+    private void dfsForPartition(boolean[][] dp, String s, List<List<String>> ans, List<String> list, int curr) {
+        if (curr == s.length()) {
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = curr; i < s.length(); i++) {
+            if (dp[curr][i]) {
+                list.add(s.substring(curr, i + 1));
+                dfsForPartition(dp, s, ans, list, i + 1);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+
+    /**
+     * 132. 分割回文串 II
+     *
+     * @param s
+     * @return
+     */
+    public int minCut(String s) {
+        int length = s.length();
+        boolean[][] dp = new boolean[length][length];
+        for (int i = 0; i < length; i++) {
+            Arrays.fill(dp[i], true);
+        }
+
+        for (int i = length - 1; i >= 0; i--) {
+            for (int j = i + 1; j < length; j++) {
+                dp[i][j] = (s.charAt(i) == s.charAt(j)) && dp[i + 1][j - 1];
+            }
+        }
+
+        int[] ans = new int[length];
+        Arrays.fill(ans, Integer.MAX_VALUE);
+        for (int i = 0; i < length; i++) {
+            if (dp[0][i]) {
+                ans[i] = 0;
+            } else {
+                for (int j = 0; j < i; j++) {
+                    if (dp[j + 1][i]) {
+                        ans[i] = Math.min(ans[i], ans[j] + 1);
+                    }
+                }
+            }
+        }
+        return ans[length - 1];
+    }
+
     public static void main(String[] args) {
         DynamicProgramming programming = new DynamicProgramming();
 /*        System.out.println(programming.isInterleave("", "abc", "abc"));

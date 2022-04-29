@@ -3,6 +3,7 @@ package leetcode;
 import LeetcodeAgain.ShuZu;
 import LeetcodeAgain.ZiFuChuan;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -3625,11 +3626,135 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 824. 山羊拉丁文
+     *
+     * @param sentence
+     * @return
+     */
+    public String toGoatLatin(String sentence) {
+        String[] string = sentence.split(" ");
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < string.length; i++) {
+            String s = string[i];
+            char c = s.charAt(0);
+            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' ||
+                    c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') {
+                builder.append(s);
+                builder.append("ma");
+            } else {
+                builder.append(s.substring(1));
+                builder.append(c);
+                builder.append("ma");
+            }
+            for (int j = 0; j <= i; j++) {
+                builder.append("a");
+            }
+            if (i != string.length - 1) {
+                builder.append(" ");
+            }
+        }
+        return builder.toString();
+    }
+
+    /**
+     * 396. 旋转函数
+     *
+     * @param nums
+     * @return
+     */
+    public int maxRotateFunction(int[] nums) {
+        /**
+         *         超时
+         *         int length = nums.length;
+         *         if (length == 1) {
+         *             return 0;
+         *         }
+         *         int ans = Integer.MIN_VALUE;
+         *         List<Integer> list = new ArrayList<>();
+         *         for (int i : nums) {
+         *             list.add(i);
+         *         }
+         *         for (int i = 1; i <= length; i++) {
+         *             int curr = 0;
+         *             for (int j = 0; j < length; j++) {
+         *                 curr += j * list.get(j);
+         *             }
+         *             ans = Math.max(ans, curr);
+         *             Integer integer = list.remove(length - 1);
+         *             list.add(0, integer);
+         *         }
+         *         return ans;
+         */
+        int length = nums.length;
+        if (length == 1) {
+            return 0;
+        }
+        int F = 0, sum = 0;
+        for (int i = 0; i < length; i++) {
+            F += i * nums[i];
+            sum += nums[i];
+        }
+        int ans = F;
+        for (int i = 1; i < length; i++) {
+            F += sum - length * nums[length - i];
+            ans = Math.max(ans, F);
+        }
+        return ans;
+    }
+
+    /**
+     * 868. 二进制间距
+     *
+     * @param n
+     * @return
+     */
+    public int binaryGap(int n) {
+        String string = Integer.toBinaryString(n);
+        int ans = 0;
+        int lastPosition = 0, currPosition = 0;
+        int length = string.length();
+        for (int i = 0; i < length; i++) {
+            if (string.charAt(i) == '1') {
+                currPosition = i;
+                ans = Math.max(ans, currPosition - lastPosition);
+                lastPosition = currPosition;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 905. 按奇偶排序数组
+     *
+     * @param nums
+     * @return
+     */
+    public int[] sortArrayByParity(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            while (left < right && nums[right] % 2 == 1) {
+                --right;
+            }
+            while (left < right && nums[left] % 2 == 0) {
+                ++left;
+            }
+            if (left < right) {
+                int temp = nums[right];
+                nums[right] = nums[left];
+                nums[left] = temp;
+            }
+        }
+        return nums;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-        System.out.println(code.lexicalOrder(120));
-        for (int i : code.shortestToChar("loveleetcode", 'e')) {
-            System.out.println(i);
+        System.out.println(code.maxRotateFunction(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}));
+        System.out.println(code.binaryGap(5));
+        int[] ints = code.sortArrayByParity(new int[]{3, 1, 2, 4});
+        for (int anInt : ints) {
+            System.out.println(anInt);
         }
     }
 }
