@@ -3748,6 +3748,22 @@ public class LeetCode {
         return nums;
     }
 
+    /**
+     * 908. 最小差值 I
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int smallestRangeI(int[] nums, int k) {
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        for (int num : nums) {
+            min = Math.min(min, num);
+            max = Math.max(max, num);
+        }
+        return Math.max(0, max - min - 2 * k);
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
         System.out.println(code.maxRotateFunction(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}));
