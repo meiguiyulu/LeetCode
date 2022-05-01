@@ -3764,6 +3764,42 @@ public class LeetCode {
         return Math.max(0, max - min - 2 * k);
     }
 
+
+    /**
+     * 1305. 两棵二叉搜索树中的所有元素
+     *
+     * @param root1
+     * @param root2
+     * @return
+     */
+    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+        List<Integer> ans = new ArrayList<>();
+        List<Integer> list1 = inorderTraversal(root1);
+        List<Integer> list2 = inorderTraversal(root2);
+
+        int length1 = list1.size();
+        int length2 = list2.size();
+
+        int i = 0, j = 0;
+        while (i < length1 && j < length2) {
+            if (list1.get(i) <= list2.get(j)) {
+                ans.add(list1.get(i));
+                ++i;
+            } else {
+                ans.add(list2.get(j));
+                ++j;
+            }
+        }
+        while (i < length1) {
+            ans.add(list1.get(i++));
+        }
+        while (j < length2) {
+            ans.add(list2.get(j++));
+        }
+
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
         System.out.println(code.maxRotateFunction(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}));

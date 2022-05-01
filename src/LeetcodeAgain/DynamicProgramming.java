@@ -728,6 +728,29 @@ public class DynamicProgramming {
         return ans[length - 1];
     }
 
+    /**
+     * 139. 单词拆分
+     *
+     * @param s
+     * @param wordDict
+     * @return
+     */
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int length = s.length();
+        boolean[] dp = new boolean[length + 1];
+        dp[0] = true;
+        for (int i = 1; i <= length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (dp[j] && wordDict.contains(s.substring(j, i))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[length];
+    }
+
+
     public static void main(String[] args) {
         DynamicProgramming programming = new DynamicProgramming();
 /*        System.out.println(programming.isInterleave("", "abc", "abc"));
