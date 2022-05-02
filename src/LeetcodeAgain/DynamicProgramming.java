@@ -750,6 +750,70 @@ public class DynamicProgramming {
         return dp[length];
     }
 
+    /**
+     * 198. 打家劫舍
+     *
+     * @param nums
+     * @return
+     */
+    public int rob(int[] nums) {
+        /**
+         *         int length = nums.length;
+         *         if (length == 1) {
+         *             return nums[0];
+         *         }
+         *         if (length == 2) {
+         *             return Math.max(nums[0], nums[1]);
+         *         }
+         *         int[] dp = new int[length];
+         *         dp[0] = nums[0];
+         *         dp[1] = Math.max(nums[1], nums[0]);
+         *         for (int i = 2; i < length; i++) {
+         *             dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+         *         }
+         *         return dp[length - 1];
+         */
+        /* 滚动数组优化 */
+        int length = nums.length;
+        if (length == 1) {
+            return nums[0];
+        }
+        int first = nums[0], second = Math.max(nums[1], nums[0]);
+        for (int i = 2; i < length; i++) {
+            int temp = second;
+            second = Math.max(second, first + nums[i]);
+            first = temp;
+        }
+        return second;
+    }
+
+    /**
+     * 213. 打家劫舍 II
+     *
+     * @param nums
+     * @return
+     */
+    public int robII(int[] nums) {
+        int length = nums.length;
+        if (length == 1) {
+            return nums[0];
+        } else if (length == 2) {
+            return Math.max(nums[0], nums[1]);
+        } else {
+            return Math.max(myRob(0, length - 2, nums), myRob(1, length - 1, nums));
+        }
+    }
+
+    private int myRob(int start, int end, int[] nums) {
+        int first = nums[start], second = Math.max(nums[start], nums[start + 1]);
+        for (int i = start + 2; i <= end; i++) {
+            int temp = second;
+            second = Math.max(second, first + nums[i]);
+            first = temp;
+        }
+        return second;
+    }
+
 
     public static void main(String[] args) {
         DynamicProgramming programming = new DynamicProgramming();
