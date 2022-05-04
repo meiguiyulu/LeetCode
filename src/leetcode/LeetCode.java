@@ -3800,14 +3800,31 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 1823. 找出游戏的获胜者
+     *
+     * @param n
+     * @param k
+     * @return
+     */
+    public int findTheWinner(int n, int k) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            list.add(i);
+        }
+        int curr = 0, size = list.size();
+        while (size > 1) {
+            int index = (curr + k - 1) % size;
+            list.remove(index);
+            size--;
+            curr = index % size;
+        }
+        return list.get(0);
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-        System.out.println(code.maxRotateFunction(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}));
-        System.out.println(code.binaryGap(5));
-        int[] ints = code.sortArrayByParity(new int[]{3, 1, 2, 4});
-        for (int anInt : ints) {
-            System.out.println(anInt);
-        }
+        System.out.println(code.findTheWinner(6, 5));
     }
 }
 
