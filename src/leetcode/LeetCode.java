@@ -3822,9 +3822,32 @@ public class LeetCode {
         return list.get(0);
     }
 
+    /**
+     * 713. 乘积小于 K 的子数组
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        int length = nums.length, ans = 0;
+        for (int i = 0; i < length; i++) {
+            int curr = 1;
+            for (int j = i; j < length; j++) {
+                curr *= nums[j];
+                if (curr < k) {
+                    ans++;
+                } else {
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-        System.out.println(code.findTheWinner(6, 5));
+        System.out.println(code.numSubarrayProductLessThanK(new int[]{10,5,2,6}, 100));
     }
 }
 
