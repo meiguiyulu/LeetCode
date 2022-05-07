@@ -3845,9 +3845,54 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 433. 最小基因变化
+     *
+     * @param start
+     * @param end
+     * @param bank
+     * @return
+     */
+    public int minMutation(String start, String end, String[] bank) {
+        String[] gen = {"A", "C", "G", "T"};
+        Set<String> visited = new HashSet<>();
+        Set<String> bankSet = new HashSet<>();
+        Deque<String> deque = new LinkedList<>();
+        for (String s : bank) {
+            bankSet.add(s);
+        }
+        deque.offer(start);
+        visited.add(start);
+        int step = 0;
+        while (!deque.isEmpty()) {
+            int size = deque.size();
+            for (int i = 0; i < size; i++) {
+                String poll = deque.poll();
+                /* 如果和end相同就返回结果 程序结束 */
+                if (poll.equals(end)) {
+                    return step;
+                }
+                /* 从第0位开始替换 枚举所有可能的结果 如果发现与基因库相同就入队 */
+                for (int j = 0; j < poll.length(); j++) {
+                    StringBuilder builder = new StringBuilder(poll);
+                    for (int k = 0; k < gen.length; k++) {
+                        String replaced = builder.replace(j, j + 1, gen[k]).toString();
+                        /* 该字符串没有尝试过 并且基因库中存在 入队 */
+                        if (!visited.contains(replaced) && bankSet.contains(replaced)) {
+                            deque.offer(replaced);
+                            visited.add(replaced);
+                        }
+                    }
+                }
+            }
+            ++step;
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-        System.out.println(code.numSubarrayProductLessThanK(new int[]{10,5,2,6}, 100));
+        System.out.println(code.numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
     }
 }
 
