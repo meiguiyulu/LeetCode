@@ -3890,15 +3890,41 @@ public class LeetCode {
         return -1;
     }
 
+    /**
+     * 442. 数组中重复的数据
+     *
+     * @param nums
+     * @return
+     */
+    public List<Integer> findDuplicates(int[] nums) {
+        /**
+         *         O(n)的空间复杂度
+         *         Map<Integer, Integer> map = new HashMap<>();
+         *         for (int num: nums) {
+         *             map.put(num, map.getOrDefault(num, 0) + 1);
+         *         }
+         *         List<Integer> ans = new ArrayList<>();
+         *         for (Integer integer : map.keySet()) {
+         *             if (map.get(integer) == 2) {
+         *                 ans.add(integer);
+         *             }
+         *         }
+         *         return ans;
+         */
+        List<Integer> ans = new ArrayList<>();
+        for (int num : nums) {
+            num = Math.abs(num); // 有的元素已经被变成了负数
+            if (nums[num - 1] > 0) {
+                nums[num - 1] = -nums[num - 1]; // 第一次遇见
+            } else {
+                ans.add(num); // 第二次遇见
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
         System.out.println(code.numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
     }
 }
-
-
-
-
-
-
-
