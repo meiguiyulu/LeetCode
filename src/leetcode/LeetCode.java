@@ -3923,8 +3923,35 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 942. 增减字符串匹配
+     *
+     * @param s
+     * @return
+     */
+    public int[] diStringMatch(String s) {
+        int length = s.length();
+        int left = 0, right = length;
+        int[] ans = new int[length + 1];
+        for (int i = 0; i < length; i++) {
+            char c = s.charAt(i);
+            if (c == 'I') {
+                ans[i] = left++;
+            }
+            if (c == 'D') {
+                ans[i] = right--;
+            }
+        }
+        ans[length] = left;
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-        System.out.println(code.numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
+//        System.out.println(code.numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
+        int[] match = code.diStringMatch("DDI");
+        for (int i : match) {
+            System.out.print(i + "\t");
+        }
     }
 }
