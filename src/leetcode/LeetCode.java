@@ -3946,6 +3946,27 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 944. 删列造序
+     *
+     * @param strs
+     * @return
+     */
+    public int minDeletionSize(String[] strs) {
+        int ans = 0;
+        int rows = strs.length;
+        int cols = strs[0].length();
+        for (int i = 0; i < cols; i++) {
+            for (int j = 1; j < rows; j++) {
+                if (strs[j].charAt(i) < strs[j - 1].charAt(i)) {
+                    ++ans;
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
 //        System.out.println(code.numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
