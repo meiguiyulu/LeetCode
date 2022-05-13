@@ -3967,6 +3967,60 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 面试题 01.05. 一次编辑
+     * @param first
+     * @param second
+     * @return
+     */
+    public boolean oneEditAway(String first, String second) {
+        if (first.equals(second)) {
+            return true;
+        }
+        int length1 = first.length(), length2 = second.length();
+        if (length1 == length2) {
+            int place = 0;
+            int i = 0, j = 0;
+            /* 替换一个字符 */
+            while (i < length1) {
+                if (first.charAt(i) != second.charAt(j)) {
+                    ++place;
+                }
+                if (place > 1) {
+                    return false;
+                }
+                ++i;
+                ++j;
+            }
+            return true;
+        } else {
+            /* 插入或者删除一个字符 */
+            if (length1 - length2 == 1) {
+                return oneInsert(second, first);
+            } else if (length1 - length2 == -1) {
+                return oneInsert(first, second);
+            } else {
+                return false;
+            }
+        }
+    }
+
+    private boolean oneInsert(String shortString, String longString) {
+        int shortLength = shortString.length(), longLength = longString.length();
+        int index1 = 0, index2 = 0;
+        while(index1 < shortLength && index2 < longLength) {
+            /* 短的字符串只有字符相等的情况下才加1 */
+            if (shortString.charAt(index1) == longString.charAt(index2)) {
+                ++index1;
+            }
+            ++index2;
+            if (index2 - index1 > 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
 //        System.out.println(code.numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
