@@ -4021,6 +4021,27 @@ public class LeetCode {
         return true;
     }
 
+    /**
+     * 961. 在长度 2N 的数组中找出重复 N 次的元素
+     * @param nums
+     * @return
+     */
+    public int repeatedNTimes(int[] nums) {
+        int length = nums.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num: nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int ans = 0;
+        for (int num: nums) {
+            if (map.get(num) == length / 2) {
+                ans = num;
+                break;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
 //        System.out.println(code.numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
