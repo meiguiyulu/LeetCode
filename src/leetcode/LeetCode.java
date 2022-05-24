@@ -3969,6 +3969,7 @@ public class LeetCode {
 
     /**
      * 面试题 01.05. 一次编辑
+     *
      * @param first
      * @param second
      * @return
@@ -4008,7 +4009,7 @@ public class LeetCode {
     private boolean oneInsert(String shortString, String longString) {
         int shortLength = shortString.length(), longLength = longString.length();
         int index1 = 0, index2 = 0;
-        while(index1 < shortLength && index2 < longLength) {
+        while (index1 < shortLength && index2 < longLength) {
             /* 短的字符串只有字符相等的情况下才加1 */
             if (shortString.charAt(index1) == longString.charAt(index2)) {
                 ++index1;
@@ -4023,23 +4024,52 @@ public class LeetCode {
 
     /**
      * 961. 在长度 2N 的数组中找出重复 N 次的元素
+     *
      * @param nums
      * @return
      */
     public int repeatedNTimes(int[] nums) {
         int length = nums.length;
         Map<Integer, Integer> map = new HashMap<>();
-        for (int num: nums) {
+        for (int num : nums) {
             map.put(num, map.getOrDefault(num, 0) + 1);
         }
         int ans = 0;
-        for (int num: nums) {
+        for (int num : nums) {
             if (map.get(num) == length / 2) {
                 ans = num;
                 break;
             }
         }
         return ans;
+    }
+
+    /**
+     * 965. 单值二叉树
+     *
+     * @param root
+     * @return
+     */
+    public boolean isUnivalTree(TreeNode root) {
+        int value = root.val;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (node.val != value) {
+                    return false;
+                } else {
+                    if (node.left != null)
+                        queue.add(node.left);
+                    if (node.right != null) {
+                        queue.add(node.right);
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) {
