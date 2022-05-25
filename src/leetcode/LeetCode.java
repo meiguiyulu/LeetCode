@@ -4092,6 +4092,29 @@ public class LeetCode {
         return Arrays.stream(arr).sum();
     }
 
+    /**
+     * 413. 等差数列划分
+     *
+     * @param nums
+     * @return
+     */
+    public int numberOfArithmeticSlices(int[] nums) {
+        int length = nums.length;
+        if (length == 1 || length == 2)
+            return 0;
+        int sub = nums[0] - nums[1], t = 0, ans = 0; // sub表示数组相邻元素差值
+        for (int i = 2; i < length; i++) {
+            if (nums[i - 1] - nums[i] == sub) {
+                ++t; // t表示以num[i]结尾的等差数组的数目
+            } else {
+                sub = nums[i - 1] - nums[i];
+                t = 0;
+            }
+            ans += t;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
         code.findSubstringInWraproundString("cac");
