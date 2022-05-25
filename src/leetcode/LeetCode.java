@@ -4115,8 +4115,34 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 446. 等差数列划分 II - 子序列
+     *
+     * @param nums
+     * @return
+     */
+    public int numberOfArithmeticSlices2(int[] nums) {
+        int length = nums.length;
+        int ans = 0;
+        if (length < 3)
+            return ans;
+        Map<Long, Integer>[] dp = new HashMap[length];
+        for (int i = 0; i < length; i++)
+            dp[i] = new HashMap<>();
+        for (int i = 1; i < length; i++) {
+            for (int j = 0; j < i; j++) {
+                long d = 1L * nums[i] - nums[j];
+                Integer integer = dp[j].getOrDefault(d, 0);
+                ans += integer;
+                dp[i].put(d, dp[i].getOrDefault(d, 0) + integer + 1);
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-        code.findSubstringInWraproundString("cac");
+        int[] nums = new int[]{2,4,6,8,10};
+        System.out.println(code.numberOfArithmeticSlices2(nums));
     }
 }
