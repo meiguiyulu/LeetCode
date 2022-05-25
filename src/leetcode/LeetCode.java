@@ -4072,12 +4072,28 @@ public class LeetCode {
         return true;
     }
 
+    /**
+     * 467. 环绕字符串中唯一的子字符串
+     *
+     * @param p
+     * @return
+     */
+    public int findSubstringInWraproundString(String p) {
+        int[] arr = new int[26];
+        int count = 0;
+        for (int i = 0; i < p.length(); i++) {
+            if ((i > 0) && (p.charAt(i) - p.charAt(i - 1) + 26) % 26 == 1) {
+                ++count;
+            } else {
+                count = 1;
+            }
+            arr[p.charAt(i) - 'a'] = Math.max(arr[p.charAt(i) - 'a'], count);
+        }
+        return Arrays.stream(arr).sum();
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-//        System.out.println(code.numSubarrayProductLessThanK(new int[]{10, 5, 2, 6}, 100));
-        int[] match = code.diStringMatch("DDI");
-        for (int i : match) {
-            System.out.print(i + "\t");
-        }
+        code.findSubstringInWraproundString("cac");
     }
 }
