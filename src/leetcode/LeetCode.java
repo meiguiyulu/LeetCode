@@ -4140,9 +4140,86 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 468. 验证IP地址
+     *
+     * @param queryIP
+     * @return
+     */
+    public String validIPAddress(String queryIP) {
+        if (isIPv4(queryIP)) {
+            return "IPv4";
+        }
+
+        if (isIPv6(queryIP)) {
+            return "IPv6";
+        }
+        return "Neither";
+    }
+
+    private boolean isIPv6(String queryIP) {
+        int sum = 0;
+        for (int i = 0; i < queryIP.length(); i++) {
+            if (queryIP.charAt(i) == ':')
+                ++sum;
+        }
+        if (sum != 7)
+            return false;
+        String[] split = queryIP.split(":");
+        int length = split.length;
+        if (length != 8)
+            return false;
+        for (int i = 0; i < 8; i++) {
+            String s = split[i];
+            int size = s.length();
+            if (size > 4 || size == 0)
+                return false;
+            for (int j = 0; j < size; j++) {
+                char c = s.charAt(j);
+                if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')
+                        || (c >= 'A' && c <= 'F')))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isIPv4(String queryIP) {
+        int sum = 0;
+        for (int i = 0; i < queryIP.length(); i++) {
+            if (queryIP.charAt(i) == '.')
+                ++sum;
+        }
+        if (sum != 3) {
+            return false;
+        }
+        String[] split = queryIP.split("\\.");
+        int length = split.length;
+        if (length != 4)
+            return false;
+        for (int i = 0; i < 4; i++) {
+            String s = split[i];
+            if (s.length() > 3 || s.length() == 0)
+                return false;
+            if (s.length() > 1 && s.charAt(0) == '0')
+                return false;
+            int curr = 0;
+            for (int j = 0; j < s.length(); j++) {
+                char c = s.charAt(j);
+                if (c < '0' || c > '9')
+                    return false;
+                curr = curr * 10 + (c - '0');
+            }
+            if (curr > 255)
+                return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-        int[] nums = new int[]{2,4,6,8,10};
-        System.out.println(code.numberOfArithmeticSlices2(nums));
+        Scanner sc = new Scanner(System.in);
+        String next = sc.next();
+        System.out.println(code.validIPAddress(next));
     }
 }
