@@ -29,7 +29,7 @@ public class LeetCode {
         }
     }
 
-    class TreeNode {
+    static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
@@ -4216,10 +4216,44 @@ public class LeetCode {
         return true;
     }
 
+    /**
+     * 1022. 从根到叶的二进制数之和
+     *
+     * @param root
+     * @return
+     */
+    private static int ans = 0;
+
+    public static int sumRootToLeaf(TreeNode root) {
+        StringBuilder builder = new StringBuilder();
+        dfsForSumRootToLeaf(root, builder);
+        return ans;
+    }
+
+    private static void dfsForSumRootToLeaf(TreeNode root, StringBuilder builder) {
+        builder.append(root.val);
+        if (root.left == null && root.right == null) {
+            // 叶子节点
+            ans += Integer.parseInt(builder.toString(), 2);
+            System.out.println("build: " + builder);
+            return;
+        }
+        if (root.left != null) {
+            dfsForSumRootToLeaf(root.left, builder);
+            builder.deleteCharAt(builder.length() - 1);
+        }
+
+        if (root.right != null) {
+            dfsForSumRootToLeaf(root.right, builder);
+            builder.deleteCharAt(builder.length() - 1);
+        }
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-        Scanner sc = new Scanner(System.in);
-        String next = sc.next();
-        System.out.println(code.validIPAddress(next));
+        TreeNode node1 = new TreeNode(1);
+        TreeNode node2 = new TreeNode(0);
+        node1.right = node2;
+        System.out.println(sumRootToLeaf(node1));
     }
 }
