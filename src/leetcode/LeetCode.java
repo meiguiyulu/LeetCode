@@ -4249,6 +4249,38 @@ public class LeetCode {
         }
     }
 
+    /**
+     * 473. 火柴拼正方形
+     *
+     * @param matchsticks
+     * @return
+     */
+    public boolean makesquare(int[] matchsticks) {
+        int sum = Arrays.stream(matchsticks).sum();
+        if (sum % 4 != 0)
+            return false;
+        Arrays.sort(matchsticks);
+        for (int i = 0, j = matchsticks.length - 1; i < j; i++, j--) {
+            int temp = matchsticks[i];
+            matchsticks[i] = matchsticks[j];
+            matchsticks[j] = temp;
+        }
+        int[] edges = new int[4];
+        return dfsForMakeSqure(0, matchsticks, edges, sum / 4);
+    }
+
+    private boolean dfsForMakeSqure(int index, int[] matchsticks, int[] edges, int ans) {
+        if (index == matchsticks.length)
+            return true;
+        for (int i = 0; i < 4; i++) {
+            edges[i] += matchsticks[index];
+            if (edges[i] <= ans && dfsForMakeSqure(index + 1, matchsticks, edges, ans))
+                return true;
+            edges[i] -= matchsticks[index];
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
         TreeNode node1 = new TreeNode(1);
