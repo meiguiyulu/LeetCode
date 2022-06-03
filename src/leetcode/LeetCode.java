@@ -4281,6 +4281,66 @@ public class LeetCode {
         return false;
     }
 
+    /**
+     * 450. 删除二叉搜索树中的节点
+     *
+     * @param root
+     * @param key
+     * @return
+     */
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null)
+            return null;
+        if (root.val > key) {
+            root.left = deleteNode(root.left, key);
+        }
+        if (root.val < key) {
+            root.right = deleteNode(root.right, key);
+        }
+        if (root.val == key) {
+            if (root.left == null && root.right == null)
+                return null;
+            if (root.left == null)
+                return root.right;
+            if (root.right == null)
+                return root.left;
+            TreeNode node = root.right;
+            while (node.left != null) {
+                node = node.left;
+            }
+            root.right = deleteNode(root.right, node.val);
+            node.right = root.right;
+            node.left = root.left;
+            return node;
+        }
+        return root;
+    }
+
+    /**
+     * 829. 连续整数求和
+     *
+     * @param n
+     * @return
+     */
+    public int consecutiveNumbersSum(int n) {
+        int ans = 0;
+        int bound = 2 * n;
+        for (int k = 1; k * (k + 1) <= bound; k++) {
+            if (isKConsecutive(n, k)) {
+                ans++;
+            }
+        }
+        return ans;
+    }
+
+    public boolean isKConsecutive(int n, int k) {
+        if (k % 2 == 1) {
+            return n % k == 0;
+        } else {
+            return n % k != 0 && 2 * n % k == 0;
+        }
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
         TreeNode node1 = new TreeNode(1);
