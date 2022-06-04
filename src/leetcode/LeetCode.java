@@ -4341,11 +4341,40 @@ public class LeetCode {
         }
     }
 
+    /**
+     * 929. 独特的电子邮件地址
+     *
+     * @param emails
+     * @return
+     */
+    public int numUniqueEmails(String[] emails) {
+        Set<String> set = new HashSet<>();
+        for (String email : emails) {
+            StringBuilder builder = new StringBuilder();
+            String[] split = email.split("@");
+            String s = split[0];
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if (c == '+')
+                    break;
+                else if (c == '.')
+                    continue;
+                else
+                    builder.append(c);
+            }
+            builder.append("@");
+            builder.append(split[1]);
+            String string = builder.toString();
+            if (!set.contains(string)) {
+                set.add(string);
+            }
+        }
+        return set.size();
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-        TreeNode node1 = new TreeNode(1);
-        TreeNode node2 = new TreeNode(0);
-        node1.right = node2;
-        System.out.println(sumRootToLeaf(node1));
+        String[] emails = new String[]{"test.email+alex@leetcode.com", "test.email.leet+alex@code.com"};
+        System.out.println(code.numUniqueEmails(emails));
     }
 }
