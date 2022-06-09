@@ -22,4 +22,8 @@ public class test1 {
         return molecule * 100 / denominator;
     }
 
+    public static void main(String[] args) {
+        System.out.println(123);
+    }
+
 }
