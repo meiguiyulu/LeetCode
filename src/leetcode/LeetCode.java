@@ -4383,6 +4383,24 @@ public class LeetCode {
                 != (points[2][1] - points[1][1]) * (points[1][0] - points[0][0]);
     }
 
+    /**
+     * 1051. 高度检查器
+     *
+     * @param heights
+     * @return
+     */
+    public int heightChecker(int[] heights) {
+        int length = heights.length;
+        int[] copy = Arrays.copyOf(heights, length);
+        Arrays.sort(copy);
+        int ans = 0;
+        for (int i = 0; i < length; i++) {
+            if (heights[i] != copy[i])
+                ++ans;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
         String[] emails = new String[]{"test.email+alex@leetcode.com", "test.email.leet+alex@code.com"};
