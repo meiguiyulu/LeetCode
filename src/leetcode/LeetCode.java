@@ -4401,6 +4401,29 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 532. 数组中的 k-diff 数对
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int findPairs(int[] nums, int k) {
+        int ans = 0, length = nums.length;
+        Arrays.sort(nums);
+        for (int slow = 0; slow < length; slow++) {
+            if (slow == 0 || nums[slow] != nums[slow - 1]) {
+                int fast = slow + 1;
+                while (fast < length && nums[fast] < nums[slow] + k) {
+                    ++fast;
+                }
+                if (fast < length && nums[fast] == nums[slow] + k)
+                    ++ans;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
     }
