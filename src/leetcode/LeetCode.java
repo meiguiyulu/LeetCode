@@ -4403,7 +4403,5 @@ public class LeetCode {
 
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
-        String[] emails = new String[]{"test.email+alex@leetcode.com", "test.email.leet+alex@code.com"};
-        System.out.println(code.numUniqueEmails(emails));
     }
 }
