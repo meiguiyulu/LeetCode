@@ -4424,6 +4424,20 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 28. 实现 strStr()
+     * @param haystack
+     * @param needle
+     * @return
+     */
+    public int strStr(String haystack, String needle) {
+        if (needle == null || needle.length() == 0) {
+            return 0;
+        }
+        int ans = haystack.indexOf(needle);
+        return ans >= 0 ? ans : -1;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
     }
