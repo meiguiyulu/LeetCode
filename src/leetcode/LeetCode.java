@@ -4426,6 +4426,7 @@ public class LeetCode {
 
     /**
      * 28. 实现 strStr()
+     *
      * @param haystack
      * @param needle
      * @return
@@ -4436,6 +4437,24 @@ public class LeetCode {
         }
         int ans = haystack.indexOf(needle);
         return ans >= 0 ? ans : -1;
+    }
+
+    /**
+     * 1408. 数组中的字符串匹配
+     *
+     * @param words
+     * @return
+     */
+    public List<String> stringMatching(String[] words) {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < words.length; i++) {
+            for (int j = 0; j < words.length; j++) {
+                if (i != j && words[i].contains(words[j]) && !list.contains(words[j])) {
+                    list.add(words[j]);
+                }
+            }
+        }
+        return list;
     }
 
     public static void main(String[] args) {
