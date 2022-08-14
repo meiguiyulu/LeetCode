@@ -4457,6 +4457,32 @@ public class LeetCode {
         return list;
     }
 
+    /**
+     * 1422. 分割字符串的最大得分
+     *
+     * @param s
+     * @return
+     */
+    public int maxScore(String s) {
+        int ans = 0;
+        int oneTotalNum = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '1') {
+                oneTotalNum++;
+            }
+        }
+        int leftZeroNum = 0;
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (s.charAt(i) == '0') {
+                leftZeroNum++;
+            } else {
+                oneTotalNum--;
+            }
+            ans = Math.max(ans, leftZeroNum + oneTotalNum);
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
     }
