@@ -4483,6 +4483,27 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 1455. 检查单词是否为句中其他单词的前缀
+     *
+     * @param sentence
+     * @param searchWord
+     * @return
+     */
+    public int isPrefixOfWord(String sentence, String searchWord) {
+        int length = searchWord.length();
+        String[] s = sentence.trim().split(" ");
+        for (int i = 0; i < s.length; i++) {
+            if (s[i].length() < length) {
+                continue;
+            }
+            if (s[i].substring(0, length).equals(searchWord)) {
+                return i + 1;
+            }
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
     }
