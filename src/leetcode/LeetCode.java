@@ -4504,6 +4504,18 @@ public class LeetCode {
         return -1;
     }
 
+    /**
+     * 1464. 数组中两元素的最大乘积
+     *
+     * @param nums
+     * @return
+     */
+    public int maxProduct(int[] nums) {
+        int length = nums.length;
+        Arrays.sort(nums);
+        return (nums[length - 1] - 1) * (nums[length - 2] - 1);
+    }
+
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
     }
