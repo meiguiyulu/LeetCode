@@ -4615,6 +4615,26 @@ public class LeetCode {
         return -1;
     }
 
+    /**
+     * 1624. 两个相同字符之间的最长子字符串
+     *
+     * @param s
+     * @return
+     */
+    public int maxLengthBetweenEqualCharacters(String s) {
+        int ans = -1;
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)) {
+                ans = Math.max(i - map.get(c) - 1, ans);
+            } else {
+                map.put(c, i);
+            }
+        }
+        return ans;
+    }
+
 
     public static void main(String[] args) {
         LeetCode code = new LeetCode();
