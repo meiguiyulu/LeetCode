@@ -4703,8 +4703,30 @@ public class LeetCode {
         return ans.toString();
     }
 
+    /**
+     * 1784. 检查二进制字符串字段
+     *
+     * @param s
+     * @return
+     */
+    public static boolean checkOnesSegment(String s) {
+        int num = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '1') {
+                ++num;
+                if (i > 0 && s.charAt(i - 1) == '1') {
+                    --num;
+                }
+                if (num > 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     public static void main(String[] args) {
-        System.out.println(reformatNumber("123 4-5678"));
+        System.out.println(checkOnesSegment("1100111"));
     }
 }
