@@ -4751,6 +4751,26 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 1800. 最大升序子数组和
+     *
+     * @param nums
+     * @return
+     */
+    public int maxAscendingSum(int[] nums) {
+        int ans = nums[0];
+        int temp = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[i - 1]) {
+                temp += nums[i];
+            } else {
+                temp = nums[i];
+            }
+            ans = Math.max(ans, temp);
+        }
+        return ans;
+    }
+
 
     public static void main(String[] args) {
         System.out.println(checkOnesSegment("1100111"));
