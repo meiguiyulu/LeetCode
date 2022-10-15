@@ -4771,6 +4771,27 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 1441. 用栈操作构建数组
+     *
+     * @param target
+     * @param n
+     * @return
+     */
+    public List<String> buildArray(int[] target, int n) {
+        List<String> res = new ArrayList<String>();
+        int prev = 0;
+        for (int number : target) {
+            for (int i = 0; i < number - prev - 1; i++) {
+                res.add("Push");
+                res.add("Pop");
+            }
+            res.add("Push");
+            prev = number;
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
         System.out.println(checkOnesSegment("1100111"));
