@@ -4830,6 +4830,32 @@ public class LeetCode {
         return true;
     }
 
+    /**
+     * 1768. 交替合并字符串
+     *
+     * @param word1
+     * @param word2
+     * @return
+     */
+    public String mergeAlternately(String word1, String word2) {
+        int length1 = word1.length();
+        int length2 = word2.length();
+        int index = 0;
+        StringBuilder builder = new StringBuilder();
+        while (index < length1 && index < length2) {
+            builder.append(word1.charAt(index));
+            builder.append(word2.charAt(index));
+            ++index;
+        }
+        if (index < length1) {
+            builder.append(word1.substring(index, length1));
+        }
+        if (index < length2) {
+            builder.append(word2.substring(index, length2));
+        }
+        return builder.toString();
+    }
+
 
     public static void main(String[] args) {
         System.out.println(checkOnesSegment("1100111"));
