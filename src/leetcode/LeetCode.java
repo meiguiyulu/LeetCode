@@ -4856,6 +4856,26 @@ public class LeetCode {
         return builder.toString();
     }
 
+    /**
+     * 1773. 统计匹配检索规则的物品数量
+     *
+     * @param items
+     * @param ruleKey
+     * @param ruleValue
+     * @return
+     */
+    public int countMatches(List<List<String>> items, String ruleKey, String ruleValue) {
+        int num = 0;
+        for (List<String> item : items) {
+            if (("type".equals(ruleKey) && item.get(0).equals(ruleValue))
+                    || ("color".equals(ruleKey) && item.get(1).equals(ruleValue))
+                    || ("name".equals(ruleKey) && item.get(2).equals(ruleValue))) {
+                ++num;
+            }
+        }
+        return num;
+    }
+
 
     public static void main(String[] args) {
         System.out.println(checkOnesSegment("1100111"));
