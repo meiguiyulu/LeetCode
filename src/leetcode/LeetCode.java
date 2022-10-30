@@ -4876,6 +4876,32 @@ public class LeetCode {
         return num;
     }
 
+    /**
+     * 784. 字母大小写全排列
+     *
+     * @param s
+     * @return
+     */
+    public List<String> letterCasePermutation(String s) {
+        List<String> ans = new ArrayList<>();
+        dfsForLetterCasePermutation(s.toCharArray(), 0, ans);
+        return ans;
+    }
+
+    public void dfsForLetterCasePermutation(char[] arr, int pos, List<String> res) {
+        while (pos < arr.length && Character.isDigit(arr[pos])) {
+            pos++;
+        }
+        if (pos == arr.length) {
+            res.add(new String(arr));
+            return;
+        }
+        arr[pos] ^= 32;
+        dfsForLetterCasePermutation(arr, pos + 1, res);
+        arr[pos] ^= 32;
+        dfsForLetterCasePermutation(arr, pos + 1, res);
+    }
+
 
     public static void main(String[] args) {
         System.out.println(checkOnesSegment("1100111"));
