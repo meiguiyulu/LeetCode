@@ -4902,6 +4902,25 @@ public class LeetCode {
         dfsForLetterCasePermutation(arr, pos + 1, res);
     }
 
+    /**
+     * 1678. 设计 Goal 解析器
+     */
+    public String interpret(String command) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0;i<command.length();i++) {
+            if (command.charAt(i) == 'G') {
+                builder.append("G");
+            } else if (command.charAt(i) == '(' && command.charAt(i) == ')'){
+               builder.append("o");
+               ++i;
+            } else {
+                builder.append("al");
+                i += 3;
+            }
+        }
+        return builder.toString();
+    }
+
 
     public static void main(String[] args) {
         System.out.println(checkOnesSegment("1100111"));
