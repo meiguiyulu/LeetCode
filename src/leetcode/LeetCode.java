@@ -4907,18 +4907,54 @@ public class LeetCode {
      */
     public String interpret(String command) {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0;i<command.length();i++) {
+        for (int i = 0; i < command.length(); i++) {
             if (command.charAt(i) == 'G') {
                 builder.append("G");
-            } else if (command.charAt(i) == '(' && command.charAt(i) == ')'){
-               builder.append("o");
-               ++i;
+            } else if (command.charAt(i) == '(' && command.charAt(i) == ')') {
+                builder.append("o");
+                ++i;
             } else {
                 builder.append("al");
                 i += 3;
             }
         }
         return builder.toString();
+    }
+
+    /**
+     * 1704. 判断字符串的两半是否相似
+     *
+     * @param s
+     * @return
+     */
+    public boolean halvesAreAlike(String s) {
+        List<Character> list = new ArrayList<>();
+        list.add('a');
+        list.add('e');
+        list.add('i');
+        list.add('o');
+        list.add('u');
+        list.add('A');
+        list.add('E');
+        list.add('I');
+        list.add('O');
+        list.add('U');
+        int length = s.length();
+        int num = 0;
+        int index = 0;
+        for (;index<length / 2;++index) {
+            char c = s.charAt(index);
+            if (list.contains(c)) {
+                ++num;
+            }
+        }
+        for (;index<length;++index) {
+            char c = s.charAt(index);
+            if (list.contains(c)) {
+                --num;
+            }
+        }
+        return num == 0;
     }
 
 
