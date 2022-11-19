@@ -1,9 +1,5 @@
 package leetcode;
 
-import LeetcodeAgain.ShuZu;
-import LeetcodeAgain.ZiFuChuan;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -4955,6 +4951,24 @@ public class LeetCode {
             }
         }
         return num == 0;
+    }
+
+    /**
+     * 1732. 找到最高海拔
+     *
+     * @param gain
+     * @return
+     */
+    public int largestAltitude(int[] gain) {
+        int length = gain.length;
+        int[] height = new int[length + 1];
+        height[0] = 0;
+        int ans = 0;
+        for (int i=1;i<=length;i++) {
+            height[i] = height[i - 1] + gain[i - 1];
+            ans = Math.max(ans, height[i]);
+        }
+        return ans;
     }
 
 
