@@ -4938,13 +4938,13 @@ public class LeetCode {
         int length = s.length();
         int num = 0;
         int index = 0;
-        for (;index<length / 2;++index) {
+        for (; index < length / 2; ++index) {
             char c = s.charAt(index);
             if (list.contains(c)) {
                 ++num;
             }
         }
-        for (;index<length;++index) {
+        for (; index < length; ++index) {
             char c = s.charAt(index);
             if (list.contains(c)) {
                 --num;
@@ -4964,13 +4964,34 @@ public class LeetCode {
         int[] height = new int[length + 1];
         height[0] = 0;
         int ans = 0;
-        for (int i=1;i<=length;i++) {
+        for (int i = 1; i <= length; i++) {
             height[i] = height[i - 1] + gain[i - 1];
             ans = Math.max(ans, height[i]);
         }
         return ans;
     }
 
+    /**
+     * 1752. 检查数组是否经排序和轮转得到
+     *
+     * @param nums
+     * @return
+     */
+    public boolean check(int[] nums) {
+        int temp = 0;
+        for (int i = 1; i < nums.length; ++i) {
+            if (nums[i] < nums[i - 1]) {
+                ++temp;
+                continue;
+            }
+            if (nums[i] >= nums[i - 1] ) {
+                continue;
+            } else {
+                return false;
+            }
+        }
+        return temp < 1 || (temp == 1 && nums[nums.length - 1] > nums[0]);
+    }
 
     public static void main(String[] args) {
         System.out.println(checkOnesSegment("1100111"));
