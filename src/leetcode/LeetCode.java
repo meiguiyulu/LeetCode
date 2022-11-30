@@ -4993,6 +4993,34 @@ public class LeetCode {
         return temp < 1 || (temp == 1 && nums[nums.length - 1] > nums[0]);
     }
 
+    /**
+     * 1779. 找到最近的有相同 X 或 Y 坐标的点
+     * @param x
+     * @param y
+     * @param points
+     * @return
+     */
+    public int nearestValidPoint(int x, int y, int[][] points) {
+        int distance = Integer.MAX_VALUE;
+        int index = -1;
+        for (int i = 0; i < points.length; i++) {
+            int temp = Integer.MAX_VALUE;
+            if (points[i][0] == x) {
+                temp = Math.abs(points[i][1] - y);
+            }
+
+            if (points[i][1] == y) {
+                temp = Math.abs(points[i][0] - x);
+            }
+
+            if (temp < distance) {
+                index = i;
+                distance = temp;
+            }
+        }
+        return index;
+    }
+
     public static void main(String[] args) {
         System.out.println(checkOnesSegment("1100111"));
     }
