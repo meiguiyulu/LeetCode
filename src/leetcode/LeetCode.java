@@ -5021,6 +5021,33 @@ public class LeetCode {
         return index;
     }
 
+
+    /**
+     * 1796. 字符串中第二大的数字
+     * @param s
+     * @return
+     */
+    public int secondHighest(String s) {
+
+        int maxValue = -1;
+        int secondValue = -1;
+        for (int i =0;i<s.length();++i) {
+            char c = s.charAt(i);
+            if (c >= '0' && c <= '9') {
+                int tempo = c - '0';
+                if (tempo > maxValue) {
+                    secondValue = maxValue;
+                    maxValue = tempo;
+                } else if (tempo == maxValue) {
+                    continue;
+                } else if (tempo > secondValue) {
+                    secondValue = tempo;
+                }
+            }
+        }
+        return secondValue;
+    }
+
     public static void main(String[] args) {
         System.out.println(checkOnesSegment("1100111"));
     }
