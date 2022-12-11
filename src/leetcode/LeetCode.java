@@ -5048,7 +5048,26 @@ public class LeetCode {
         return secondValue;
     }
 
+    /**
+     * 1827. 最少操作使数组递增
+     * @param nums
+     * @return
+     */
+    public static int minOperations(int[] nums) {
+        int ans = 0;
+        for (int i = 1; i< nums.length; ++i) {
+            if (nums[i] > nums[i - 1]) {
+                continue;
+            }
+            int temp = Math.abs(nums[i] - nums[i - 1]) + 1;
+            ans += temp;
+            nums[i] = nums[i - 1] + 1;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
-        System.out.println(checkOnesSegment("1100111"));
+        int[] nums = new int[]{1, 5, 2, 4, 1};
+        System.out.println(minOperations(nums));
     }
 }
