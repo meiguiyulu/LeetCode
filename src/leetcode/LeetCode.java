@@ -5066,6 +5066,27 @@ public class LeetCode {
         return ans;
     }
 
+    /**
+     * 1739. 放置盒子
+     * @param n
+     * @return
+     */
+    public int minimumBoxes(int n) {
+        int cur = 1, i = 1, j = 1;
+        while (n > cur) {
+            n -= cur;
+            i++;
+            cur += i;
+        }
+        cur = 1;
+        while (n > cur) {
+            n -= cur;
+            j++;
+            cur++;
+        }
+        return (i - 1) * i / 2 + j;
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[]{1, 5, 2, 4, 1};
         System.out.println(minOperations(nums));
