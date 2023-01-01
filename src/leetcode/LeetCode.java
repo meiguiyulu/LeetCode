@@ -4984,7 +4984,7 @@ public class LeetCode {
                 ++temp;
                 continue;
             }
-            if (nums[i] >= nums[i - 1] ) {
+            if (nums[i] >= nums[i - 1]) {
                 continue;
             } else {
                 return false;
@@ -4995,6 +4995,7 @@ public class LeetCode {
 
     /**
      * 1779. 找到最近的有相同 X 或 Y 坐标的点
+     *
      * @param x
      * @param y
      * @param points
@@ -5024,6 +5025,7 @@ public class LeetCode {
 
     /**
      * 1796. 字符串中第二大的数字
+     *
      * @param s
      * @return
      */
@@ -5031,7 +5033,7 @@ public class LeetCode {
 
         int maxValue = -1;
         int secondValue = -1;
-        for (int i =0;i<s.length();++i) {
+        for (int i = 0; i < s.length(); ++i) {
             char c = s.charAt(i);
             if (c >= '0' && c <= '9') {
                 int tempo = c - '0';
@@ -5050,12 +5052,13 @@ public class LeetCode {
 
     /**
      * 1827. 最少操作使数组递增
+     *
      * @param nums
      * @return
      */
     public static int minOperations(int[] nums) {
         int ans = 0;
-        for (int i = 1; i< nums.length; ++i) {
+        for (int i = 1; i < nums.length; ++i) {
             if (nums[i] > nums[i - 1]) {
                 continue;
             }
@@ -5068,6 +5071,7 @@ public class LeetCode {
 
     /**
      * 1739. 放置盒子
+     *
      * @param n
      * @return
      */
@@ -5085,6 +5089,26 @@ public class LeetCode {
             cur++;
         }
         return (i - 1) * i / 2 + j;
+    }
+
+    /**
+     * 2351. 第一个出现两次的字母
+     *
+     * @param s
+     * @return
+     */
+    public char repeatedCharacter(String s) {
+        Set<Character> set = new HashSet<>();
+        char c = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            if (set.contains(s.charAt(i))) {
+                c = s.charAt(i);
+                break;
+            } else {
+                set.add(s.charAt(i));
+            }
+        }
+        return c;
     }
 
     public static void main(String[] args) {
