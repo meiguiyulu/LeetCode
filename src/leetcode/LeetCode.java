@@ -5111,6 +5111,23 @@ public class LeetCode {
         return c;
     }
 
+    /**
+     * 2185. 统计包含给定前缀的字符串
+     * @param words
+     * @param pref
+     * @return
+     */
+    public int prefixCount(String[] words, String pref) {
+        int ans = 0;
+        for (int index = 0; index < words.length; ++ index) {
+            String word = words[index];
+            if (word.startsWith(pref)) {
+                ++ans;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[]{1, 5, 2, 4, 1};
         System.out.println(minOperations(nums));
