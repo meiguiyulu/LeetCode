@@ -5113,16 +5113,44 @@ public class LeetCode {
 
     /**
      * 2185. 统计包含给定前缀的字符串
+     *
      * @param words
      * @param pref
      * @return
      */
     public int prefixCount(String[] words, String pref) {
         int ans = 0;
-        for (int index = 0; index < words.length; ++ index) {
+        for (int index = 0; index < words.length; ++index) {
             String word = words[index];
             if (word.startsWith(pref)) {
                 ++ans;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 2287. 重排字符形成目标字符串
+     *
+     * @param s
+     * @param target
+     * @return
+     */
+    public int rearrangeCharacters(String s, String target) {
+        int ans = Integer.MAX_VALUE;
+        int[] a = new int[26];
+        int[] b = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            a[c - 'a']++;
+        }
+        for (int i = 0; i < target.length(); i++) {
+            char c = target.charAt(i);
+            b[c - 'a']++;
+        }
+        for (int i = 0; i < 26; ++i) {
+            if (b[i] != 0) {
+                ans = Math.min(ans, a[i] / b[i]);
             }
         }
         return ans;
