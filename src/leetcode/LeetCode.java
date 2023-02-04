@@ -5178,6 +5178,24 @@ public class LeetCode {
         return minMaxGame(newNums);
     }
 
+    /**
+     * 1798. 你能构造出连续值的最大数目
+     *
+     * @param coins
+     * @return
+     */
+    public int getMaximumConsecutive(int[] coins) {
+        int res = 1;
+        Arrays.sort(coins);
+        for (int i : coins) {
+            if (i > res) {
+                break;
+            }
+            res += i;
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[]{1, 5, 2, 4, 1};
         System.out.println(minOperations(nums));
