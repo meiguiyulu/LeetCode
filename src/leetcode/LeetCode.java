@@ -5255,6 +5255,20 @@ public class LeetCode {
         return dist[n - 1][n - 2][0];
     }
 
+    /**
+     * 2335. 装满杯子需要的最短总时长
+     *
+     * @param amount
+     * @return
+     */
+    public int fillCups(int[] amount) {
+        Arrays.sort(amount);
+        if (amount[2] > amount[1] + amount[0]) {
+            return amount[2];
+        }
+        return (amount[0] + amount[1] + amount[2] + 1) / 2;
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[]{1, 5, 2, 4, 1};
         System.out.println(minOperations(nums));
