@@ -1511,8 +1511,7 @@ public class LeetCode {
      */
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         int m = obstacleGrid.length, n = obstacleGrid[0].length;
-        if (obstacleGrid[m - 1][n - 1] == 1 || obstacleGrid[0][0] == 1)
-            return 0;
+        if (obstacleGrid[m - 1][n - 1] == 1 || obstacleGrid[0][0] == 1) return 0;
         int[][] dp = new int[m][n];
         dp[0][0] = 1;
         for (int i = 1; i < m; i++) {
@@ -1600,8 +1599,7 @@ public class LeetCode {
      * 注意：不允许使用任何内置指数函数和算符，例如 pow(x, 0.5) 或者 x ** 0.5 。
      */
     public int mySqrt(int x) {
-        if (x == 0 || x == 1)
-            return x;
+        if (x == 0 || x == 1) return x;
         int ans = -1;
         int left = 1, right = x - 1;
         while (left < right) {
@@ -1839,8 +1837,7 @@ public class LeetCode {
      */
     public int maxDepth(TreeNode root) {
         // write code here
-        if (root == null)
-            return 0;
+        if (root == null) return 0;
         int ans = 0;
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
@@ -1849,19 +1846,16 @@ public class LeetCode {
             ++ans;
             for (int i = 0; i < size; i++) {
                 TreeNode poll = queue.poll();
-                if (poll.left != null)
-                    queue.offer(poll.left);
+                if (poll.left != null) queue.offer(poll.left);
 
-                if (poll.right != null)
-                    queue.offer(poll.right);
+                if (poll.right != null) queue.offer(poll.right);
             }
         }
         return ans;
     }
 
     public int maxDepth2(TreeNode root) {
-        if (root == null)
-            return 0;
+        if (root == null) return 0;
         return Math.max(maxDepth2(root.left), maxDepth2(root.right)) + 1;
     }
 
@@ -1899,33 +1893,26 @@ public class LeetCode {
      * 例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
      */
     public boolean isSymmetric(TreeNode root) {
-        if (root == null)
-            return true;
+        if (root == null) return true;
         return JudgeIsSymmetric(root.left, root.right);
     }
 
     private boolean JudgeIsSymmetric(TreeNode left, TreeNode right) {
-        if (left == null && right == null)
-            return true;
-        if (left == null || right == null)
-            return false;
-        return left.val == right.val && JudgeIsSymmetric(left.left, right.right)
-                && JudgeIsSymmetric(left.right, right.left);
+        if (left == null && right == null) return true;
+        if (left == null || right == null) return false;
+        return left.val == right.val && JudgeIsSymmetric(left.left, right.right) && JudgeIsSymmetric(left.right, right.left);
     }
 
     public boolean isSymmetric2(TreeNode root) {
-        if (root == null)
-            return true;
+        if (root == null) return true;
         Queue<TreeNode> queue = new LinkedList<>();
         queue.add(root.left);
         queue.add(root.right);
         while (!queue.isEmpty()) {
             TreeNode q1 = queue.poll();
             TreeNode q2 = queue.poll();
-            if (q1 == null && q2 == null)
-                continue;
-            if (q1 == null || q2 == null || q1.val != q2.val)
-                return false;
+            if (q1 == null && q2 == null) continue;
+            if (q1 == null || q2 == null || q1.val != q2.val) return false;
             queue.offer(q1.left);
             queue.offer(q2.right);
             queue.offer(q1.right);
@@ -2939,10 +2926,8 @@ public class LeetCode {
      * @return
      */
     public leetcode.TreeNode lowestCommonAncestor(leetcode.TreeNode root, leetcode.TreeNode p, leetcode.TreeNode q) {
-        if (root.val < p.val && root.val < q.val)
-            return lowestCommonAncestor(root.right, p, q);
-        if (root.val > p.val && root.val > q.val)
-            return lowestCommonAncestor(root.left, p, q);
+        if (root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
+        if (root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
         return root;
     }
 
@@ -3042,8 +3027,7 @@ public class LeetCode {
         return buildTreeReverse(preorder, 0, preorder.length, inorder, 0, inorder.length);
     }
 
-    private TreeNode buildTreeReverse(int[] preorder, int preStart, int preEnd,
-                                      int[] inorder, int inStart, int inEnd) {
+    private TreeNode buildTreeReverse(int[] preorder, int preStart, int preEnd, int[] inorder, int inStart, int inEnd) {
         if (preStart == preEnd) {
             return null;
         }
@@ -3069,12 +3053,10 @@ public class LeetCode {
      * @return
      */
     public TreeNode buildTree2(int[] inorder, int[] postorder) {
-        return buildTreeInAndPost(inorder, 0, inorder.length - 1,
-                postorder, 0, postorder.length - 1);
+        return buildTreeInAndPost(inorder, 0, inorder.length - 1, postorder, 0, postorder.length - 1);
     }
 
-    private TreeNode buildTreeInAndPost(int[] inorder, int inStart, int inEnd,
-                                        int[] postorder, int postStart, int postEnd) {
+    private TreeNode buildTreeInAndPost(int[] inorder, int inStart, int inEnd, int[] postorder, int postStart, int postEnd) {
         if (inStart > inEnd || postStart > postEnd) {
             return null;
         }
@@ -3485,8 +3467,7 @@ public class LeetCode {
      * @return
      */
     public int uniqueMorseRepresentations(String[] words) {
-        String[] mouse = new String[]{".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---",
-                "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."};
+        String[] mouse = new String[]{".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."};
         Set<String> set = new HashSet<>();
         for (String word : words) {
             StringBuilder builder = new StringBuilder();
@@ -3634,8 +3615,7 @@ public class LeetCode {
         for (int i = 0; i < string.length; i++) {
             String s = string[i];
             char c = s.charAt(0);
-            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' ||
-                    c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') {
+            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') {
                 builder.append(s);
                 builder.append("ma");
             } else {
@@ -4057,8 +4037,7 @@ public class LeetCode {
                 if (node.val != value) {
                     return false;
                 } else {
-                    if (node.left != null)
-                        queue.add(node.left);
+                    if (node.left != null) queue.add(node.left);
                     if (node.right != null) {
                         queue.add(node.right);
                     }
@@ -4096,8 +4075,7 @@ public class LeetCode {
      */
     public int numberOfArithmeticSlices(int[] nums) {
         int length = nums.length;
-        if (length == 1 || length == 2)
-            return 0;
+        if (length == 1 || length == 2) return 0;
         int sub = nums[0] - nums[1], t = 0, ans = 0; // sub表示数组相邻元素差值
         for (int i = 2; i < length; i++) {
             if (nums[i - 1] - nums[i] == sub) {
@@ -4120,8 +4098,7 @@ public class LeetCode {
     public int numberOfArithmeticSlices2(int[] nums) {
         int length = nums.length;
         int ans = 0;
-        if (length < 3)
-            return ans;
+        if (length < 3) return ans;
         Map<Long, Integer>[] dp = new HashMap[length];
         for (int i = 0; i < length; i++)
             dp[i] = new HashMap<>();
@@ -4156,25 +4133,19 @@ public class LeetCode {
     private boolean isIPv6(String queryIP) {
         int sum = 0;
         for (int i = 0; i < queryIP.length(); i++) {
-            if (queryIP.charAt(i) == ':')
-                ++sum;
+            if (queryIP.charAt(i) == ':') ++sum;
         }
-        if (sum != 7)
-            return false;
+        if (sum != 7) return false;
         String[] split = queryIP.split(":");
         int length = split.length;
-        if (length != 8)
-            return false;
+        if (length != 8) return false;
         for (int i = 0; i < 8; i++) {
             String s = split[i];
             int size = s.length();
-            if (size > 4 || size == 0)
-                return false;
+            if (size > 4 || size == 0) return false;
             for (int j = 0; j < size; j++) {
                 char c = s.charAt(j);
-                if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')
-                        || (c >= 'A' && c <= 'F')))
-                    return false;
+                if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'))) return false;
             }
         }
         return true;
@@ -4183,31 +4154,25 @@ public class LeetCode {
     private boolean isIPv4(String queryIP) {
         int sum = 0;
         for (int i = 0; i < queryIP.length(); i++) {
-            if (queryIP.charAt(i) == '.')
-                ++sum;
+            if (queryIP.charAt(i) == '.') ++sum;
         }
         if (sum != 3) {
             return false;
         }
         String[] split = queryIP.split("\\.");
         int length = split.length;
-        if (length != 4)
-            return false;
+        if (length != 4) return false;
         for (int i = 0; i < 4; i++) {
             String s = split[i];
-            if (s.length() > 3 || s.length() == 0)
-                return false;
-            if (s.length() > 1 && s.charAt(0) == '0')
-                return false;
+            if (s.length() > 3 || s.length() == 0) return false;
+            if (s.length() > 1 && s.charAt(0) == '0') return false;
             int curr = 0;
             for (int j = 0; j < s.length(); j++) {
                 char c = s.charAt(j);
-                if (c < '0' || c > '9')
-                    return false;
+                if (c < '0' || c > '9') return false;
                 curr = curr * 10 + (c - '0');
             }
-            if (curr > 255)
-                return false;
+            if (curr > 255) return false;
         }
         return true;
     }
@@ -4253,8 +4218,7 @@ public class LeetCode {
      */
     public boolean makesquare(int[] matchsticks) {
         int sum = Arrays.stream(matchsticks).sum();
-        if (sum % 4 != 0)
-            return false;
+        if (sum % 4 != 0) return false;
         Arrays.sort(matchsticks);
         for (int i = 0, j = matchsticks.length - 1; i < j; i++, j--) {
             int temp = matchsticks[i];
@@ -4266,12 +4230,10 @@ public class LeetCode {
     }
 
     private boolean dfsForMakeSqure(int index, int[] matchsticks, int[] edges, int ans) {
-        if (index == matchsticks.length)
-            return true;
+        if (index == matchsticks.length) return true;
         for (int i = 0; i < 4; i++) {
             edges[i] += matchsticks[index];
-            if (edges[i] <= ans && dfsForMakeSqure(index + 1, matchsticks, edges, ans))
-                return true;
+            if (edges[i] <= ans && dfsForMakeSqure(index + 1, matchsticks, edges, ans)) return true;
             edges[i] -= matchsticks[index];
         }
         return false;
@@ -4285,8 +4247,7 @@ public class LeetCode {
      * @return
      */
     public TreeNode deleteNode(TreeNode root, int key) {
-        if (root == null)
-            return null;
+        if (root == null) return null;
         if (root.val > key) {
             root.left = deleteNode(root.left, key);
         }
@@ -4294,12 +4255,9 @@ public class LeetCode {
             root.right = deleteNode(root.right, key);
         }
         if (root.val == key) {
-            if (root.left == null && root.right == null)
-                return null;
-            if (root.left == null)
-                return root.right;
-            if (root.right == null)
-                return root.left;
+            if (root.left == null && root.right == null) return null;
+            if (root.left == null) return root.right;
+            if (root.right == null) return root.left;
             TreeNode node = root.right;
             while (node.left != null) {
                 node = node.left;
@@ -4351,12 +4309,9 @@ public class LeetCode {
             String s = split[0];
             for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
-                if (c == '+')
-                    break;
-                else if (c == '.')
-                    continue;
-                else
-                    builder.append(c);
+                if (c == '+') break;
+                else if (c == '.') continue;
+                else builder.append(c);
             }
             builder.append("@");
             builder.append(split[1]);
@@ -4375,8 +4330,7 @@ public class LeetCode {
      * @return
      */
     public boolean isBoomerang(int[][] points) {
-        return (points[1][1] - points[0][1]) * (points[2][0] - points[1][0])
-                != (points[2][1] - points[1][1]) * (points[1][0] - points[0][0]);
+        return (points[1][1] - points[0][1]) * (points[2][0] - points[1][0]) != (points[2][1] - points[1][1]) * (points[1][0] - points[0][0]);
     }
 
     /**
@@ -4391,8 +4345,7 @@ public class LeetCode {
         Arrays.sort(copy);
         int ans = 0;
         for (int i = 0; i < length; i++) {
-            if (heights[i] != copy[i])
-                ++ans;
+            if (heights[i] != copy[i]) ++ans;
         }
         return ans;
     }
@@ -4413,8 +4366,7 @@ public class LeetCode {
                 while (fast < length && nums[fast] < nums[slow] + k) {
                     ++fast;
                 }
-                if (fast < length && nums[fast] == nums[slow] + k)
-                    ++ans;
+                if (fast < length && nums[fast] == nums[slow] + k) ++ans;
             }
         }
         return ans;
@@ -4863,9 +4815,7 @@ public class LeetCode {
     public int countMatches(List<List<String>> items, String ruleKey, String ruleValue) {
         int num = 0;
         for (List<String> item : items) {
-            if (("type".equals(ruleKey) && item.get(0).equals(ruleValue))
-                    || ("color".equals(ruleKey) && item.get(1).equals(ruleValue))
-                    || ("name".equals(ruleKey) && item.get(2).equals(ruleValue))) {
+            if (("type".equals(ruleKey) && item.get(0).equals(ruleValue)) || ("color".equals(ruleKey) && item.get(1).equals(ruleValue)) || ("name".equals(ruleKey) && item.get(2).equals(ruleValue))) {
                 ++num;
             }
         }
@@ -5333,10 +5283,8 @@ public class LeetCode {
             // nums[left] < target
             // nums[right] >= target
             int mid = (left + right) >>> 1;
-            if (nums[mid] < target)
-                left = mid; // 范围缩小到 (mid, right)
-            else
-                right = mid; // 范围缩小到 (left, mid)
+            if (nums[mid] < target) left = mid; // 范围缩小到 (mid, right)
+            else right = mid; // 范围缩小到 (left, mid)
         }
         return right;
     }
@@ -5364,6 +5312,34 @@ public class LeetCode {
         }
         return ans;
     }
+
+    /**
+     * 1574. 删除最短的子数组使剩余数组有序
+     *
+     * @param arr
+     * @return
+     */
+    public int findLengthOfShortestSubarray(int[] arr) {
+        int n = arr.length, j = n - 1;
+        while (j > 0 && arr[j - 1] <= arr[j]) {
+            j--;
+        }
+        if (j == 0) {
+            return 0;
+        }
+        int res = j;
+        for (int i = 0; i < n; i++) {
+            while (j < n && arr[j] < arr[i]) {
+                j++;
+            }
+            res = Math.min(res, j - i - 1);
+            if (i + 1 < n && arr[i] > arr[i + 1]) {
+                break;
+            }
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
         int[] nums = new int[]{1, 5, 2, 4, 1};
