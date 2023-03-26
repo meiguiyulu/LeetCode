@@ -5340,6 +5340,21 @@ public class LeetCode {
         return res;
     }
 
+    /**
+     * 2395. 和相等的子数组
+     */
+    public boolean findSubarrays(int[] nums) {
+        int length = nums.length;
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < length - 1; ++i) {
+            if (set.contains(nums[i] + nums[i + 1])) {
+                return true;
+            }
+            set.add(nums[i] + nums[i + 1]);
+        }
+        return false;
+    }
+
 
     public static void main(String[] args) {
         int[] nums = new int[]{1, 5, 2, 4, 1};
