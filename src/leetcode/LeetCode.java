@@ -5355,6 +5355,15 @@ public class LeetCode {
         return false;
     }
 
+    /**
+     * 1039. 多边形三角剖分的最低得分
+     * @param values
+     * @return
+     */
+    public int minScoreTriangulation(int[] values) {
+        return 0;
+    }
+
 
     public static void main(String[] args) {
         int[] nums = new int[]{1, 5, 2, 4, 1};
