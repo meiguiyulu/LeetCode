@@ -5442,6 +5442,35 @@ public class LeetCode {
         return res;
     }
 
+    /**
+     * 970. 强整数
+     * @param x
+     * @param y
+     * @param bound
+     * @return
+     */
+    public List<Integer> powerfulIntegers(int x, int y, int bound) {
+        Set<Integer> set = new HashSet<Integer>();
+        int value1 = 1;
+        for (int i = 0; i < 21; i++) {
+            int value2 = 1;
+            for (int j = 0; j < 21; j++) {
+                int value = value1 + value2;
+                if (value <= bound) {
+                    set.add(value);
+                } else {
+                    break;
+                }
+                value2 *= y;
+            }
+            if (value1 > bound) {
+                break;
+            }
+            value1 *= x;
+        }
+        return new ArrayList<Integer>(set);
+    }
+
 
     public static void main(String[] args) {
         int[] nums = new int[]{1, 5, 2, 4, 1};
