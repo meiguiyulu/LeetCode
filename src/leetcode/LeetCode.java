@@ -5471,6 +5471,19 @@ public class LeetCode {
         return new ArrayList<Integer>(set);
     }
 
+    /**
+     * 141. 环形链表
+     */
+    public boolean hasCycle(ListNode head) {
+        Set<ListNode> seen = new HashSet<ListNode>();
+        while (head != null) {
+            if (!seen.add(head)) {
+                return true;
+            }
+            head = head.next;
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         int[] nums = new int[]{1, 5, 2, 4, 1};
