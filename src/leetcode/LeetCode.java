@@ -5503,6 +5503,15 @@ public class LeetCode {
         }
     }
 
+    /**
+     * 判断根结点是否等于子结点之和
+     * @param root
+     * @return
+     */
+    public boolean checkTree(TreeNode root) {
+        return root.val == root.left.val + root.right.val;
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[]{1, 5, 2, 4, 1};
         System.out.println(minOperations(nums));
