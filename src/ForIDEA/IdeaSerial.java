@@ -1,9 +1,6 @@
 package ForIDEA;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @Author LiuYunJie
@@ -129,6 +126,23 @@ public class IdeaSerial {
             sell2 = Math.max(sell2, buy2 + prices[i]);
         }
         return sell2;
+    }
+    /**
+     * 1465. 切割后面积最大的蛋糕
+     */
+    public int maxArea(int h, int w, int[] horizon, int[] vert) {
+        Arrays.sort(horizon);
+        Arrays.sort(vert);;
+        return (int)((long) calMax(horizon,h) * calMax(vert, w) % 1000000007);
+    }
+    public int calMax(int[] arr, int boardr) {
+        int res = 0;
+        int pre = 0;
+        for (int i : arr) {
+            res = Math.max(i-pre, res);
+            pre = i;
+        }
+        return Math.max(res, boardr - pre);
     }
 
 }
