@@ -215,5 +215,4 @@ public class IdeaSerial {
         }
         return Arrays.stream(cardPoints).sum() - minSum;
     }
-
 }
