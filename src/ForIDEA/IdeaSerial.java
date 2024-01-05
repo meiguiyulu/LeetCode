@@ -282,4 +282,5 @@ public class IdeaSerial {
             stack.push(h);
         }
         return res;
+    }
 }
