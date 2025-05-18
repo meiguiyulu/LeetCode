@@ -12,6 +12,30 @@ public class GetIntersectionNode {
      */
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         if (headA == null || headB == null) return null;
+        ListNode a = headA;
+        ListNode b = headB;
+        while (a!=b) {
+            if (a!=null)
+                a = a.next;
+            else
+                a = headB;
+
+            if (b!=null)
+                b = b.next;
+            else
+                b = headA;
+        }
+        return headA;
+    }
+
+    /**
+     * O(M+N)的时间复杂度  O(n)的空间复杂度
+     * @param headA
+     * @param headB
+     * @return
+     */
+    public ListNode getIntersectionNode2(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) return null;
         Set<ListNode> set = new HashSet<>();
         ListNode a = headA;
         ListNode b = headB;
